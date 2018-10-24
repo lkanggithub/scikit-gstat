@@ -40,6 +40,7 @@
 <span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Point</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">.Variogram</span> <span class="k">import</span> <span class="n">Variogram</span>
 
@@ -449,16 +450,16 @@
         <span class="c1"># handle predefined models</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;compass&#39;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_directional_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compass</span>
             <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;triangle&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_directional_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triangle</span>
             <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_directional_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circle</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is not a valid model.&#39;</span> <span class="o">%</span> <span class="n">model_name</span><span class="p">)</span>
 
-        <span class="c1"># handle Polygons</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">):</span>
+        <span class="c1"># handle callable</span>
+        <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_directional_model</span> <span class="o">=</span> <span class="n">model_name</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The directional model has to be identified by a &#39;</span>
@@ -571,7 +572,7 @@
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">_indexer</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DirectionalVariogram.search_area"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram.search_area">[docs]</a>    <span class="k">def</span> <span class="nf">search_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poi</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectionalVariogram.search_area"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram.search_area">[docs]</a>    <span class="k">def</span> <span class="nf">search_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot Search Area</span>
 
 <span class="sd">        Parameters</span>
@@ -579,13 +580,39 @@
 <span class="sd">        poi : integer</span>
 <span class="sd">            Point of interest. Index of the coordinate that shall be used to</span>
 <span class="sd">            visualize the search area.</span>
+<span class="sd">        ax : None, matplotlib.AxesSubplot</span>
+<span class="sd">            If not None, the Search Area will be plotted into the given</span>
+<span class="sd">            Subplot object. If None, a new matplotlib Figure will be created</span>
+<span class="sd">            and returned</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        plot</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span></div>
+        <span class="c1"># get the poi</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X</span><span class="p">[</span><span class="n">poi</span><span class="p">]</span>
+
+        <span class="c1"># create the local coordinate system for POI</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_reference_system</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="c1"># create the search area based on current directional model</span>
+        <span class="n">sa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directional_model</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+
+        <span class="c1"># plot all coordinate</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;.r&#39;</span><span class="p">)</span>
+
+        <span class="c1"># plot the search area</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#00a562&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">solid_capstyle</span><span class="o">=</span><span class="s1">&#39;round&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
 
     <span class="k">def</span> <span class="nf">_triangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Triangular Search Area</span>
@@ -625,6 +652,11 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            a = \frac{c}{2 * sin\left(\frac{\gamma}{2}\right)}</span>
 
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DirectionalVariogram._compass</span>
+<span class="sd">        DirectionalVariogram._circle</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># y coordinate is easy</span>
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span>
@@ -647,7 +679,118 @@
             <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)</span>
         <span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">poly</span></div>
+        <span class="k">return</span> <span class="n">poly</span>
+
+    <span class="k">def</span> <span class="nf">_circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Circular Search Area</span>
+
+<span class="sd">        Construct a half-circled bounded search area for building directional</span>
+<span class="sd">        dependent point pairs. The Search Area will be located onto the</span>
+<span class="sd">        current point of interest and the local x-axis is rotated onto the</span>
+<span class="sd">        azimuth angle.</span>
+<span class="sd">        The radius of the half-circle is set to half the bandwidth.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        local_ref : numpy.array</span>
+<span class="sd">            Array of all coordinates transformed into a local representation</span>
+<span class="sd">            with the current point of interest being the origin and the</span>
+<span class="sd">            azimuth angle aligned onto the x-axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        search_area : Polygon</span>
+<span class="sd">            Search Area of half-circular shape bounded by the current bandwidth.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError : In case the DirectionalVariogram.bandwidth is None or 0.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DirectionalVariogram._triangle</span>
+<span class="sd">        DirectionalVariogram._compass</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Circular Search Area cannot be used without &#39;</span>
+                             <span class="s1">&#39;bandwidth.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># radius is half bandwidth</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">/</span> <span class="mf">2.</span>
+
+        <span class="c1"># build the half circle</span>
+        <span class="n">circle</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">half_circle</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">circle</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="n">_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">]</span>
+
+        <span class="c1"># get the maximum x coordinate</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">local_ref</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># add the bandwidth coordinates</span>
+        <span class="n">half_circle</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="o">-</span><span class="n">r</span><span class="p">)])</span>
+
+        <span class="c1"># return the figure</span>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">half_circle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_compass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compass direction Search Area</span>
+
+<span class="sd">        Construct a search area for building directional dependent point</span>
+<span class="sd">        pairs. The compass search area will **not** be bounded by the</span>
+<span class="sd">        bandwidth. It will include all point pairs at the azimuth direction</span>
+<span class="sd">        with a given tolerance. The Search Area will be located onto the</span>
+<span class="sd">        current point of interest and the local x-axis is rotated onto the</span>
+<span class="sd">        azimuth angle.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        local_ref : numpy.array</span>
+<span class="sd">            Array of all coordinates transformed into a local representation</span>
+<span class="sd">            with the current point of interest being the origin and the</span>
+<span class="sd">            azimuth angle aligned onto the x-axis.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        search_area : Polygon</span>
+<span class="sd">            Search Area of the given compass direction.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The necessary figure is build by searching for the intersection of a</span>
+<span class="sd">        half-tolerance angled line with a vertical line at the maximum x-value.</span>
+<span class="sd">        Using polar coordinates, these points (positive and negative</span>
+<span class="sd">        half-tolerance angle) are the edges of the search area in the local</span>
+<span class="sd">        coordinate system. The radius of a polar coordinate can be calculated</span>
+<span class="sd">        as:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            r = \frac{x}{cos (\alpha / 2)}</span>
+
+<span class="sd">        The two bounding points P1 nad P2 (in local coordinates) are then</span>
+<span class="sd">        (xmax, y) and (xmax, -y), with xmax being the maximum local</span>
+<span class="sd">        x-coordinate representation and y:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            y = r * sin \left( \frac{\alpha}{2} \right)</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DirectionalVariogram._triangle</span>
+<span class="sd">        DirectionalVariogram._circle</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get the half tolerance angle</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># get the maximum x coordinate</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">local_ref</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># calculate the radius and y coordinates</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">/</span> <span class="n">a</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="c1"># build and return the figure</span>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)])</span></div>
 </pre></div>
 
           </div>
