@@ -1,0 +1,374 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Directional Variograms &#8212; SciKit GStat 0.2.2 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Code Reference" href="../reference/reference.html" />
+    <link rel="prev" title="Fitting a theoretical model" href="fitting.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="directional-variograms">
+<h1>Directional Variograms<a class="headerlink" href="#directional-variograms" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="general">
+<h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
+<p>With version 0.2.2, directional variograms have been introduced. A
+directional variogram is a variogram where point pairs are only included into
+the semivariance calculation if they fulfill a specified spatial relation.
+This relation is expressed as a <em>search area</em> that identifies all
+<em>directional</em> points for a given specific point. SciKit-GStat refers to this
+point as <em>poi</em> (point of interest). The implementation is done by the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a> class.</p>
+</div>
+<div class="section" id="understanding-search-area">
+<h2>Understanding Search Area<a class="headerlink" href="#understanding-search-area" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a> is
+in general capable of handling n-dimensional coordinates. The application
+of directional dependency is, however, only applied to the first two
+dimensions.</p>
+</div>
+<p>Understanding the search area of a directional is vital for using the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a> class. The
+search area is controlled by the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">directional_model</span></code>
+property which determines the shape of the search area. The extend and
+orientation of this area is controlled by the parameters:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.azimuth" title="skgstat.DirectionalVariogram.azimuth"><code class="xref py py-func docutils literal notranslate"><span class="pre">azimuth</span></code></a></li>
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.tolerance" title="skgstat.DirectionalVariogram.tolerance"><code class="xref py py-func docutils literal notranslate"><span class="pre">tolerance</span></code></a></li>
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.bandwidth" title="skgstat.DirectionalVariogram.bandwidth"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandwidth</span></code></a></li>
+</ul>
+<p>As of this writing, SciKit-GStat supports three different search area shapes:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-func docutils literal notranslate"><span class="pre">triangle</span></code></a> (<em>default</em>)</li>
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-func docutils literal notranslate"><span class="pre">circle</span></code></a></li>
+<li><a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-func docutils literal notranslate"><span class="pre">compass</span></code></a></li>
+</ul>
+<p>Additionally, the shape generation is controlled by the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.tolerance" title="skgstat.DirectionalVariogram.tolerance"><code class="xref py py-func docutils literal notranslate"><span class="pre">tolerance</span></code></a> parameter
+(<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-func docutils literal notranslate"><span class="pre">triangle</span></code></a>,
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-func docutils literal notranslate"><span class="pre">compass</span></code></a>) and
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.bandwidth" title="skgstat.DirectionalVariogram.bandwidth"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandwidth</span></code></a> parameter
+(<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-func docutils literal notranslate"><span class="pre">triangle</span></code></a>,
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-func docutils literal notranslate"><span class="pre">circle</span></code></a>). The
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.azimuth" title="skgstat.DirectionalVariogram.azimuth"><code class="xref py py-func docutils literal notranslate"><span class="pre">azimuth</span></code></a> is used to rotate the
+search area into a desired direction. An azimuth of 0° is heading East of the
+coordinate plane. Positive values for azimuth rotate the search area
+clockwise, negative values counter-clockwise.
+The <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.tolerance" title="skgstat.DirectionalVariogram.tolerance"><code class="xref py py-func docutils literal notranslate"><span class="pre">tolerance</span></code></a> specifies how
+far the angle (against ‘x-axis’) between two points can be off the azimuth to
+be still considered as a directional point pair. Based on this definition,
+two points at a larger distance would generally be allowed to differ more
+from azimuth in terms of coordinate distance. Therefore the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.bandwidth" title="skgstat.DirectionalVariogram.bandwidth"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandwidth</span></code></a> defines a maximum
+coordinate distance, a point can have from the azimuth line.
+The difference between the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-func docutils literal notranslate"><span class="pre">triangle</span></code></a> and the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-func docutils literal notranslate"><span class="pre">compass</span></code></a> search area is that
+the triangle uses the bandwidth and the compass does not.</p>
+<p>The <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a> has a
+function to plot the current search area. As the search area is specific to
+the current poi, it has to be defined as the index of the coordinate to be used.
+The method is called
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.search_area" title="skgstat.DirectionalVariogram.search_area"><code class="xref py py-func docutils literal notranslate"><span class="pre">search_area</span></code></a>.
+Using random coordinates, the search area shapes are presented below.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">DirectionalVariogram</span>
+
+<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="gp">In [3]: </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="gp">In [4]: </span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+
+<span class="gp">In [5]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="gp">In [6]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="gp">In [7]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="gp">In [8]: </span><span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="gp">In [9]: </span><span class="n">DV</span> <span class="o">=</span> <span class="n">DirectionalVariogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="n">azimuth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="n">tolerance</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
+<span class="gp">   ...: </span>    <span class="n">directional_model</span><span class="o">=</span><span class="s1">&#39;triangle&#39;</span><span class="p">)</span>
+<span class="gp">   ...: </span>
+
+<span class="gp">In [10]: </span><span class="n">DV</span><span class="o">.</span><span class="n">search_area</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gh">Out[10]: </span><span class="go">&lt;Figure size 800x800 with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/dv1.png"><img alt="../_images/dv1.png" src="../_images/dv1.png" style="width: 6in;" /></a>
+<p>The model can easily be changed, using the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.set_directional_model" title="skgstat.DirectionalVariogram.set_directional_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_directional_model</span></code></a>
+function:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="gp">In [12]: </span><span class="n">DV</span><span class="o">.</span><span class="n">set_directional_model</span><span class="p">(</span><span class="s1">&#39;circle&#39;</span><span class="p">)</span>
+
+<span class="gp">In [13]: </span><span class="n">DV</span><span class="o">.</span><span class="n">search_area</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gh">Out[13]: </span><span class="go">&lt;Figure size 800x400 with 2 Axes&gt;</span>
+
+<span class="gp">In [14]: </span><span class="n">DV</span><span class="o">.</span><span class="n">set_directional_model</span><span class="p">(</span><span class="s1">&#39;compass&#39;</span><span class="p">)</span>
+
+<span class="gp">In [15]: </span><span class="n">DV</span><span class="o">.</span><span class="n">search_area</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gh">Out[15]: </span><span class="go">&lt;Figure size 800x400 with 2 Axes&gt;</span>
+
+<span class="gp">In [16]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/dv2.png"><img alt="../_images/dv2.png" src="../_images/dv2.png" style="width: 8in;" /></a>
+</div>
+<div class="section" id="local-reference-system">
+<h2>Local Reference System<a class="headerlink" href="#local-reference-system" title="Permalink to this headline">¶</a></h2>
+<p>In order to apply different search area shapes and rotate them considering
+the given azimuth, a few preprocessing steps are necessary. This can lead to
+some calculation overhead, as in the case of a
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-func docutils literal notranslate"><span class="pre">compass</span></code></a> model.
+The selection of point pairs being directional is implemented by transforming
+the coordinates into a local reference system iteratively for each coordinate.
+For multidimensional coordinates, only the first two dimensions are used.
+They are shifted to make the current point of interest the origin of the
+local reference system. Then all other points are rotated until the azimuth
+overlays the local x-axis. This makes the definition of different shapes way
+easier.
+In this local system, the bandwidth can easily be applied to the transformed
+y-axis. The
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.set_directional_model" title="skgstat.DirectionalVariogram.set_directional_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_directional_model</span></code></a>
+can also set a custom function as search area shape, that accepts the current
+local reference system and returns the search area for the given poi.
+The search area has to be returned as a shapely Polygon. Unfortunately, the
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.tolerance" title="skgstat.DirectionalVariogram.tolerance"><code class="xref py py-func docutils literal notranslate"><span class="pre">tolerance</span></code></a> and
+<a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram.bandwidth" title="skgstat.DirectionalVariogram.bandwidth"><code class="xref py py-func docutils literal notranslate"><span class="pre">bandwidth</span></code></a> parameter are not
+passed yet.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For the next release, it is planned to pass all necessary parameters to
+the directional model function. This should greatly improve the
+definition of custom shapes. Until the implementation, the parameters
+have to be injected directly.</p>
+</div>
+<p>The following example will illustrate the rotation of the local reference
+system.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">FancyArrowPatch</span> <span class="k">as</span> <span class="n">arrow</span>
+
+<span class="gp">In [18]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="gp">In [19]: </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="gp">In [20]: </span><span class="n">mid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])]])</span>
+
+<span class="gp">In [21]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">mid</span>
+
+<span class="gp">In [22]: </span><span class="n">DV</span> <span class="o">=</span> <span class="n">DirectionalVariogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">vals</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span>
+<span class="gp">   ....: </span>    <span class="n">azimuth</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [23]: </span><span class="n">loc</span> <span class="o">=</span> <span class="n">DV</span><span class="o">.</span><span class="n">local_reference_system</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">In [24]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="gp">In [25]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">15</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="gh">Out[25]: </span><span class="go">&lt;matplotlib.collections.PathCollection at 0x2adefb26acf8&gt;</span>
+
+<span class="gp">In [26]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="go">                                                                   Out[26]: &lt;matplotlib.collections.PathCollection at 0x2adefb271160&gt;</span>
+
+<span class="gp">In [27]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="go">                                                                                                                                      Out[27]: &lt;matplotlib.collections.PathCollection at 0x2adefb24bef0&gt;</span>
+
+<span class="gp">In [28]: </span><span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+<span class="gp">   ....: </span>    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;Simple,head_width=6,head_length=12,tail_width=1&quot;</span>
+<span class="gp">   ....: </span>    <span class="n">a</span> <span class="o">=</span> <span class="n">arrow</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+<span class="gp">   ....: </span>        <span class="n">connectionstyle</span><span class="o">=</span><span class="s2">&quot;arc3, rad=.3&quot;</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="n">arrowstyle</span><span class="p">)</span>
+<span class="gp">   ....: </span>    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [29]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/transform.png"><img alt="../_images/transform.png" src="../_images/transform.png" style="width: 6in;" /></a>
+<p>After moving and shifting, any type of Geometry could be generated and passed
+as the search area.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [30]: </span><span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Polygon</span>
+
+<span class="gp">In [31]: </span><span class="k">def</span> <span class="nf">M</span><span class="p">(</span><span class="n">loc</span><span class="p">):</span>
+<span class="gp">   ....: </span>    <span class="n">xmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">   ....: </span>    <span class="n">ymax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">   ....: </span>    <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.05</span><span class="o">*</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="n">xmax</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.55</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.55</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.55</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.55</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="n">xmax</span> <span class="o">*</span> <span class="mf">0.325</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">*</span> <span class="mf">0.275</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="n">xmax</span> <span class="o">*</span> <span class="mf">0.275</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">*</span> <span class="mf">0.275</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.55</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">   ....: </span>        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">   ....: </span>    <span class="p">])</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [32]: </span><span class="n">DV</span><span class="o">.</span><span class="n">set_directional_model</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+<span class="gp">In [33]: </span><span class="n">DV</span><span class="o">.</span><span class="n">search_area</span><span class="p">(</span><span class="n">poi</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gh">Out[33]: </span><span class="go">&lt;Figure size 800x800 with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/custom.png"><img alt="../_images/custom.png" src="../_images/custom.png" style="width: 6in;" /></a>
+</div>
+<div class="section" id="id1">
+<h2>Directional variograms<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>In principle, the <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a>
+can be used just like the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> base class.
+In fact <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a> inherits
+most of the behaviour. All the functionality described in the previous
+sections is added to the basic <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a>.
+All other methods and attributes can be used in the same way.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>In order to implement the directional dependency, some methods have been
+rewritten in <a class="reference internal" href="../reference/directionalvariogram.html#skgstat.DirectionalVariogram" title="skgstat.DirectionalVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalVariogram</span></code></a>.
+Thus the following methods do <strong>not</strong> show the same behaviour:</p>
+<ul class="last simple">
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">DirectionalVariogram.bins</span></code></li>
+<li><code class="xref py py-func docutils literal notranslate"><span class="pre">DirectionalVariogram._calc_groups</span></code></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">SciKit GStat</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=mmaelicke&repo=scikit-gstat&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="technical.html">Technical Notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fitting.html">Fitting a theoretical model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Directional Variograms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#understanding-search-area">Understanding Search Area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-reference-system">Local Reference System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Directional variograms</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/reference.html">Code Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="SciKitGStat.pdf">Download PDF</a></li>
+    
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="technical.html">Technical Notes</a><ul>
+      <li>Previous: <a href="fitting.html" title="previous chapter">Fitting a theoretical model</a></li>
+      <li>Next: <a href="../reference/reference.html" title="next chapter">Code Reference</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Mirko Mälicke.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/technical/direction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

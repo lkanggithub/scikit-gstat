@@ -313,10 +313,6 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_azimuth</span>
-
-    <span class="nd">@azimuth</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Direction azimuth</span>
 
 <span class="sd">        Main direction for te selection of points in the formation of point</span>
@@ -333,6 +329,10 @@
 <span class="sd">        ValueError : in case angle &lt; -180° or angle &gt; 180</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_azimuth</span>
+
+    <span class="nd">@azimuth</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span> <span class="ow">or</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The azimuth is an angle in degree and has to &#39;</span>
                              <span class="s1">&#39;meet -180 &lt;= angle &lt;= 180&#39;</span><span class="p">)</span>
@@ -344,26 +344,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tolerance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Azimuth tolerance</span>
+
+<span class="sd">         Tolerance angle of how far a point can be off the azimuth for being</span>
+<span class="sd">         still counted as directional. A tolerance angle will be applied to</span>
+<span class="sd">         the azimuth angle symmetrically.</span>
+
+<span class="sd">         Parameters</span>
+<span class="sd">         ----------</span>
+<span class="sd">         angle : float</span>
+<span class="sd">             New tolerance angle in **degree**. Has to meet 0 &lt;= angle &lt;= 360.</span>
+
+<span class="sd">         Raises</span>
+<span class="sd">         ------</span>
+<span class="sd">         ValueError : in case angle &lt; 0 or angle &gt; 360</span>
+
+<span class="sd">         &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span>
 
     <span class="nd">@tolerance</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">tolerance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Azimuth tolerance</span>
-
-<span class="sd">        Tolerance angle of how far a point can be off the azimuth for being</span>
-<span class="sd">        still counted as directional. A tolerance angle will be applied to</span>
-<span class="sd">        the azimuth angle symmetrically.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        angle : float</span>
-<span class="sd">            New tolerance angle in **degree**. Has to meet 0 &lt;= angle &lt;= 360.</span>
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValueError : in case angle &lt; 0 or angle &gt; 360</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The tolerance is an angle in degree and has to &#39;</span>
                              <span class="s1">&#39;meet 0 &lt;= angle &lt;= 360&#39;</span><span class="p">)</span>
@@ -375,13 +375,6 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span>
-
-    <span class="nd">@bandwidth</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Tolerance bandwidth</span>
 
 <span class="sd">        New bandwidth parameter. As the tolerance from azimuth is given as an</span>
@@ -399,6 +392,13 @@
 <span class="sd">        ValueError : in case width is negative</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bandwidth</span>
+
+    <span class="nd">@bandwidth</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
         <span class="c1"># check if quantiles is given</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># TODO document and handle more exceptions</span>
@@ -528,7 +528,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_groups</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_direction_mask</span><span class="p">())]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
 <span class="c1">#    @jit</span>
-    <span class="k">def</span> <span class="nf">_direction_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectionalVariogram._direction_mask"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram._direction_mask">[docs]</a>    <span class="k">def</span> <span class="nf">_direction_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Directional Mask</span>
 
 <span class="sd">        Array aligned to self.distance masking all point pairs which shall be</span>
@@ -570,7 +570,7 @@
                     <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">_mask</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="ow">or</span> <span class="n">_mask</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">_indexer</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">_indexer</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DirectionalVariogram.search_area"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram.search_area">[docs]</a>    <span class="k">def</span> <span class="nf">search_area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poi</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot Search Area</span>
@@ -614,7 +614,7 @@
 
         <span class="k">return</span> <span class="n">fig</span></div>
 
-    <span class="k">def</span> <span class="nf">_triangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectionalVariogram._triangle"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram._triangle">[docs]</a>    <span class="k">def</span> <span class="nf">_triangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Triangular Search Area</span>
 
 <span class="sd">        Construct a triangular bounded search area for building directional</span>
@@ -636,11 +636,14 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">               C</span>
-<span class="sd">              /|\</span>
-<span class="sd">           a / | \ a</span>
-<span class="sd">            /__|h_\</span>
-<span class="sd">           A   c   B</span>
+
+<span class="sd">        .. code-block:: text</span>
+
+<span class="sd">                 C</span>
+<span class="sd">                /|\</span>
+<span class="sd">             a / | \ a</span>
+<span class="sd">              /__|h_\</span>
+<span class="sd">             A   c   B</span>
 
 <span class="sd">        The point of interest is C and c is the bandwidth. The angle at C</span>
 <span class="sd">        (gamma) is the tolerance. From this, a and then h can be calculated.</span>
@@ -679,9 +682,9 @@
             <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)</span>
         <span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">poly</span>
+        <span class="k">return</span> <span class="n">poly</span></div>
 
-    <span class="k">def</span> <span class="nf">_circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectionalVariogram._circle"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram._circle">[docs]</a>    <span class="k">def</span> <span class="nf">_circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Circular Search Area</span>
 
 <span class="sd">        Construct a half-circled bounded search area for building directional</span>
@@ -730,10 +733,10 @@
         <span class="n">half_circle</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="o">-</span><span class="n">r</span><span class="p">)])</span>
 
         <span class="c1"># return the figure</span>
-        <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">half_circle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">half_circle</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_compass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compass direction Search Area</span>
+<div class="viewcode-block" id="DirectionalVariogram._compass"><a class="viewcode-back" href="../../reference/directionalvariogram.html#skgstat.DirectionalVariogram._compass">[docs]</a>    <span class="k">def</span> <span class="nf">_compass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_ref</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compass direction Search Area</span>
 
 <span class="sd">        Construct a search area for building directional dependent point</span>
 <span class="sd">        pairs. The compass search area will **not** be bounded by the</span>
@@ -790,7 +793,7 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
         <span class="c1"># build and return the figure</span>
-        <span class="k">return</span> <span class="n">Polygon</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)])</span></div>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)])</span></div></div>
 </pre></div>
 
           </div>

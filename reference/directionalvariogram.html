@@ -208,6 +208,187 @@ function.</li>
 </dd></dl>
 
 <dl class="method">
+<dt id="skgstat.DirectionalVariogram._triangle">
+<code class="descname">_triangle</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._triangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triangular Search Area</p>
+<p>Construct a triangular bounded search area for building directional
+dependent point pairs. The Search Area will be located onto the
+current point of interest and the local x-axis is rotated onto the
+azimuth angle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+with the current point of interest being the origin and the
+azimuth angle aligned onto the x-axis.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of triangular shape bounded by the current bandwidth.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    C
+   /|\
+a / | \ a
+ /__|h_\
+A   c   B
+</pre></div>
+</div>
+<p>The point of interest is C and c is the bandwidth. The angle at C
+(gamma) is the tolerance. From this, a and then h can be calculated.
+When rotated into the local coordinate system, the two points needed
+to build the search area A,B are A := (h, 1/2 c) and B:= (h, -1/2 c)</p>
+<p>a can be calculated like:</p>
+<div class="math notranslate nohighlight">
+\[a = \frac{c}{2 * sin\left(\frac{\gamma}{2}\right)}\]</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.DirectionalVariogram._circle">
+<code class="descname">_circle</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._circle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Circular Search Area</p>
+<p>Construct a half-circled bounded search area for building directional
+dependent point pairs. The Search Area will be located onto the
+current point of interest and the local x-axis is rotated onto the
+azimuth angle.
+The radius of the half-circle is set to half the bandwidth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+with the current point of interest being the origin and the
+azimuth angle aligned onto the x-axis.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of half-circular shape bounded by the current bandwidth.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : In case the DirectionalVariogram.bandwidth is None or 0.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.DirectionalVariogram._compass">
+<code class="descname">_compass</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._compass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._compass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compass direction Search Area</p>
+<p>Construct a search area for building directional dependent point
+pairs. The compass search area will <strong>not</strong> be bounded by the
+bandwidth. It will include all point pairs at the azimuth direction
+with a given tolerance. The Search Area will be located onto the
+current point of interest and the local x-axis is rotated onto the
+azimuth angle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+with the current point of interest being the origin and the
+azimuth angle aligned onto the x-axis.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of the given compass direction.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The necessary figure is build by searching for the intersection of a
+half-tolerance angled line with a vertical line at the maximum x-value.
+Using polar coordinates, these points (positive and negative
+half-tolerance angle) are the edges of the search area in the local
+coordinate system. The radius of a polar coordinate can be calculated
+as:</p>
+<div class="math notranslate nohighlight">
+\[r = \frac{x}{cos (\alpha / 2)}\]</div>
+<p>The two bounding points P1 nad P2 (in local coordinates) are then
+(xmax, y) and (xmax, -y), with xmax being the maximum local
+x-coordinate representation and y:</p>
+<div class="math notranslate nohighlight">
+\[y = r * sin \left( \frac{\alpha}{2} \right)\]</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.DirectionalVariogram._direction_mask">
+<code class="descname">_direction_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._direction_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._direction_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directional Mask</p>
+<p>Array aligned to self.distance masking all point pairs which shall be
+ignored for binning and grouping. The one dimensional array contains
+all row-wise point pair combinations from the upper or lower triangle
+of the distance matrix in case either of both is directional.</p>
+<p>TODO: This array is not cached. it is used twice, for binning and
+grouping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>mask</strong> – Array aligned to self.distance giving for each point pair
+combination a boolean value whether the point are directional or
+not.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skgstat.DirectionalVariogram.azimuth">
+<code class="descname">azimuth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Direction azimuth</p>
+<p>Main direction for te selection of points in the formation of point
+pairs. East of the coordinate plane is defined to be 0° and then the
+azimuth is set clockwise up to 180°and count-clockwise to -180°.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New azimuth angle in <strong>degree</strong>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case angle &lt; -180° or angle &gt; 180</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skgstat.DirectionalVariogram.bandwidth">
+<code class="descname">bandwidth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.bandwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tolerance bandwidth</p>
+<p>New bandwidth parameter. As the tolerance from azimuth is given as an
+angle, point pairs at high distances can be far off the azimuth in
+coordinate distance. The bandwidth limits this distance and has the
+unnit of the coordinate system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Positive coordinate distance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case width is negative</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="skgstat.DirectionalVariogram.local_reference_system">
 <code class="descname">local_reference_system</code><span class="sig-paren">(</span><em>poi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.local_reference_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.local_reference_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate local coordinate system</p>
@@ -293,6 +474,25 @@ are given in the documentation.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_name</strong> (<em>string</em><em>, </em><em>callable</em>) – The name of the predefined model (string) or a function that
 accepts the current local coordinate system and returns a Polygon
 of the search area.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skgstat.DirectionalVariogram.tolerance">
+<code class="descname">tolerance</code><a class="headerlink" href="#skgstat.DirectionalVariogram.tolerance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Azimuth tolerance</p>
+<p>Tolerance angle of how far a point can be off the azimuth for being
+still counted as directional. A tolerance angle will be applied to
+the azimuth angle symmetrically.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New tolerance angle in <strong>degree</strong>. Has to meet 0 &lt;= angle &lt;= 360.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case angle &lt; 0 or angle &gt; 360</td>
 </tr>
 </tbody>
 </table>
