@@ -232,13 +232,14 @@
         <span class="c1"># specify if the experimental variogram shall be harmonized</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">harmonize</span> <span class="o">=</span> <span class="n">harmonize</span>
 
+        <span class="c1"># set if nugget effect shall be used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="n">use_nugget</span>
+
         <span class="c1"># set the fitting method and sigma array</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">=</span> <span class="n">fit_method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span> <span class="o">=</span> <span class="n">fit_sigma</span>
 
-        <span class="c1"># set if nugget effect shall be used</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="n">use_nugget</span>
 
         <span class="c1"># set attributes to be filled during calculation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
@@ -649,23 +650,25 @@
 
         <span class="c1"># discrete uncertainties</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bins</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;fit_sigma and bins need the same length.&#39;</span><span class="p">)</span>
 
         <span class="c1"># linear function of distance</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">)</span>
 
         <span class="c1"># e function of distance</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;exp&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">)))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;exp&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">)))</span>
 
         <span class="c1"># sqrt function of distance</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">))</span>
 
         <span class="c1"># squared function of distance</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;sq&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">==</span> <span class="s1">&#39;sq&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;fit_sigma is not understood. It has to be an &quot;</span> <span class="o">+</span>
@@ -674,6 +677,10 @@
     <span class="nd">@fit_sigma</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">fit_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fit_sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+
+        <span class="c1"># remove fitting parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="Variogram.lag_groups"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram.lag_groups">[docs]</a>    <span class="k">def</span> <span class="nf">lag_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Lag class groups</span>
