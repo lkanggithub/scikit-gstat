@@ -44,6 +44,10 @@ very similar interface and can compute experimental variograms and model
 variograms. The module makes use of a rich selection of semi-variance
 estimators and variogram model functions, while being extensible at the same
 time.</p>
+<p>With version 0.2.4, the class
+<a class="reference internal" href="reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram" title="skgstat.SpaceTimeVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeVariogram</span></code></a> has been added. It
+computes space-time experimental variogram. However, space-time modeling is
+not implemented yet.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Scikit-gstat was rewritten in major parts. Most of the changes are internal,
@@ -98,6 +102,7 @@ Geostatistical variogram toolbox (Version v0.2.2). Zenodo.
 <li class="toctree-l1"><a class="reference internal" href="reference/reference.html">Code Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="reference/variogram.html">Variogram Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/directionalvariogram.html">DirectionalVariogram Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/spacetimevariogram.html">SpaceTimeVariogram class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reference/estimator.html">Estimator Functions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="reference/estimator.html#matheron">Matheron</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference/estimator.html#cressie">Cressie</a></li>
@@ -120,6 +125,7 @@ Geostatistical variogram toolbox (Version v0.2.2). Zenodo.
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2-4">Version 0.2.4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2-3">Version 0.2.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2-2">Version 0.2.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2-1">Version 0.2.1</a></li>
@@ -207,7 +213,7 @@ Geostatistical variogram toolbox (Version v0.2.2). Zenodo.
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
