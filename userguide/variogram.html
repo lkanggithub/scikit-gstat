@@ -1,0 +1,293 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Variography &#8212; SciKit GStat 0.2.2 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Technical Notes" href="../technical/technical.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="variography">
+<h1>Variography<a class="headerlink" href="#variography" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-variogram">
+<h2>The variogram<a class="headerlink" href="#the-variogram" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<p>We start by constructing a random field and sample it. Without knowing about
+random field generators, an easy way to go is to stick two trigonometric
+functions together and add some noise. There should be clear spatial
+correlation apparent.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="gp">In [3]: </span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This field could look like</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># apply the function to a meshgrid and add noise</span>
+<span class="gp">In [4]: </span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">]</span>
+
+<span class="gp">In [5]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="go"># generate a regular field</span>
+<span class="gp">In [6]: </span><span class="n">_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">10</span>
+
+<span class="go"># add noise</span>
+<span class="gp">In [7]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="gp">In [8]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
+
+<span class="gp">In [9]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x2b4200cf3470&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
+<div class="section" id="using-scikit-gstat">
+<h4>Using scikit-gstat<a class="headerlink" href="#using-scikit-gstat" title="Permalink to this headline">¶</a></h4>
+<p>It’s now easy and straightforward to calculate a variogram using
+<code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code>. We need to sample the field and pass the coordinates and
+value to the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">Variogram</span>
+
+<span class="go"># random coordinates</span>
+<span class="gp">In [11]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="gp">In [12]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="gp">In [13]: </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">z</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="gp">In [14]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="gp">In [15]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[15]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/var1.png"><img alt="../_images/var1.png" src="../_images/var1.png" style="width: 8in;" /></a>
+<p>From my personal point of view, there are three main issues with this approach:</p>
+<ul class="simple">
+<li>If one is not an geostatistics expert, one has no idea what he actually did
+and can see in the presented figure.</li>
+<li>The figure includes an spatial model, one has no idea if this model is
+suitable and fits the observations (wherever they are in the figure)
+sufficiently.</li>
+<li>Refer to the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.__init__" title="skgstat.Variogram.__init__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__init__</span></code></a> method of the
+Variogram class. There are 10+ arguments that can be set optionally. The
+default values will most likely not fit your data and requirements.</li>
+</ul>
+<p>Therefore one will have to understand how the
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> works along with some basic
+knowledge about variography in oder to be able to properly use <code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code>.</p>
+<p>However, what we can discuss from the figure, is what a variogram actually is
+At its core it relates a dependent variable to an independent variable and,
+in a second step, tries to describe this relationship with a statistical
+model. This model on its own describes some of the spatial properties of the
+random field and can further be utilized in an interpolation to select nearby
+points and weight them based on their statistical properties.</p>
+<p>The variogram relates the separating distance between two observation points
+to a measure of variability of values at that given distance. Our expectation
+is that variance is increasing with distance, what can basically be seen in
+the presented figure.</p>
+</div>
+</div>
+<div class="section" id="distance">
+<h3>Distance<a class="headerlink" href="#distance" title="Permalink to this headline">¶</a></h3>
+<p>Consider the variogram figure from above, with which an <em>independent</em> and
+<em>dependent</em> variable was introduced. In statistics it is common to use
+<em>dependent</em> variable as an alias for <em>target variable</em>, because its value is
+dependent on the state of the independent variable. In the case of a
+variogram, this is the metric of variance on the y-axis. The independent
+variable is a measure of (usually) Euclidean distance.</p>
+<p>Consider observations taken in the environment, it is fairly unlikely to find
+two pairs of observations where the separating distance between the
+coordinates match exactly the same value. Therefore it is useful to group all
+point pairs at the same distance <em>lag</em> together into one group, or <em>bin</em>.
+Beside practicability, there is also another reason, why one would want to
+group point pairs at similar separating distances together into one bin.
+This becomes obvious, when one plots the difference in value over the
+distance for all point pair combinations that can be formed for a given sample.
+The <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> has a function for that:
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.distance_difference_plot" title="skgstat.Variogram.distance_difference_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">distance_difference_plot</span></code></a>:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance_difference_plot</span><span class="p">()</span>
+<span class="gh">Out[16]: </span><span class="go">&lt;Figure size 800x600 with 1 Axes&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/dist_diff_plot.png"><img alt="../_images/dist_diff_plot.png" src="../_images/dist_diff_plot.png" style="width: 8in;" /></a>
+<p>While it is possible to see the increasing variability with increasing
+distance here quite nicely, it is not possible to guess meaningful moments
+for the distributions within the bins. Last but not least, to derive a simple
+model as presented in the variogram figure above by the green line, we have
+to be able to compress all values at a given distance lag to one estimation
+of variance. This would not be possible from the the figure above.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There are also procedures that can fit a model directly based on unbinned
+data. As none of these methods is implemented into <code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code>, they
+will not be discussed here. If you need them, you are more than welcome
+to implement them. Else you’ll have to wait until I did that.</p>
+</div>
+<p>Binning the separating distances into distance lags is therefore a crucial and
+most important task in a variogram analysis. The final binning shall
+discretizise the distance lag at a meaningful resolution at the scale of
+interest while still holding enough members in the bin to make valid
+estimations. Often this is a trade-off relationship and one has to find a
+suitable compromise.</p>
+<p>Before diving into binning, we have to understand how the
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> handles distance data. The
+distance calculation can be controlled by the <code class="docutils literal notranslate"><span class="pre">dist_func</span></code> argument, which
+takes either a string or a function. The default value is <cite>‘euclidean’</cite>.
+This value is directly passed down to the
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.1.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code> has two different methods for binning.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is not finished. Will continue whenever I can find some time.</p>
+</div>
+</div>
+<div class="section" id="observation-differences">
+<h3>Observation differences<a class="headerlink" href="#observation-differences" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="experimental-variograms">
+<h3>Experimental variograms<a class="headerlink" href="#experimental-variograms" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="when-direction-matters">
+<h2>When direction matters<a class="headerlink" href="#when-direction-matters" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-direction">
+<h3>What is ‘direction’?<a class="headerlink" href="#what-is-direction" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="space-time-variography">
+<h2>Space-time variography<a class="headerlink" href="#space-time-variography" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">SciKit GStat</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=mmaelicke&repo=scikit-gstat&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="userguide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Variography</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-variogram">The variogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#when-direction-matters">When direction matters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#space-time-variography">Space-time variography</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/reference.html">Code Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="SciKitGStat.pdf">Download PDF</a></li>
+    
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="userguide.html">User Guide</a><ul>
+      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="../technical/technical.html" title="next chapter">Technical Notes</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Mirko Mälicke.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/userguide/variogram.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

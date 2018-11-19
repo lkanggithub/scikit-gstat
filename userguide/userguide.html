@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Technical Notes &#8212; SciKit GStat 0.2.2 documentation</title>
+    <title>User Guide &#8212; SciKit GStat 0.2.2 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -16,8 +16,8 @@
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Fitting a theoretical model" href="fitting.html" />
-    <link rel="prev" title="Variography" href="../userguide/variogram.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Getting Started" href="../getting_started.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -34,27 +34,33 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="technical-notes">
-<h1>Technical Notes<a class="headerlink" href="#technical-notes" title="Permalink to this headline">¶</a></h1>
-<p>This chapter collects a number of technical advises for using scikit-gstat.
-These examples and information shall shall either explain the implementation
-or guide you to a correct usage of the packages. Not all features implemented
-make sense in every situation.</p>
+  <div class="section" id="user-guide">
+<h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
+<p>This user guide shall help you getting started with <code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code> package
+along with a more general introduction to variogram analysis.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="fitting.html">Fitting a theoretical model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fitting.html#general">General</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fitting.html#default-fit">Default fit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fitting.html#constrained-fit">Constrained fit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fitting.html#distance-weighted-fit">Distance weighted fit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#general">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#what-is-geostatistics">What is geostatistics?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#geostatistical-tools">Geostatistical Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#how-to-use-this-guide">How to use this Guide</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="direction.html">Directional Variograms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="direction.html#general">General</a></li>
-<li class="toctree-l2"><a class="reference internal" href="direction.html#understanding-search-area">Understanding Search Area</a></li>
-<li class="toctree-l2"><a class="reference internal" href="direction.html#local-reference-system">Local Reference System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="direction.html#id1">Directional variograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variogram.html">Variography</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variogram.html#the-variogram">The variogram</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="variogram.html#general">General</a></li>
+<li class="toctree-l3"><a class="reference internal" href="variogram.html#distance">Distance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="variogram.html#observation-differences">Observation differences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="variogram.html#experimental-variograms">Experimental variograms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="variogram.html#when-direction-matters">When direction matters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="variogram.html#what-is-direction">What is ‘direction’?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="variogram.html#space-time-variography">Space-time variography</a></li>
 </ul>
 </li>
 </ul>
@@ -89,12 +95,12 @@ make sense in every situation.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../userguide/userguide.html">User Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Technical Notes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fitting.html">Fitting a theoretical model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="direction.html">Directional Variograms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variogram.html">Variography</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 </ul>
@@ -110,8 +116,8 @@ make sense in every situation.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../userguide/variogram.html" title="previous chapter">Variography</a></li>
-      <li>Next: <a href="fitting.html" title="next chapter">Fitting a theoretical model</a></li>
+      <li>Previous: <a href="../getting_started.html" title="previous chapter">Getting Started</a></li>
+      <li>Next: <a href="introduction.html" title="next chapter">Introduction</a></li>
   </ul></li>
 </ul>
 </div>
@@ -147,7 +153,7 @@ make sense in every situation.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/technical/technical.rst.txt"
+      <a href="../_sources/userguide/userguide.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
