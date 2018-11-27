@@ -45,6 +45,99 @@
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.contour">
+<code class="descname">contour</code><span class="sig-paren">(</span><em>ax=None</em>, <em>resolution=(50</em>, <em>50)</em>, <em>levels=10</em>, <em>colors='k'</em>, <em>linewidths=0.3</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variogram 2D contour plot</p>
+<p>Plot a 2D contour plot of the experimental variogram. The
+experimental semi-variance values are spanned over a space - time lag
+meshgrid. This grid is (linear) interpolated onto the given
+resolution for visual reasons. Then, contour lines are caluclated
+from the denser grid. Their number can be specified by <em>levels</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ax</strong> (<em>matplotlib.AxesSubplot</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – If None a new matplotlib.Figure will be created, otherwise the
+plot will be rendered into the given subplot.</li>
+<li><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – The experimental variogram will be interpolated onto a regular
+grid for visual reasons. The density of this plot can be set by
+resolution as a tuple: (space_dim, time_dim). High resolutions
+result in smoother contours, but are expansive in calculation time.</li>
+<li><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of levels to be formed for finding contour lines. More
+levels result in more detailed plots, but are expansive in terms
+of calculation time.</li>
+<li><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Will be passed down to matplotlib.pyplot.contour as <em>c</em> parameter.</li>
+<li><strong>linewidths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Will be passed down to matplotlib.pyplot.contour as <em>linewidths</em>
+parameter.</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other arguments that can be specific to <em>contour</em> or <em>contourf</em>
+type. Accepts <em>xlabel</em>, <em>ylabel</em>, <em>xlim</em> and <em>ylim</em> as of this
+writing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fig</strong> – The Figure object used for rendering the contour plot.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">matplotlib.Figure</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skgstat.SpaceTimeVariogram.contourf" title="skgstat.SpaceTimeVariogram.contourf"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SpaceTimeVariogram.contourf()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.contourf">
+<code class="descname">contourf</code><span class="sig-paren">(</span><em>ax=None</em>, <em>resolution=(50</em>, <em>50)</em>, <em>levels=10</em>, <em>cmap='RdYlBu_r'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contourf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contourf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variogram 2D filled contour plot</p>
+<p>Plot a 2D filled contour plot of the experimental variogram. The
+experimental semi-variance values are spanned over a space - time lag
+meshgrid. This grid is (linear) interpolated onto the given
+resolution for visual reasons. Then, contour lines are caluclated
+from the denser grid. Their number can be specified by <em>levels</em>.
+Finally, each contour region is filled with a color supplied by the
+specified <em>cmap</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ax</strong> (<em>matplotlib.AxesSubplot</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – If None a new matplotlib.Figure will be created, otherwise the
+plot will be rendered into the given subplot.</li>
+<li><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – The experimental variogram will be interpolated onto a regular
+grid for visual reasons. The density of this plot can be set by
+resolution as a tuple: (space_dim, time_dim). High resolutions
+result in smoother contours, but are expansive in calculation time.</li>
+<li><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of levels to be formed for finding contour lines. More
+levels result in more detailed plots, but are expansive in terms
+of calculation time.</li>
+<li><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Will be passed down to matplotlib.pyplot.contourf as <em>cmap</em>
+parameter. Can be any valid color range supported by matplotlib.</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other arguments that can be specific to <em>contour</em> or <em>contourf</em>
+type. Accepts <em>xlabel</em>, <em>ylabel</em>, <em>xlim</em> and <em>ylim</em> as of this
+writing.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fig</strong> – The Figure object used for rendering the contour plot.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">matplotlib.Figure</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skgstat.SpaceTimeVariogram.contour" title="skgstat.SpaceTimeVariogram.contour"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SpaceTimeVariogram.contour()</span></code></a></p>
+</div>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="skgstat.SpaceTimeVariogram.distance">
 <code class="descname">distance</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.distance" title="Permalink to this definition">¶</a></dt>

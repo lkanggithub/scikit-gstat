@@ -86,10 +86,10 @@ Then, fitting is a straightforward task.</p>
 <span class="gp">In [11]: </span><span class="n">yi</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">spherical</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">cof_u</span><span class="p">),</span> <span class="n">xi</span><span class="p">))</span>
 
 <span class="gp">In [12]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;rD&#39;</span><span class="p">)</span>
-<span class="gh">Out[12]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b4202d9c908&gt;]</span>
+<span class="gh">Out[12]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b5b411284a8&gt;]</span>
 
 <span class="gp">In [13]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;--r&#39;</span><span class="p">)</span>
-<span class="go">                                                       Out[13]: [&lt;matplotlib.lines.Line2D at 0x2b4200ab22e8&gt;]</span>
+<span class="go">                                                       Out[13]: [&lt;matplotlib.lines.Line2D at 0x2b5b41128860&gt;]</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/fit1.png"><img alt="../_images/fit1.png" src="../_images/fit1.png" style="width: 7in;" /></a>
@@ -128,20 +128,20 @@ In the presented empirical variogram, difference between Levenberg-Marquardt
 and Trust Region Reflective is illustrated in the example below.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># default plot</span>
 <span class="gp">In [14]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;rD&#39;</span><span class="p">)</span>
-<span class="gh">Out[14]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b420314b5c0&gt;]</span>
+<span class="gh">Out[14]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b5b4110d6a0&gt;]</span>
 
 <span class="gp">In [15]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;--g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;unconstrained&#39;</span><span class="p">)</span>
-<span class="go">                                                       Out[15]: [&lt;matplotlib.lines.Line2D at 0x2b4200a7f5c0&gt;]</span>
+<span class="go">                                                       Out[15]: [&lt;matplotlib.lines.Line2D at 0x2b5b4110da90&gt;]</span>
 
 <span class="gp">In [16]: </span><span class="n">cof</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">14.</span><span class="p">],</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">))))</span>
 
 <span class="gp">In [17]: </span><span class="n">yi</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">spherical</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">cof</span><span class="p">),</span> <span class="n">xi</span><span class="p">))</span>
 
 <span class="gp">In [18]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">)</span>
-<span class="gh">Out[18]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b4200a7fd68&gt;]</span>
+<span class="gh">Out[18]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b5b4115b048&gt;]</span>
 
 <span class="gp">In [19]: </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
-<span class="go">                                                       Out[19]: &lt;matplotlib.legend.Legend at 0x2b4200a7f630&gt;</span>
+<span class="go">                                                       Out[19]: &lt;matplotlib.legend.Legend at 0x2b5b4115b3c8&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/fit2.png"><img alt="../_images/fit2.png" src="../_images/fit2.png" style="width: 7in;" /></a>
@@ -200,7 +200,7 @@ least squares cost function to:</p>
 <span class="gp">In [26]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 
 <span class="gp">In [27]: </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;rD&#39;</span><span class="p">)</span>
-<span class="gh">Out[27]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b4202de2a20&gt;]</span>
+<span class="gh">Out[27]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b5b418fcf98&gt;]</span>
 
 <span class="gp">In [28]: </span><span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">):</span>
 <span class="gp">   ....: </span>    <span class="n">s</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -211,7 +211,7 @@ least squares cost function to:</p>
 <span class="gp">   ....: </span>
 
 <span class="gp">In [29]: </span><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
-<span class="gh">Out[29]: </span><span class="go">&lt;matplotlib.legend.Legend at 0x2b4202da5860&gt;</span>
+<span class="gh">Out[29]: </span><span class="go">&lt;matplotlib.legend.Legend at 0x2b5b410afb70&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/fit3.png"><img alt="../_images/fit3.png" src="../_images/fit3.png" style="width: 7in;" /></a>
@@ -260,7 +260,7 @@ variograms used so far.</p>
 </pre></div>
 </div>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [38]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;rD&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;experimental&#39;</span><span class="p">)</span>
-<span class="gh">Out[38]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b4202d62128&gt;]</span>
+<span class="gh">Out[38]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x2b5b41ade828&gt;]</span>
 
 <span class="gp">In [39]: </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
 <span class="gp">   ....: </span>    <span class="n">cof</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mf">6.</span><span class="p">,</span><span class="mf">14.</span><span class="p">),</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="mi">14</span><span class="p">,</span><span class="mi">14</span><span class="p">)))</span>
@@ -269,7 +269,7 @@ variograms used so far.</p>
 <span class="gp">   ....: </span>
 
 <span class="gp">In [40]: </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
-<span class="gh">Out[40]: </span><span class="go">&lt;matplotlib.legend.Legend at 0x2b4202d62390&gt;</span>
+<span class="gh">Out[40]: </span><span class="go">&lt;matplotlib.legend.Legend at 0x2b5b41adef28&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/fit4.png"><img alt="../_images/fit4.png" src="../_images/fit4.png" style="width: 7in;" /></a>
