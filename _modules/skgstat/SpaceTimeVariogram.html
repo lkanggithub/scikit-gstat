@@ -43,7 +43,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
 
-<span class="kn">from</span> <span class="nn">skgstat</span> <span class="k">import</span> <span class="n">binning</span><span class="p">,</span> <span class="n">estimators</span>
+<span class="kn">from</span> <span class="nn">skgstat</span> <span class="k">import</span> <span class="n">binning</span><span class="p">,</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">Variogram</span>
 
 
 <div class="viewcode-block" id="SpaceTimeVariogram"><a class="viewcode-back" href="../../reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram">[docs]</a><span class="k">class</span> <span class="nc">SpaceTimeVariogram</span><span class="p">:</span>
@@ -61,6 +61,7 @@
                  <span class="n">xbins</span><span class="o">=</span><span class="s1">&#39;even&#39;</span><span class="p">,</span>
                  <span class="n">tbins</span><span class="o">=</span><span class="s1">&#39;even&#39;</span><span class="p">,</span>
                  <span class="n">estimator</span><span class="o">=</span><span class="s1">&#39;matheron&#39;</span><span class="p">,</span>
+                 <span class="n">use_nugget</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 
                  <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
                  <span class="p">):</span>
@@ -76,6 +77,8 @@
         <span class="c1"># set attributes to be fulled during calculation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># set values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="kc">None</span>
@@ -85,7 +88,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_xdist</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tdist</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="c1"># set distance caluclation functions</span>
+        <span class="c1"># set distance calculation functions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xdist_func</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tdist_func</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_xdist_func</span><span class="p">(</span><span class="n">func_name</span><span class="o">=</span><span class="n">xdist_func</span><span class="p">)</span>
@@ -106,15 +109,28 @@
         <span class="c1"># initialize binning arrays</span>
         <span class="c1"># space</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xbin_func</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xbin_func_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xgroups</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xbins</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_bin_func</span><span class="p">(</span><span class="n">bin_func</span><span class="o">=</span><span class="n">xbins</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;space&#39;</span><span class="p">)</span>
 
         <span class="c1"># time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tbin_func</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tbin_func_name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tgroups</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tbins</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_bin_func</span><span class="p">(</span><span class="n">bin_func</span><span class="o">=</span><span class="n">tbins</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+
+        <span class="c1"># set nugget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="n">use_nugget</span>
+
+        <span class="c1"># _x and values are set, build the marginal Variogram objects</span>
+        <span class="c1"># marginal space variogram</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_XMarginal</span><span class="p">()</span>
+
+        <span class="c1"># marginal time variogram</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_TMarginal</span><span class="p">()</span>
 
         <span class="c1"># do one preprocessing run</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">preprocessing</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -178,7 +194,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="n">values</span>
 
         <span class="c1"># dismiss the pairwise differences, and lags</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># recreate the space marginal variogram</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_XMarginal</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_TMarginal</span><span class="p">()</span></div>
+
 
     <span class="nd">@values</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_values</span><span class="p">):</span>
@@ -217,7 +240,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;For now only str arguments are supported.&#39;</span><span class="p">)</span>
 
         <span class="c1"># reset the distances</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_xdist</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xdist</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tdist_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -252,7 +278,10 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;For now only str arguments are supported.&#39;</span><span class="p">)</span>
 
         <span class="c1"># reset the distances</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tdist</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tdist</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -324,6 +353,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_xbins</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xgroups</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">t_lags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -343,6 +374,9 @@
         <span class="c1"># reset bins</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tbins</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tgroups</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">maxlag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -369,6 +403,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_maxlag</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xdistance</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_maxlag</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
 
 <div class="viewcode-block" id="SpaceTimeVariogram.set_bin_func"><a class="viewcode-back" href="../../reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram.set_bin_func">[docs]</a>    <span class="k">def</span> <span class="nf">set_bin_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_func</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set binning function</span>
@@ -398,7 +435,7 @@
         <span class="c1"># switch the function</span>
         <span class="k">if</span> <span class="n">bin_func</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;even&#39;</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">binning</span><span class="o">.</span><span class="n">even_width_lags</span>
-        <span class="k">elif</span> <span class="n">bin_func</span><span class="o">.</span><span class="n">lower</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">bin_func</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">binning</span><span class="o">.</span><span class="n">uniform_count_lags</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> binning method is not known&#39;</span> <span class="o">%</span> <span class="n">bin_func</span><span class="p">)</span>
@@ -406,12 +443,20 @@
         <span class="c1"># switch the axis</span>
         <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;space&#39;</span> <span class="ow">or</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xbin_func</span> <span class="o">=</span> <span class="n">f</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xbin_func_name</span> <span class="o">=</span> <span class="n">bin_func</span>
+
+            <span class="c1"># update marginal</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
 
             <span class="c1"># reset</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xgroups</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xbins</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span> <span class="ow">or</span> <span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_tbin_func</span> <span class="o">=</span> <span class="n">f</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tbin_func_name</span> <span class="o">=</span> <span class="n">bin_func</span>
+
+            <span class="c1"># update marignal</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span>
 
             <span class="c1"># reset</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_tgroups</span> <span class="o">=</span> <span class="kc">None</span>
@@ -458,6 +503,9 @@
         <span class="c1"># reset the groups</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xgroups</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tbins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Temporal binning</span>
@@ -493,9 +541,27 @@
         <span class="c1"># reset the groups</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tgroups</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">meshbins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xbins</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tbins</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">use_nugget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span>
+
+    <span class="nd">@use_nugget</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">use_nugget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nugget</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nugget</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;use_nugget has to be a boolean value.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span> <span class="o">=</span> <span class="n">nugget</span>
+
+        <span class="c1"># update marginals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">estimator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -533,6 +599,87 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="n">estimator_name</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The estimator has to be a string or callable.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># update marignal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SpaceTimeVariogram.create_XMarginal"><a class="viewcode-back" href="../../reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram.create_XMarginal">[docs]</a>    <span class="k">def</span> <span class="nf">create_XMarginal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an instance of skgstat.Variogram for the space marginal variogram</span>
+<span class="sd">        by arranging the coordinates and values and infer parameters from</span>
+<span class="sd">        this SpaceTimeVariogram instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_X</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_xmarg_params</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SpaceTimeVariogram.create_TMarginal"><a class="viewcode-back" href="../../reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram.create_TMarginal">[docs]</a>    <span class="k">def</span> <span class="nf">create_TMarginal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an instance of skgstat.Variogram for the time marginal variogram</span>
+<span class="sd">        by arranging the coordinates and values and infer parameters from</span>
+<span class="sd">        this SpaceTimeVariogram instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">coords</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_tmarg_params</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_xmarg_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the parameters for the space marginal variogram with any</span>
+<span class="sd">        parameter that can be inferred from the current SpaceTimeVariogram</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if not marginal variogram is set, return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">dist_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xdist_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">n_lags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_lags</span>
+
+        <span class="c1"># binning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">bin_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xbin_func_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">maxlag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxlag</span>
+
+        <span class="c1"># nugget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span>
+        <span class="c1"># estimator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">XMarginal</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="k">def</span> <span class="nf">_set_tmarg_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the parameters for the time marginal variogram with any</span>
+<span class="sd">        parameter that can be inferred from the current SpaceTimeVariogram</span>
+<span class="sd">        instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if no marginal variogram is set, return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span><span class="o">.</span><span class="n">dist_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tdist_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span><span class="o">.</span><span class="n">n_lags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_lags</span>
+
+        <span class="c1"># binning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span><span class="o">.</span><span class="n">bin_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tbin_func_name</span>
+
+        <span class="c1"># nugget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span>
+        <span class="c1"># estimator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TMarginal</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="vm">__name__</span>
 
     <span class="c1"># ------------------------------------------------------------------------ #</span>
     <span class="c1">#                         PRE-PROCESSING                                   #</span>
@@ -726,7 +873,7 @@
                     <span class="k">for</span> <span class="n">ti</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inner</span><span class="p">):</span>
                         <span class="k">for</span> <span class="n">tj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inner</span><span class="p">):</span>
                             <span class="k">if</span> <span class="n">ti</span> <span class="o">&lt;</span> <span class="n">tj</span><span class="p">:</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span><span class="p">[</span><span class="n">xidx</span><span class="p">][</span><span class="n">tidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">ti</span><span class="p">]</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="n">xj</span><span class="p">,</span> <span class="n">tj</span><span class="p">]</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span><span class="p">[</span><span class="n">xidx</span><span class="p">][</span><span class="n">tidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">ti</span><span class="p">]</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="n">xj</span><span class="p">,</span> <span class="n">tj</span><span class="p">])</span>
                                 <span class="n">tidx</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="n">xidx</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -855,6 +1002,19 @@
         <span class="n">x_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xgroups</span> <span class="o">==</span> <span class="n">xlag</span>
         <span class="n">t_idxs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tgroups</span> <span class="o">==</span> <span class="n">tlag</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x_idxs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]][:,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">t_idxs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SpaceTimeVariogram.build_marginal_variograms"><a class="viewcode-back" href="../../reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram.build_marginal_variograms">[docs]</a>    <span class="k">def</span> <span class="nf">build_marginal_variograms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;build marginal Variogram classes</span>
+
+<span class="sd">        The two marginal variograms for space and time axis will be</span>
+<span class="sd">        initialized and added to this instance. Both are an instance of</span>
+<span class="sd">        skgstat.Variogram in order to model them properly. Use these classes</span>
+<span class="sd">        to well working valid models to the marginal Variograms before</span>
+<span class="sd">        modeling the space-time model.</span>
+<span class="sd">        The two objects will be available as SpaceTimeVariogram.XMarginal and</span>
+<span class="sd">        SpaceTimeVariogram.TMarginal.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div>
 
     <span class="c1"># ------------------------------------------------------------------------ #</span>
     <span class="c1">#                             PLOTTING                                     #</span>
@@ -1089,11 +1249,12 @@
 <span class="sd">        ax : matplotlib.AxesSubplot, None</span>
 <span class="sd">            If None a new matplotlib.Figure will be created, otherwise the</span>
 <span class="sd">            plot will be rendered into the given subplot.</span>
-<span class="sd">        resolution : tuple</span>
+<span class="sd">        zoom_factor : float</span>
 <span class="sd">            The experimental variogram will be interpolated onto a regular</span>
 <span class="sd">            grid for visual reasons. The density of this plot can be set by</span>
-<span class="sd">            resolution as a tuple: (space_dim, time_dim). High resolutions</span>
-<span class="sd">            result in smoother contours, but are expansive in calculation time.</span>
+<span class="sd">            zoom_factor. A factor of 10 will enlarge each of the axes by 10.</span>
+<span class="sd">            Higher zoom_factors result in smoother contours, but are</span>
+<span class="sd">            expansive in calculation time.</span>
 <span class="sd">        levels : int</span>
 <span class="sd">            Number of levels to be formed for finding contour lines. More</span>
 <span class="sd">            levels result in more detailed plots, but are expansive in terms</span>
@@ -1103,6 +1264,14 @@
 <span class="sd">        linewidths : float, list</span>
 <span class="sd">            Will be passed down to matplotlib.pyplot.contour as *linewidths*</span>
 <span class="sd">            parameter.</span>
+<span class="sd">        method : str</span>
+<span class="sd">            The method used for densifying the meshgrid. Can be one of</span>
+<span class="sd">            &#39;fast&#39; or &#39;precise&#39;. Fast will use the scipy.ndimage.zoom method</span>
+<span class="sd">            to incresae the node density. This is fast, but cannot</span>
+<span class="sd">            interpolate *behind* any NaN occurance. &#39;Precise&#39; performs an</span>
+<span class="sd">            actual linear interpolation between the nodes using</span>
+<span class="sd">            scipy.interpolate.griddata. This takes more time, but the result</span>
+<span class="sd">            is less smoothed out.</span>
 <span class="sd">        kwargs : dict</span>
 <span class="sd">            Other arguments that can be specific to *contour* or *contourf*</span>
 <span class="sd">            type. Accepts *xlabel*, *ylabel*, *xlim* and *ylim* as of this</span>
@@ -1139,11 +1308,12 @@
 <span class="sd">        ax : matplotlib.AxesSubplot, None</span>
 <span class="sd">            If None a new matplotlib.Figure will be created, otherwise the</span>
 <span class="sd">            plot will be rendered into the given subplot.</span>
-<span class="sd">        resolution : tuple</span>
+<span class="sd">        zoom_factor : float</span>
 <span class="sd">            The experimental variogram will be interpolated onto a regular</span>
 <span class="sd">            grid for visual reasons. The density of this plot can be set by</span>
-<span class="sd">            resolution as a tuple: (space_dim, time_dim). High resolutions</span>
-<span class="sd">            result in smoother contours, but are expansive in calculation time.</span>
+<span class="sd">            zoom_factor. A factor of 10 will enlarge each of the axes by 10.</span>
+<span class="sd">            Higher zoom_factors result in smoother contours, but are</span>
+<span class="sd">            expansive in calculation time.</span>
 <span class="sd">        levels : int</span>
 <span class="sd">            Number of levels to be formed for finding contour lines. More</span>
 <span class="sd">            levels result in more detailed plots, but are expansive in terms</span>
@@ -1151,6 +1321,14 @@
 <span class="sd">        cmap : str</span>
 <span class="sd">            Will be passed down to matplotlib.pyplot.contourf as *cmap*</span>
 <span class="sd">            parameter. Can be any valid color range supported by matplotlib.</span>
+<span class="sd">        method : str</span>
+<span class="sd">            The method used for densifying the meshgrid. Can be one of</span>
+<span class="sd">            &#39;fast&#39; or &#39;precise&#39;. Fast will use the scipy.ndimage.zoom method</span>
+<span class="sd">            to incresae the node density. This is fast, but cannot</span>
+<span class="sd">            interpolate *behind* any NaN occurance. &#39;Precise&#39; performs an</span>
+<span class="sd">            actual linear interpolation between the nodes using</span>
+<span class="sd">            scipy.interpolate.griddata. This takes more time, but the result</span>
+<span class="sd">            is less smoothed out.</span>
 <span class="sd">        kwargs : dict</span>
 <span class="sd">            Other arguments that can be specific to *contour* or *contourf*</span>
 <span class="sd">            type. Accepts *xlabel*, *ylabel*, *xlim* and *ylim* as of this</span>
@@ -1183,14 +1361,15 @@
         <span class="n">x</span> <span class="o">=</span> <span class="n">xx</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">yy</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
+        <span class="n">xxi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">yyi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span> <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
         <span class="c1"># interpolation, either fast or precise</span>
         <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;fast&quot;</span><span class="p">:</span>
-            <span class="n">zi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x_lags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_lags</span><span class="p">)),</span> <span class="n">zoom_factor</span><span class="p">,</span>
+            <span class="n">zi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">t_lags</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_lags</span><span class="p">)),</span> <span class="n">zoom_factor</span><span class="p">,</span>
                       <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefilter</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;precise&quot;</span><span class="p">:</span>
             <span class="c1"># zoom the meshgrid by linear interpolation</span>
-            <span class="n">xxi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">yyi</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span> <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
             <span class="c1"># interpolate the semivariance</span>
             <span class="n">zi</span> <span class="o">=</span> <span class="n">griddata</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">z</span><span class="p">,</span> <span class="p">(</span><span class="n">xxi</span><span class="p">,</span> <span class="n">yyi</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
@@ -1208,31 +1387,23 @@
 
         <span class="c1"># plot</span>
         <span class="k">if</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;contour&#39;</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">zi</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">lev</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">zmin</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xxi</span><span class="p">,</span> <span class="n">yyi</span><span class="p">,</span> <span class="n">zi</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">lev</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">zmin</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span>
                        <span class="n">vmax</span><span class="o">=</span><span class="n">zmax</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;linewidths&#39;</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
                        <span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;contourf&#39;</span><span class="p">:</span>
-            <span class="n">C</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">zi</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">lev</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">zmin</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">,</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xxi</span><span class="p">,</span> <span class="n">yyi</span><span class="p">,</span> <span class="n">zi</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">lev</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">zmin</span> <span class="o">*</span>
+                                                                      <span class="mf">1.1</span><span class="p">,</span>
                             <span class="n">vmax</span><span class="o">=</span><span class="n">zmax</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colorbar&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> is not a valid 2D plot&quot;</span> <span class="o">%</span> <span class="n">kind</span><span class="p">)</span>
-
-        <span class="c1"># the grid is interpolated, set the bins as ticks</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xbins</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xfmt&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.1f</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xbins</span><span class="p">])</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tbins</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;yfmt&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.1f</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tbins</span><span class="p">]</span>
-        <span class="p">)</span>
 
         <span class="c1"># some labels</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="s1">&#39;space&#39;</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlim&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">zi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ylim&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">zi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlim&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xbins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ylim&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tbins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
 
         <span class="k">return</span> <span class="n">fig</span>
 

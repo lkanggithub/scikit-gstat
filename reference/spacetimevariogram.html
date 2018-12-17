@@ -38,11 +38,24 @@
 <h1>SpaceTimeVariogram class<a class="headerlink" href="#spacetimevariogram-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.SpaceTimeVariogram">
-<em class="property">class </em><code class="descclassname">skgstat.</code><code class="descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em>coordinates</em>, <em>values</em>, <em>xdist_func='euclidean'</em>, <em>tdist_func='euclidean'</em>, <em>x_lags=10</em>, <em>t_lags='max'</em>, <em>maxlag=None</em>, <em>xbins='even'</em>, <em>tbins='even'</em>, <em>estimator='matheron'</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skgstat.</code><code class="descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em>coordinates</em>, <em>values</em>, <em>xdist_func='euclidean'</em>, <em>tdist_func='euclidean'</em>, <em>x_lags=10</em>, <em>t_lags='max'</em>, <em>maxlag=None</em>, <em>xbins='even'</em>, <em>tbins='even'</em>, <em>estimator='matheron'</em>, <em>use_nugget=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="skgstat.SpaceTimeVariogram.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>coordinates</em>, <em>values</em>, <em>xdist_func='euclidean'</em>, <em>tdist_func='euclidean'</em>, <em>x_lags=10</em>, <em>t_lags='max'</em>, <em>maxlag=None</em>, <em>xbins='even'</em>, <em>tbins='even'</em>, <em>estimator='matheron'</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>coordinates</em>, <em>values</em>, <em>xdist_func='euclidean'</em>, <em>tdist_func='euclidean'</em>, <em>x_lags=10</em>, <em>t_lags='max'</em>, <em>maxlag=None</em>, <em>xbins='even'</em>, <em>tbins='even'</em>, <em>estimator='matheron'</em>, <em>use_nugget=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.build_marginal_variograms">
+<code class="descname">build_marginal_variograms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.build_marginal_variograms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.build_marginal_variograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>build marginal Variogram classes</p>
+<p>The two marginal variograms for space and time axis will be
+initialized and added to this instance. Both are an instance of
+skgstat.Variogram in order to model them properly. Use these classes
+to well working valid models to the marginal Variograms before
+modeling the space-time model.
+The two objects will be available as SpaceTimeVariogram.XMarginal and
+SpaceTimeVariogram.TMarginal.</p>
 </dd></dl>
 
 <dl class="method">
@@ -61,16 +74,24 @@ from the denser grid. Their number can be specified by <em>levels</em>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ax</strong> (<em>matplotlib.AxesSubplot</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – If None a new matplotlib.Figure will be created, otherwise the
 plot will be rendered into the given subplot.</li>
-<li><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – The experimental variogram will be interpolated onto a regular
+<li><strong>zoom_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The experimental variogram will be interpolated onto a regular
 grid for visual reasons. The density of this plot can be set by
-resolution as a tuple: (space_dim, time_dim). High resolutions
-result in smoother contours, but are expansive in calculation time.</li>
+zoom_factor. A factor of 10 will enlarge each of the axes by 10.
+Higher zoom_factors result in smoother contours, but are
+expansive in calculation time.</li>
 <li><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of levels to be formed for finding contour lines. More
 levels result in more detailed plots, but are expansive in terms
 of calculation time.</li>
 <li><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Will be passed down to matplotlib.pyplot.contour as <em>c</em> parameter.</li>
 <li><strong>linewidths</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Will be passed down to matplotlib.pyplot.contour as <em>linewidths</em>
 parameter.</li>
+<li><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The method used for densifying the meshgrid. Can be one of
+‘fast’ or ‘precise’. Fast will use the scipy.ndimage.zoom method
+to incresae the node density. This is fast, but cannot
+interpolate <em>behind</em> any NaN occurance. ‘Precise’ performs an
+actual linear interpolation between the nodes using
+scipy.interpolate.griddata. This takes more time, but the result
+is less smoothed out.</li>
 <li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other arguments that can be specific to <em>contour</em> or <em>contourf</em>
 type. Accepts <em>xlabel</em>, <em>ylabel</em>, <em>xlim</em> and <em>ylim</em> as of this
 writing.</li>
@@ -109,15 +130,23 @@ specified <em>cmap</em>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ax</strong> (<em>matplotlib.AxesSubplot</em><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a>) – If None a new matplotlib.Figure will be created, otherwise the
 plot will be rendered into the given subplot.</li>
-<li><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – The experimental variogram will be interpolated onto a regular
+<li><strong>zoom_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The experimental variogram will be interpolated onto a regular
 grid for visual reasons. The density of this plot can be set by
-resolution as a tuple: (space_dim, time_dim). High resolutions
-result in smoother contours, but are expansive in calculation time.</li>
+zoom_factor. A factor of 10 will enlarge each of the axes by 10.
+Higher zoom_factors result in smoother contours, but are
+expansive in calculation time.</li>
 <li><strong>levels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of levels to be formed for finding contour lines. More
 levels result in more detailed plots, but are expansive in terms
 of calculation time.</li>
 <li><strong>cmap</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Will be passed down to matplotlib.pyplot.contourf as <em>cmap</em>
 parameter. Can be any valid color range supported by matplotlib.</li>
+<li><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The method used for densifying the meshgrid. Can be one of
+‘fast’ or ‘precise’. Fast will use the scipy.ndimage.zoom method
+to incresae the node density. This is fast, but cannot
+interpolate <em>behind</em> any NaN occurance. ‘Precise’ performs an
+actual linear interpolation between the nodes using
+scipy.interpolate.griddata. This takes more time, but the result
+is less smoothed out.</li>
 <li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Other arguments that can be specific to <em>contour</em> or <em>contourf</em>
 type. Accepts <em>xlabel</em>, <em>ylabel</em>, <em>xlim</em> and <em>ylim</em> as of this
 writing.</li>
@@ -136,6 +165,22 @@ writing.</li>
 <p class="first admonition-title">See also</p>
 <p class="last"><a class="reference internal" href="#skgstat.SpaceTimeVariogram.contour" title="skgstat.SpaceTimeVariogram.contour"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SpaceTimeVariogram.contour()</span></code></a></p>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.create_TMarginal">
+<code class="descname">create_TMarginal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.create_TMarginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.create_TMarginal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instance of skgstat.Variogram for the time marginal variogram
+by arranging the coordinates and values and infer parameters from
+this SpaceTimeVariogram instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.create_XMarginal">
+<code class="descname">create_XMarginal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.create_XMarginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.create_XMarginal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instance of skgstat.Variogram for the space marginal variogram
+by arranging the coordinates and values and infer parameters from
+this SpaceTimeVariogram instance.</p>
 </dd></dl>
 
 <dl class="attribute">
