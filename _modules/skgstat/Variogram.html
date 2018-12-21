@@ -233,6 +233,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">harmonize</span> <span class="o">=</span> <span class="n">harmonize</span>
 
         <span class="c1"># set if nugget effect shall be used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span> <span class="o">=</span> <span class="n">use_nugget</span>
 
         <span class="c1"># set the fitting method and sigma array</span>
@@ -504,6 +505,18 @@
                     <span class="s1">&#39;understood, please provide the function&#39;</span> <span class="o">%</span> <span class="n">model_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model_name</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">use_nugget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span>
+
+    <span class="nd">@use_nugget</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">use_nugget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nugget</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nugget</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;use_nugget has to be of type bool.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># set new value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span> <span class="o">=</span> <span class="n">nugget</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">dist_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
