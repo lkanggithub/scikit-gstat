@@ -208,6 +208,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_dist_function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">dist_func</span><span class="p">)</span>
 
         <span class="c1"># lags and max lag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_lags</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_lags</span> <span class="o">=</span> <span class="n">n_lags</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxlag</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxlag</span> <span class="o">=</span> <span class="n">maxlag</span>
@@ -432,6 +433,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_groups</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_lags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_lags</span>
+
+    <span class="nd">@n_lags</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">n_lags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="c1"># TODO: here accept strings and implement some optimum methods</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;n_lags string values not implemented&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_lags has to be a positive integer&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_lags</span> <span class="o">=</span> <span class="n">n</span>
+
+        <span class="c1"># reset the bins and fitting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bins</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">estimator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
