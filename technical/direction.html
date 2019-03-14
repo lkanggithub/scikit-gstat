@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Directional Variograms &#8212; SciKit GStat 0.2.2 documentation</title>
+    <title>Directional Variograms &#8212; SciKit GStat 0.2.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Code Reference" href="../reference/reference.html" />
@@ -197,13 +198,13 @@ system.</p>
 <span class="gp">In [24]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 
 <span class="gp">In [25]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">coords</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">coords</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">15</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
-<span class="gh">Out[25]: </span><span class="go">&lt;matplotlib.collections.PathCollection at 0x2b4d96a08780&gt;</span>
+<span class="gh">Out[25]: </span><span class="go">&lt;matplotlib.collections.PathCollection at 0x2b61482715c0&gt;</span>
 
 <span class="gp">In [26]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="go">                                                                   Out[26]: &lt;matplotlib.collections.PathCollection at 0x2b4d96a11a90&gt;</span>
+<span class="go">                                                                   Out[26]: &lt;matplotlib.collections.PathCollection at 0x2b614824c978&gt;</span>
 
 <span class="gp">In [27]: </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">40</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
-<span class="go">                                                                                                                                      Out[27]: &lt;matplotlib.collections.PathCollection at 0x2b4d94785208&gt;</span>
+<span class="go">                                                                                                                                      Out[27]: &lt;matplotlib.collections.PathCollection at 0x2b614853c780&gt;</span>
 
 <span class="gp">In [28]: </span><span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
 <span class="gp">   ....: </span>    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;Simple,head_width=6,head_length=12,tail_width=1&quot;</span>
@@ -360,7 +361,7 @@ Thus the following methods do <strong>not</strong> show the same behaviour:</p>
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

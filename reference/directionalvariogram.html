@@ -6,14 +6,15 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.2 documentation</title>
+    <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SpaceTimeVariogram class" href="spacetimevariogram.html" />
@@ -56,12 +57,12 @@ tested yet.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>coordinates</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><em>numpy.ndarray</em></a>) – Array of shape (m, n). Will be used as m observation points of
+<li><strong>coordinates</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of shape (m, n). Will be used as m observation points of
 n-dimensions. This variogram can be calculated on 1 - n
 dimensional coordinates. In case a 1-dimensional array is passed,
 a second array of same length containing only zeros will be
 stacked to the passed one.</li>
-<li><strong>values</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><em>numpy.ndarray</em></a>) – Array of values observed at the given coordinates. The length of
+<li><strong>values</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of values observed at the given coordinates. The length of
 the values array has to match the m dimension of the coordinates
 array. Will be used to calculate the dependent variable of the
 variogram.</li>
@@ -123,7 +124,7 @@ itself. This is the default function.</li>
 </ul>
 </div></blockquote>
 </li>
-<li><strong>fit_sigma</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.15)"><em>numpy.ndarray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>Defaults to None. The sigma is used as measure of uncertainty
+<li><strong>fit_sigma</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>Defaults to None. The sigma is used as measure of uncertainty
 during variogram fit. If fit_sigma is an array, it has to hold
 n_lags elements, giving the uncertainty for all lags classes. If
 fit_sigma is None (default), it will give no weight to any lag.
@@ -538,6 +539,7 @@ the azimuth angle symmetrically.</p>
 <li class="toctree-l2"><a class="reference internal" href="spacetimevariogram.html">SpaceTimeVariogram class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="estimator.html">Estimator Functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html">Variogram models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kriging.html">Kriging Class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
@@ -589,7 +591,7 @@ the azimuth angle symmetrically.</p>
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
