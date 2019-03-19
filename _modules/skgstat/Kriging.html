@@ -39,9 +39,12 @@
 <span class="sd">used together with the skgstat.Variogram class. The usage of the class is</span>
 <span class="sd">inspired by the scipy.interpolate classes.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">squareform</span>
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">solve</span><span class="p">,</span> <span class="n">LinAlgError</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">scipy_solve</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">numpy_solve</span><span class="p">,</span> <span class="n">LinAlgError</span><span class="p">,</span> <span class="n">inv</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
 
 <span class="kn">from</span> <span class="nn">.Variogram</span> <span class="k">import</span> <span class="n">Variogram</span>
@@ -55,14 +58,21 @@
     <span class="k">pass</span>
 
 
+<span class="k">class</span> <span class="nc">IllMatrixError</span><span class="p">(</span><span class="ne">RuntimeWarning</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="OrdinaryKriging"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryKriging</span><span class="p">:</span>
 <div class="viewcode-block" id="OrdinaryKriging.__init__"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">variogram</span><span class="p">,</span>
             <span class="n">min_points</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
             <span class="n">max_points</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-            <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">,</span>
+            <span class="n">precision</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;inv&#39;</span><span class="p">,</span>
             <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">perf</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ordinary Kriging routine</span>
 
@@ -89,29 +99,104 @@
 <span class="sd">            closest will be used for estimation. Note that the kriging matrix</span>
 <span class="sd">            will be an max_points x max_points matrix and large numbers do</span>
 <span class="sd">            significantly increase the calculation time.</span>
-<span class="sd">        solver: str</span>
+<span class="sd">        mode : str</span>
+<span class="sd">            Has to be one of &#39;exact&#39; or &#39;estimate&#39;. In exact mode (default)</span>
+<span class="sd">            the variogram matrix will be calculated from scratch in each</span>
+<span class="sd">            iteration. This gives an exact solution, but it is also slower.</span>
+<span class="sd">            In estimate mode, a set of semivariances is pre-calculated and</span>
+<span class="sd">            the closest value will be used. This is significantly faster,</span>
+<span class="sd">            but the estimation quality is dependent on the given precision.</span>
+<span class="sd">        precision : int</span>
+<span class="sd">            Only needed if `mode=&#39;estimate&#39;`. This is the number of</span>
+<span class="sd">            pre-calculated in-range semivariances. If chosen too low,</span>
+<span class="sd">            the estimation will be off, if too high the performance gain is</span>
+<span class="sd">            limited.</span>
+<span class="sd">        solver : str</span>
 <span class="sd">            Do not change this argument</span>
-<span class="sd">        n_jobs = int</span>
+<span class="sd">        n_jobs : int</span>
 <span class="sd">            Number of processes to be started in multiprocessing.</span>
+<span class="sd">        perf : bool</span>
+<span class="sd">            If True, the different parts of the algorithm will record their</span>
+<span class="sd">            processing time. This is meant to be used for optimization and</span>
+<span class="sd">            will be removed in a future version. Do not rely on this argument.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># store arguments to the instance</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variogram</span><span class="p">,</span> <span class="n">Variogram</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;variogram has to be of type skgstat.Variogram.&#39;</span><span class="p">)</span>
 
+        <span class="c1"># general attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">variogram</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_minp</span> <span class="o">=</span> <span class="n">min_points</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span> <span class="o">=</span> <span class="n">max_points</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_points</span> <span class="o">=</span> <span class="n">min_points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_points</span> <span class="o">=</span> <span class="n">max_points</span>
+
+        <span class="c1"># general settings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">perf</span> <span class="o">=</span> <span class="n">perf</span>
 
         <span class="c1"># copy the distance function from the Variogram</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">dist_function</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">cof</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;effective_range&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nugget</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;nugget&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sill</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sill&#39;</span><span class="p">]</span>
+
+        <span class="c1"># coordinates and semivariance function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_coordinates_and_values</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">compiled_model</span>
+
+        <span class="c1"># calculation mode; self.range has to be initialized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prec_dist</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prec_g</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
+
+        <span class="c1"># solver settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
 
         <span class="c1"># initialize error counter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">singular_error</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span> <span class="o">=</span> <span class="mi">0</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ill_matrix</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># performance counter</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_dist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_mat</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_solv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_coordinates_and_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract the coordinates and values</span>
+
+<span class="sd">        The coordinates and values array is extracted from the Variogram</span>
+<span class="sd">        instance. Additionally, the coordinates array is checked for</span>
+<span class="sd">        duplicates and only the first instance of a duplicate is used.</span>
+<span class="sd">        Duplicated coordinates would result in duplicated rows in the</span>
+<span class="sd">        variogram matrix and make it singular.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        coords : numpy.array</span>
+<span class="sd">            copy of Variogram.coordines without duplicates</span>
+<span class="sd">        values : numpy.array</span>
+<span class="sd">            copy of Variogram.values without duplicates</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># sort the index to preserve initial order, if no duplicates were found</span>
+        <span class="n">idx</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">c</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">min_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -124,7 +209,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;min_points has to be an integer.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;min_points can</span><span class="se">\&#39;</span><span class="s1">t be negative.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_points</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;min_points can</span><span class="se">\&#39;</span><span class="s1">t be larger than max_points.&#39;</span><span class="p">)</span>
 
         <span class="c1"># set</span>
@@ -141,11 +226,54 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;max_points has to be an integer.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;max_points can</span><span class="se">\&#39;</span><span class="s1">t be negative.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_points</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minp</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;max_points can</span><span class="se">\&#39;</span><span class="s1">t be smaller than min_points.&#39;</span><span class="p">)</span>
 
         <span class="c1"># set</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;exact&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prec_g</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prec_dist</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;estimate&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_precalculate_matrix</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;mode has to be one of &#39;exact&#39;, &#39;estimate&#39;.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span>
+
+    <span class="nd">@precision</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;precision has to be of type int&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The precision has be be &gt; 1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span>
+
+    <span class="nd">@solver</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;numpy&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span> <span class="o">=</span> <span class="n">numpy_solve</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span> <span class="o">=</span> <span class="n">scipy_solve</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;inv&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">inv</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;solver has to be [&#39;inv&#39;, &#39;numpy&#39;, &#39;scipy&#39;]&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solver</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="OrdinaryKriging.transform"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Kriging</span>
@@ -168,14 +296,20 @@
         <span class="c1"># reset the internal error counters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">singular_error</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ill_matrix</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># reset the internal performance counter</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_dist</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf_solv</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
 
         <span class="c1"># if multi-core, than here.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">)</span>
             <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-                <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">))</span>
 
         <span class="c1"># print warnings</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">singular_error</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -183,6 +317,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: for </span><span class="si">%d</span><span class="s1"> locations, not enough neighbors were &#39;</span>
                   <span class="s1">&#39;found within the range.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ill_matrix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: </span><span class="si">%d</span><span class="s1"> kriging matrices were ill-conditioned.&#39;</span>
+                  <span class="s1">&#39; The result may not be accurate.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">ill_matrix</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z</span><span class="p">)</span></div>
 
@@ -203,9 +340,11 @@
         <span class="k">except</span> <span class="n">LessPointsError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">no_points_error</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">except</span> <span class="n">IllMatrixError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ill_matrix</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
         <span class="k">return</span> <span class="n">z</span>
-
 
     <span class="k">def</span> <span class="nf">_krige</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Algorithm</span>
@@ -232,57 +371,127 @@
 <span class="sd">            estimated value at p</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+            <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="c1"># determine the points needed for estimation</span>
-        <span class="n">_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">p</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">coordinates</span><span class="p">))</span>
+        <span class="n">_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">p</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">))</span>
 
         <span class="c1"># distance matrix for p to all coordinates, without p itself</span>
-        <span class="n">dists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">_p</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">_p</span><span class="p">)[:</span><span class="nb">len</span><span class="p">(</span><span class="n">_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># find all points within the search distance</span>
         <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dists</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">in_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-        <span class="n">dist_mat</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">in_range</span><span class="p">))</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">in_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">dist_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
         <span class="c1"># check min_points and max_points parameters</span>
         <span class="k">if</span> <span class="n">in_range</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span>
-            <span class="n">in_range</span> <span class="o">=</span> <span class="n">in_range</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])][:</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">])][:</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">dist_mat</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">in_range</span><span class="p">))</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">in_range</span> <span class="o">=</span> <span class="n">in_range</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">[:</span><span class="n">n</span><span class="p">])][:</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">[:</span><span class="n">n</span><span class="p">])][:</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxp</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">dist_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span>
 
         <span class="c1"># min</span>
         <span class="k">if</span> <span class="n">in_range</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_minp</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">LessPointsError</span>
 
-        <span class="c1"># build the kriging Matrix; needs N + 1 dimensionality</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_dist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+        <span class="c1"># OLD ALGORITHM</span>
+        <span class="c1"># a = np.ones((len(in_range) + 1, len(in_range) + 1))</span>
 
         <span class="c1"># fill; TODO: this can be done faster</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)):</span>
-                <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">compiled_model</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">[</span><span class="n">i</span> <span class="p">,</span><span class="n">j</span><span class="p">])</span>
+        <span class="c1">#for i in range(len(in_range)):</span>
+        <span class="c1">#    for j in range(len(in_range)):</span>
+        <span class="c1">#        a[i, j] = self.V.compiled_model(dist_mat[i ,j])</span>
         <span class="c1"># the outermost elements are all 1, except the last one</span>
+        <span class="c1">#a[-1, -1] = 0</span>
+
+        <span class="c1"># build the kriging Matrix; needs N + 1 dimensionality</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;exact&#39;</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_matrix</span><span class="p">(</span><span class="n">in_range</span><span class="p">,</span> <span class="n">dist_mat</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_matrix</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">)</span>
+
+        <span class="c1"># add row a column of 1&#39;s</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_range</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">squareform</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># add lagrange multiplier</span>
         <span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+            <span class="n">t2</span> <span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">perf_mat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span>
 
         <span class="c1"># build the matrix of solutions A</span>
         <span class="n">_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">p</span><span class="p">],</span> <span class="n">in_range</span><span class="p">))</span>
         <span class="n">_dists</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">_p</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="n">_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">compiled_model</span><span class="p">,</span> <span class="n">_dists</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_model</span><span class="p">,</span> <span class="n">_dists</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">_g</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="c1"># solve the system</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">assume_a</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;Matrix is singular.&#39;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SingularMatrixError</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">except</span> <span class="ne">RuntimeWarning</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;Ill-conditioned matrix&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">IllMatrixError</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">w</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[DEBUG]: print variogram matrix and distance matrix:&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">_dists</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">perf</span><span class="p">:</span>
+                <span class="n">t3</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">perf_solv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t3</span> <span class="o">-</span> <span class="n">t2</span><span class="p">)</span>
 
         <span class="c1"># calulate Z</span>
-        <span class="k">return</span> <span class="n">w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_build_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_range</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">):</span>
+        <span class="c1"># calculate the upper matrix</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_model</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_precalculate_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pre-calculated distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prec_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+
+        <span class="c1"># pre-calculate semivariance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prec_g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prec_dist</span><span class="p">),</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_estimate_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">):</span>
+        <span class="c1"># transform to the &#39;precision-space&#39;, which matches with the index</span>
+        <span class="n">dist_n</span> <span class="o">=</span> <span class="p">((</span><span class="n">distance_matrix</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># create the gamma array</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dist_n</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c1"># find all indices inside and outside the range</span>
+        <span class="n">out_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dist_n</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">in_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dist_n</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># all semivariances outside are set to sill,</span>
+        <span class="c1"># the inside are estimated from the precompiled</span>
+        <span class="n">g</span><span class="p">[</span><span class="n">out_</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sill</span>
+        <span class="n">g</span><span class="p">[</span><span class="n">in_</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prec_g</span><span class="p">[</span><span class="n">dist_n</span><span class="p">[</span><span class="n">in_</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">g</span></div>
 </pre></div>
 
           </div>

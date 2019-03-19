@@ -39,10 +39,10 @@
 <h1>Kriging Class<a class="headerlink" href="#kriging-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.OrdinaryKriging">
-<em class="property">class </em><code class="descclassname">skgstat.</code><code class="descname">OrdinaryKriging</code><span class="sig-paren">(</span><em>variogram</em>, <em>min_points=5</em>, <em>max_points=15</em>, <em>solver='gen'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skgstat.</code><code class="descname">OrdinaryKriging</code><span class="sig-paren">(</span><em>variogram</em>, <em>min_points=5</em>, <em>max_points=15</em>, <em>mode='exact'</em>, <em>precision=100</em>, <em>solver='inv'</em>, <em>n_jobs=1</em>, <em>perf=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="skgstat.OrdinaryKriging.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>variogram</em>, <em>min_points=5</em>, <em>max_points=15</em>, <em>solver='gen'</em>, <em>n_jobs=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>variogram</em>, <em>min_points=5</em>, <em>max_points=15</em>, <em>mode='exact'</em>, <em>precision=100</em>, <em>solver='inv'</em>, <em>n_jobs=1</em>, <em>perf=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary Kriging routine</p>
 <p>Ordinary kriging estimator derived from the given
 <cite>Variogram &lt;skgstat.Variogram&gt;</cite> class. To calculate estimations for
@@ -66,8 +66,21 @@ available within the variogram’s range, only the <cite>max_points</cite>
 closest will be used for estimation. Note that the kriging matrix
 will be an max_points x max_points matrix and large numbers do
 significantly increase the calculation time.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Has to be one of ‘exact’ or ‘estimate’. In exact mode (default)
+the variogram matrix will be calculated from scratch in each
+iteration. This gives an exact solution, but it is also slower.
+In estimate mode, a set of semivariances is pre-calculated and
+the closest value will be used. This is significantly faster,
+but the estimation quality is dependent on the given precision.</li>
+<li><strong>precision</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Only needed if <cite>mode=’estimate’</cite>. This is the number of
+pre-calculated in-range semivariances. If chosen too low,
+the estimation will be off, if too high the performance gain is
+limited.</li>
 <li><strong>solver</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Do not change this argument</li>
-<li><strong>= int</strong> (<em>n_jobs</em>) – Number of processes to be started in multiprocessing.</li>
+<li><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of processes to be started in multiprocessing.</li>
+<li><strong>perf</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, the different parts of the algorithm will record their
+processing time. This is meant to be used for optimization and
+will be removed in a future version. Do not rely on this argument.</li>
 </ul>
 </td>
 </tr>
