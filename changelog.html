@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Changelog &#8212; SciKit GStat 0.2.5 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -39,75 +37,77 @@
 <div class="section" id="version-0-2-6">
 <h2>Version 0.2.6<a class="headerlink" href="#version-0-2-6" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p class="first">[OrdinaryKriging]: widely enhanced the class in terms of performance, code
+<li><p>[OrdinaryKriging]: widely enhanced the class in terms of performance, code
 coverage and handling.</p>
 <blockquote>
 <div><ul class="simple">
-<li>added <cite>mode</cite> property: The class can derive exact solutions or estimate
-the kriging matrix for high performance gains</li>
-<li>multiprocessing is supported now</li>
-<li>the <cite>solver</cite> property can be used to choose from 3 different solver for
-the kriging matrix.</li>
+<li><p>added <cite>mode</cite> property: The class can derive exact solutions or estimate
+the kriging matrix for high performance gains</p></li>
+<li><p>multiprocessing is supported now</p></li>
+<li><p>the <cite>solver</cite> property can be used to choose from 3 different solver for
+the kriging matrix.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first">[Variogram] deprecated
+<li><p>[OrdinaryKriging]: calculates the kriging variance along with the estimation itself.
+The Kriging variance can be accessed after a call to
+<a class="reference internal" href="reference/kriging.html#skgstat.OrdinaryKriging.transform" title="skgstat.OrdinaryKriging.transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">OrdinaryKriging.transform</span></code></a> and can be
+accessed through the <cite>OrdinaryKriging.sigma</cite> attribute.</p></li>
+<li><p>[Variogram] deprecated
 <a class="reference internal" href="reference/variogram.html#skgstat.Variogram.compiled_model" title="skgstat.Variogram.compiled_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.compiled_model</span></code></a>. Use
-<a class="reference internal" href="reference/variogram.html#skgstat.Variogram.fitted_model" title="skgstat.Variogram.fitted_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.fitted_model</span></code></a> instead.</p>
-</li>
-<li><p class="first">[Variogram] added a new and much faster version of the parameterized model:
-<a class="reference internal" href="reference/variogram.html#skgstat.Variogram.fitted_model" title="skgstat.Variogram.fitted_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.fitted_model</span></code></a></p>
-</li>
+<a class="reference internal" href="reference/variogram.html#skgstat.Variogram.fitted_model" title="skgstat.Variogram.fitted_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.fitted_model</span></code></a> instead.</p></li>
+<li><p>[Variogram] added a new and much faster version of the parameterized model:
+<a class="reference internal" href="reference/variogram.html#skgstat.Variogram.fitted_model" title="skgstat.Variogram.fitted_model"><code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.fitted_model</span></code></a></p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-5">
 <h2>Version 0.2.5<a class="headerlink" href="#version-0-2-5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>added <a class="reference internal" href="reference/kriging.html#skgstat.OrdinaryKriging" title="skgstat.OrdinaryKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrdinaryKriging</span></code></a> for using a
-<a class="reference internal" href="reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> to perform an interpolation.</li>
+<li><p>added <a class="reference internal" href="reference/kriging.html#skgstat.OrdinaryKriging" title="skgstat.OrdinaryKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrdinaryKriging</span></code></a> for using a
+<a class="reference internal" href="reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> to perform an interpolation.</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-4">
 <h2>Version 0.2.4<a class="headerlink" href="#version-0-2-4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>added <a class="reference internal" href="reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram" title="skgstat.SpaceTimeVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeVariogram</span></code></a> for
-calculating dispersion functions depending on a space and a time lag.</li>
+<li><p>added <a class="reference internal" href="reference/spacetimevariogram.html#skgstat.SpaceTimeVariogram" title="skgstat.SpaceTimeVariogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpaceTimeVariogram</span></code></a> for
+calculating dispersion functions depending on a space and a time lag.</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-3">
 <h2>Version 0.2.3<a class="headerlink" href="#version-0-2-3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>[severe bug]</strong> A severe bug was in
+<li><p><strong>[severe bug]</strong> A severe bug was in
 <code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.__vdiff_indexer</span></code> was
 found and fixed. The iterator was indexing the
 <code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram._diff</span></code> array different from
 <code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.distance</span></code>. <strong>This lead to
-wrong semivariance values for all versions &gt; 0.1.8!</strong>. Fixed now.</li>
-<li>[Variogram] added unit tests for parameter setting</li>
-<li>[Variogram] fixed <code class="docutils literal notranslate"><span class="pre">fit_sigma</span></code> setting of <code class="docutils literal notranslate"><span class="pre">'exp'</span></code>: changed the formula
+wrong semivariance values for all versions &gt; 0.1.8!</strong>. Fixed now.</p></li>
+<li><p>[Variogram] added unit tests for parameter setting</p></li>
+<li><p>[Variogram] fixed <code class="docutils literal notranslate"><span class="pre">fit_sigma</span></code> setting of <code class="docutils literal notranslate"><span class="pre">'exp'</span></code>: changed the formula
 from <span class="math notranslate nohighlight">\(e^{\left(\frac{1}{x}\right)}\)</span> to
 <span class="math notranslate nohighlight">\(1. - e^{\left(\frac{1}{x}\right)}\)</span> in order to increase with
-distance and, thus, give less weight to distant lag classes during fitting.</li>
+distance and, thus, give less weight to distant lag classes during fitting.</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-2">
 <h2>Version 0.2.2<a class="headerlink" href="#version-0-2-2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>added DirectionalVariogram class for direction-dependent variograms</li>
-<li>[Variogram] changed default values for <cite>estimator</cite> and <cite>model</cite> from
-function to string</li>
+<li><p>added DirectionalVariogram class for direction-dependent variograms</p></li>
+<li><p>[Variogram] changed default values for <cite>estimator</cite> and <cite>model</cite> from
+function to string</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-1">
 <h2>Version 0.2.1<a class="headerlink" href="#version-0-2-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>added various unittests</li>
+<li><p>added various unittests</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-0">
 <h2>Version 0.2.0<a class="headerlink" href="#version-0-2-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>completely rewritten Variogram class compared to v0.1.8</li>
+<li><p>completely rewritten Variogram class compared to v0.1.8</p></li>
 </ul>
 </div>
 </div>
@@ -171,13 +171,11 @@ function to string</li>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -198,7 +196,7 @@ function to string</li>
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

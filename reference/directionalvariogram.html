@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -39,7 +37,7 @@
 <h1>DirectionalVariogram Class<a class="headerlink" href="#directionalvariogram-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.DirectionalVariogram">
-<em class="property">class </em><code class="descclassname">skgstat.</code><code class="descname">DirectionalVariogram</code><span class="sig-paren">(</span><em>coordinates=None</em>, <em>values=None</em>, <em>estimator='matheron'</em>, <em>model='spherical'</em>, <em>dist_func='euclidean'</em>, <em>bin_func='even'</em>, <em>normalize=True</em>, <em>fit_method='trf'</em>, <em>fit_sigma=None</em>, <em>directional_model='triangle'</em>, <em>azimuth=0</em>, <em>tolerance=45.0</em>, <em>bandwidth='q33'</em>, <em>use_nugget=False</em>, <em>maxlag=None</em>, <em>n_lags=10</em>, <em>verbose=False</em>, <em>harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">DirectionalVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>DirectionalVariogram Class</p>
 <p>Calculates a variogram of the separating distances in the given
 coordinates and relates them to one of the semi-variance measures of the
@@ -48,83 +46,81 @@ given dependent values.</p>
 that share a specified spatial relationship.</p>
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>coordinates=None</em>, <em>values=None</em>, <em>estimator='matheron'</em>, <em>model='spherical'</em>, <em>dist_func='euclidean'</em>, <em>bin_func='even'</em>, <em>normalize=True</em>, <em>fit_method='trf'</em>, <em>fit_sigma=None</em>, <em>directional_model='triangle'</em>, <em>azimuth=0</em>, <em>tolerance=45.0</em>, <em>bandwidth='q33'</em>, <em>use_nugget=False</em>, <em>maxlag=None</em>, <em>n_lags=10</em>, <em>verbose=False</em>, <em>harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Directional Variogram. The calculation is not performant and not
 tested yet.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>coordinates</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of shape (m, n). Will be used as m observation points of
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of shape (m, n). Will be used as m observation points of
 n-dimensions. This variogram can be calculated on 1 - n
 dimensional coordinates. In case a 1-dimensional array is passed,
 a second array of same length containing only zeros will be
-stacked to the passed one.</li>
-<li><strong>values</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of values observed at the given coordinates. The length of
+stacked to the passed one.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of values observed at the given coordinates. The length of
 the values array has to match the m dimension of the coordinates
 array. Will be used to calculate the dependent variable of the
-variogram.</li>
-<li><strong>estimator</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>callable</em>) – <p>String identifying the semi-variance estimator to be used.
+variogram.</p></li>
+<li><p><strong>estimator</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>callable</em>) – <p>String identifying the semi-variance estimator to be used.
 Defaults to the Matheron estimator. Possible values are:</p>
 <blockquote>
 <div><ul>
-<li>matheron        [Matheron, default]</li>
-<li>cressie         [Cressie-Hawkins]</li>
-<li>dowd            [Dowd-Estimator]</li>
-<li>genton          [Genton]</li>
-<li>minmax          [MinMax Scaler]</li>
-<li>entropy         [Shannon Entropy]</li>
+<li><p>matheron        [Matheron, default]</p></li>
+<li><p>cressie         [Cressie-Hawkins]</p></li>
+<li><p>dowd            [Dowd-Estimator]</p></li>
+<li><p>genton          [Genton]</p></li>
+<li><p>minmax          [MinMax Scaler]</p></li>
+<li><p>entropy         [Shannon Entropy]</p></li>
 </ul>
 </div></blockquote>
 <p>If a callable is passed, it has to accept an array of absoulte
 differences, aligned to the 1D distance matrix (flattened upper
 triangle) and return a scalar, that converges towards small
 values for similarity (high covariance).</p>
-</li>
-<li><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>String identifying the theoretical variogram function to be used
+</p></li>
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>String identifying the theoretical variogram function to be used
 to describe the experimental variogram. Can be one of:</p>
 <blockquote>
 <div><ul>
-<li>spherical       [Spherical, default]</li>
-<li>exponential     [Exponential]</li>
-<li>gaussian        [Gaussian]</li>
-<li>cubic           [Cubic]</li>
-<li>stable          [Stable model]</li>
-<li>matern          [Matérn model]</li>
-<li>nugget          [nugget effect variogram]</li>
+<li><p>spherical       [Spherical, default]</p></li>
+<li><p>exponential     [Exponential]</p></li>
+<li><p>gaussian        [Gaussian]</p></li>
+<li><p>cubic           [Cubic]</p></li>
+<li><p>stable          [Stable model]</p></li>
+<li><p>matern          [Matérn model]</p></li>
+<li><p>nugget          [nugget effect variogram]</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><strong>dist_func</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – String identifying the distance function. Defaults to
+</p></li>
+<li><p><strong>dist_func</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – String identifying the distance function. Defaults to
 ‘euclidean’. Can be any metric accepted by
 scipy.spatial.distance.pdist. Additional parameters are not (yet)
 passed through to pdist. These are accepted by pdist for some of
-the metrics. In these cases the default values are used.</li>
-<li><strong>bin_func</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – String identifying the binning function used to find lag class
+the metrics. In these cases the default values are used.</p></li>
+<li><p><strong>bin_func</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – String identifying the binning function used to find lag class
 edges. At the moment there are two possible values: ‘even’
 (default) or ‘uniform’. Even will find n_lags bins of same width
 in the interval [0,maxlag[. ‘uniform’ will identfy n_lags bins on
 the same interval, but with varying edges so that all bins count
-the same amount of observations.</li>
-<li><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Defaults to False. If True, the independent and dependent
-variable will be normalized to the range [0,1].</li>
-<li><strong>fit_method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>String identifying the method to be used for fitting the
+the same amount of observations.</p></li>
+<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Defaults to False. If True, the independent and dependent
+variable will be normalized to the range [0,1].</p></li>
+<li><p><strong>fit_method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>String identifying the method to be used for fitting the
 theoretical variogram function to the experimental. More info is
 given in the Variogram.fit docs. Can be one of:</p>
 <blockquote>
 <div><ul>
-<li>’lm’: Levenberg-Marquardt algorithm for unconstrained
+<li><p>’lm’: Levenberg-Marquardt algorithm for unconstrained
 problems. This is the faster algorithm, yet is the fitting of
-a variogram not unconstrianed.</li>
-<li>’trf’: Trust Region Reflective function for non-linear
+a variogram not unconstrianed.</p></li>
+<li><p>’trf’: Trust Region Reflective function for non-linear
 constrained problems. The class will set the boundaries
-itself. This is the default function.</li>
+itself. This is the default function.</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><strong>fit_sigma</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>Defaults to None. The sigma is used as measure of uncertainty
+</p></li>
+<li><p><strong>fit_sigma</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <p>Defaults to None. The sigma is used as measure of uncertainty
 during variogram fit. If fit_sigma is an array, it has to hold
 n_lags elements, giving the uncertainty for all lags classes. If
 fit_sigma is None (default), it will give no weight to any lag.
@@ -134,16 +130,16 @@ If fit_sigma is a string, a pre-defined function of separating
 distance will be used to fill the array. Can be one of:</p>
 <blockquote>
 <div><ul>
-<li>’linear’: Linear loss with distance. Small bins will have
-higher impact.</li>
-<li>’exp’: The weights decrease by a e-function of distance</li>
-<li>’sqrt’: The weights decrease by the squareroot of distance</li>
-<li>’sq’: The weights decrease by the squared distance.</li>
+<li><p>’linear’: Linear loss with distance. Small bins will have
+higher impact.</p></li>
+<li><p>’exp’: The weights decrease by a e-function of distance</p></li>
+<li><p>’sqrt’: The weights decrease by the squareroot of distance</p></li>
+<li><p>’sq’: The weights decrease by the squared distance.</p></li>
 </ul>
 </div></blockquote>
 <p>More info is given in the Variogram.fit_sigma documentation.</p>
-</li>
-<li><strong>directional_model</strong> (<em>string</em><em>, </em><em>Polygon</em>) – <p>The model used for selecting all points fulfilling the
+</p></li>
+<li><p><strong>directional_model</strong> (<em>string</em><em>, </em><em>Polygon</em>) – <p>The model used for selecting all points fulfilling the
 directional constraint of the Variogram. A predefined model can
 be selected by passing the model name as string. Optionally a
 callable accepting the current local coordinate system and
@@ -153,42 +149,42 @@ be incorporated by hand into the model. The azimuth is handled
 by the class. The predefined options are:</p>
 <blockquote>
 <div><ul>
-<li>’compass’: includes points in the direction of the
+<li><p>’compass’: includes points in the direction of the
 azimuth at given tolerance. The bandwidth parameter will be
-ignored.</li>
-<li>’triangle’: constructs a triangle with an angle of
+ignored.</p></li>
+<li><p>’triangle’: constructs a triangle with an angle of
 tolerance at the point of interest and union an rectangle
 parallel to azimuth, once the hypotenuse length reaches
-bandwidth.</li>
-<li>’circle’: constructs a half circle touching the point of
+bandwidth.</p></li>
+<li><p>’circle’: constructs a half circle touching the point of
 interest, dislocating the center at the distance of
 bandwidth in the direction of azimuth. The half circle is
-union with an rectangle parallel to azimuth.</li>
+union with an rectangle parallel to azimuth.</p></li>
 </ul>
 </div></blockquote>
 <p>Visual representations, usage hints and implementation specifics
 are given in the documentation.</p>
-</li>
-<li><strong>azimuth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The azimuth of the directional dependence for this Variogram,
+</p></li>
+<li><p><strong>azimuth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The azimuth of the directional dependence for this Variogram,
 given as an angle in <strong>degree</strong>. The East of the coordinate
 plane is set to be at 0° and is counted clockwise to 180° and
 counter-clockwise to -180°. Only Points lying in the azimuth of a
-specific point will be used for forming point pairs.</li>
-<li><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The tolerance is given as an angle in <strong>degree</strong>- Points being
+specific point will be used for forming point pairs.</p></li>
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – The tolerance is given as an angle in <strong>degree</strong>- Points being
 dislocated from the exact azimuth by half the tolerance will be
 accepted as well. It’s half the tolerance as the point may be
-dislocated in the positive and negative direction from the azimuth.</li>
-<li><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Maximum tolerance acceptable in <strong>coordinate units</strong>, which is
+dislocated in the positive and negative direction from the azimuth.</p></li>
+<li><p><strong>bandwidth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Maximum tolerance acceptable in <strong>coordinate units</strong>, which is
 usually meter. Points at higher distances may be far dislocated
 from the azimuth in terms of coordinate distance, as the
 tolerance is defined as an angle. THe bandwidth defines a maximum
 width for the search window. It will be perpendicular to and
-bisected by the azimuth.</li>
-<li><strong>use_nugget</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Defaults to False. If True, a nugget effet will be added to all
+bisected by the azimuth.</p></li>
+<li><p><strong>use_nugget</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Defaults to False. If True, a nugget effet will be added to all
 Variogram.models as a third (or fourth) fitting parameter. A
 nugget is essentially the y-axis interception of the theoretical
-variogram function.</li>
-<li><strong>maxlag</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Can specify the maximum lag distance directly by giving a value
+variogram function.</p></li>
+<li><p><strong>maxlag</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Can specify the maximum lag distance directly by giving a value
 larger than 1. The binning function will not find any lag class
 with an edge larger than maxlag. If 0 &lt; maxlag &lt; 1, then maxlag
 is relative and maxlag * max(Variogram.distance) will be used.
@@ -196,40 +192,37 @@ In case maxlag is a string it has to be one of ‘median’, ‘mean’.
 Then the median or mean of all Variogram.distance will be used.
 Note maxlag=0.5 will use half the maximum separating distance,
 this is not the same as ‘median’, which is the median of all
-separating distances</li>
-<li><strong>n_lags</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Specify the number of lag classes to be defined by the binning
-function.</li>
-<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Set the Verbosity of the class. Not Implemented yet.</li>
-<li><strong>harmonize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – this kind of works so far, but will be rewritten (and documented)</li>
+separating distances</p></li>
+<li><p><strong>n_lags</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Specify the number of lag classes to be defined by the binning
+function.</p></li>
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Set the Verbosity of the class. Not Implemented yet.</p></li>
+<li><p><strong>harmonize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – this kind of works so far, but will be rewritten (and documented)</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram._triangle">
-<code class="descname">_triangle</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._triangle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_triangle</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._triangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triangular Search Area</p>
 <p>Construct a triangular bounded search area for building directional
 dependent point pairs. The Search Area will be located onto the
 current point of interest and the local x-axis is rotated onto the
 azimuth angle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
 with the current point of interest being the origin and the
-azimuth angle aligned onto the x-axis.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of triangular shape bounded by the current bandwidth.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
-</tr>
-</tbody>
-</table>
+azimuth angle aligned onto the x-axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>search_area</strong> – Search Area of triangular shape bounded by the current bandwidth.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Polygon</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>    C
    /|\
@@ -246,45 +239,43 @@ to build the search area A,B are A := (h, 1/2 c) and B:= (h, -1/2 c)</p>
 <div class="math notranslate nohighlight">
 \[a = \frac{c}{2 * sin\left(\frac{\gamma}{2}\right)}\]</div>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram._circle">
-<code class="descname">_circle</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._circle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_circle</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._circle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Circular Search Area</p>
 <p>Construct a half-circled bounded search area for building directional
 dependent point pairs. The Search Area will be located onto the
 current point of interest and the local x-axis is rotated onto the
 azimuth angle.
 The radius of the half-circle is set to half the bandwidth.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
 with the current point of interest being the origin and the
-azimuth angle aligned onto the x-axis.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of half-circular shape bounded by the current bandwidth.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : In case the DirectionalVariogram.bandwidth is None or 0.</td>
-</tr>
-</tbody>
-</table>
+azimuth angle aligned onto the x-axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>search_area</strong> – Search Area of half-circular shape bounded by the current bandwidth.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Polygon</p>
+</dd>
+</dl>
+<p>:raises ValueError : In case the DirectionalVariogram.bandwidth is None or 0.:</p>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a></p>
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._compass" title="skgstat.DirectionalVariogram._compass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._compass()</span></code></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram._compass">
-<code class="descname">_compass</code><span class="sig-paren">(</span><em>local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._compass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._compass" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_compass</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._compass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._compass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compass direction Search Area</p>
 <p>Construct a search area for building directional dependent point
 pairs. The compass search area will <strong>not</strong> be bounded by the
@@ -292,20 +283,19 @@ bandwidth. It will include all point pairs at the azimuth direction
 with a given tolerance. The Search Area will be located onto the
 current point of interest and the local x-axis is rotated onto the
 azimuth angle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>local_ref</strong> (<em>numpy.array</em>) – Array of all coordinates transformed into a local representation
 with the current point of interest being the origin and the
-azimuth angle aligned onto the x-axis.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>search_area</strong> – Search Area of the given compass direction.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">Polygon</td>
-</tr>
-</tbody>
-</table>
+azimuth angle aligned onto the x-axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>search_area</strong> – Search Area of the given compass direction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Polygon</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>The necessary figure is build by searching for the intersection of a
 half-tolerance angled line with a vertical line at the maximum x-value.
@@ -321,14 +311,14 @@ x-coordinate representation and y:</p>
 <div class="math notranslate nohighlight">
 \[y = r * sin \left( \frac{\alpha}{2} \right)\]</div>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#skgstat.DirectionalVariogram._triangle" title="skgstat.DirectionalVariogram._triangle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._triangle()</span></code></a>, <a class="reference internal" href="#skgstat.DirectionalVariogram._circle" title="skgstat.DirectionalVariogram._circle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DirectionalVariogram._circle()</span></code></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram._direction_mask">
-<code class="descname">_direction_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._direction_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._direction_mask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_direction_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._direction_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._direction_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directional Mask</p>
 <p>Array aligned to self.distance masking all point pairs which shall be
 ignored for binning and grouping. The one dimensional array contains
@@ -336,114 +326,99 @@ all row-wise point pair combinations from the upper or lower triangle
 of the distance matrix in case either of both is directional.</p>
 <p>TODO: This array is not cached. it is used twice, for binning and
 grouping.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>mask</strong> – Array aligned to self.distance giving for each point pair
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>mask</strong> – Array aligned to self.distance giving for each point pair
 combination a boolean value whether the point are directional or
-not.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.array</td>
-</tr>
-</tbody>
-</table>
+not.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.array</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="skgstat.DirectionalVariogram.azimuth">
-<code class="descname">azimuth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.azimuth" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">azimuth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.azimuth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Direction azimuth</p>
 <p>Main direction for te selection of points in the formation of point
 pairs. East of the coordinate plane is defined to be 0° and then the
 azimuth is set clockwise up to 180°and count-clockwise to -180°.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New azimuth angle in <strong>degree</strong>.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case angle &lt; -180° or angle &gt; 180</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New azimuth angle in <strong>degree</strong>.</p>
+</dd>
+</dl>
+<p>:raises ValueError : in case angle &lt; -180° or angle &gt; 180:</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="skgstat.DirectionalVariogram.bandwidth">
-<code class="descname">bandwidth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.bandwidth" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">bandwidth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.bandwidth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tolerance bandwidth</p>
 <p>New bandwidth parameter. As the tolerance from azimuth is given as an
 angle, point pairs at high distances can be far off the azimuth in
 coordinate distance. The bandwidth limits this distance and has the
 unnit of the coordinate system.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Positive coordinate distance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case width is negative</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Positive coordinate distance.</p>
+</dd>
+</dl>
+<p>:raises ValueError : in case width is negative:</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram.local_reference_system">
-<code class="descname">local_reference_system</code><span class="sig-paren">(</span><em>poi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.local_reference_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.local_reference_system" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">local_reference_system</code><span class="sig-paren">(</span><em class="sig-param">poi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.local_reference_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.local_reference_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate local coordinate system</p>
 <p>The coordinates will be transformed into a local reference system
 that will simplify the directional dependence selection. The point of
 interest (poi) of the current iteration will be used as origin of the
 local reference system and the x-axis will be rotated onto the azimuth.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>poi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – First two coordinate dimensions of the point of interest. will be
-used as the new origin</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>local_ref</strong> – Array of dimension (m, 2) where m is the length of the
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>poi</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – First two coordinate dimensions of the point of interest. will be
+used as the new origin</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>local_ref</strong> – Array of dimension (m, 2) where m is the length of the
 coordinates array. Transformed coordinates in the same order as
-the original coordinates.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.array</td>
-</tr>
-</tbody>
-</table>
+the original coordinates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram.search_area">
-<code class="descname">search_area</code><span class="sig-paren">(</span><em>poi=0</em>, <em>ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.search_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.search_area" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">search_area</code><span class="sig-paren">(</span><em class="sig-param">poi=0</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.search_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.search_area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot Search Area</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>poi</strong> (<em>integer</em>) – Point of interest. Index of the coordinate that shall be used to
-visualize the search area.</li>
-<li><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><em>matplotlib.AxesSubplot</em>) – If not None, the Search Area will be plotted into the given
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poi</strong> (<em>integer</em>) – Point of interest. Index of the coordinate that shall be used to
+visualize the search area.</p></li>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><em>None</em></a><em>, </em><em>matplotlib.AxesSubplot</em>) – If not None, the Search Area will be plotted into the given
 Subplot object. If None, a new matplotlib Figure will be created
-and returned</li>
+and returned</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">plot</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>plot</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram.set_directional_model">
-<code class="descname">set_directional_model</code><span class="sig-paren">(</span><em>model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.set_directional_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.set_directional_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_directional_model</code><span class="sig-paren">(</span><em class="sig-param">model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.set_directional_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.set_directional_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new directional model</p>
 <p>The model used for selecting all points fulfilling the
 directional constraint of the Variogram. A predefined model can
@@ -453,50 +428,43 @@ returns a Polygon representing the search area. In this case, the
 tolerance and bandwidth has to be incorporated by hand into the
 model. The azimuth is handled by the class. The predefined options are:</p>
 <ul class="simple">
-<li><dl class="first docutils">
-<dt>‘compass’: includes points in the direction of the azimuth at given</dt>
-<dd>tolerance. The bandwidth parameter will be ignored.</dd>
+<li><dl class="simple">
+<dt>‘compass’: includes points in the direction of the azimuth at given</dt><dd><p>tolerance. The bandwidth parameter will be ignored.</p>
+</dd>
 </dl>
 </li>
-<li>‘triangle’: constructs a triangle with an angle of tolerance at the
+<li><p>‘triangle’: constructs a triangle with an angle of tolerance at the
 point of interest and union an rectangle parallel to azimuth,
-once the hypotenuse length reaches bandwidth.</li>
-<li>‘circle’: constructs a half circle touching the point of interest,
+once the hypotenuse length reaches bandwidth.</p></li>
+<li><p>‘circle’: constructs a half circle touching the point of interest,
 dislocating the center at the distance of bandwidth in the
 direction of azimuth. The half circle is union with an rectangle
-parallel to azimuth.</li>
+parallel to azimuth.</p></li>
 </ul>
 <p>Visual representations, usage hints and implementation specifics
 are given in the documentation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_name</strong> (<em>string</em><em>, </em><em>callable</em>) – The name of the predefined model (string) or a function that
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_name</strong> (<em>string</em><em>, </em><em>callable</em>) – The name of the predefined model (string) or a function that
 accepts the current local coordinate system and returns a Polygon
-of the search area.</td>
-</tr>
-</tbody>
-</table>
+of the search area.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="skgstat.DirectionalVariogram.tolerance">
-<code class="descname">tolerance</code><a class="headerlink" href="#skgstat.DirectionalVariogram.tolerance" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">tolerance</code><a class="headerlink" href="#skgstat.DirectionalVariogram.tolerance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Azimuth tolerance</p>
 <p>Tolerance angle of how far a point can be off the azimuth for being
 still counted as directional. A tolerance angle will be applied to
 the azimuth angle symmetrically.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New tolerance angle in <strong>degree</strong>. Has to meet 0 &lt;= angle &lt;= 360.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">ValueError : in case angle &lt; 0 or angle &gt; 360</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – New tolerance angle in <strong>degree</strong>. Has to meet 0 &lt;= angle &lt;= 360.</p>
+</dd>
+</dl>
+<p>:raises ValueError : in case angle &lt; 0 or angle &gt; 360:</p>
 </dd></dl>
 
 </dd></dl>
@@ -564,13 +532,11 @@ the azimuth angle symmetrically.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -591,7 +557,7 @@ the azimuth angle symmetrically.</p>
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

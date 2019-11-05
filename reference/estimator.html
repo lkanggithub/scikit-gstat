@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Estimator Functions &#8212; SciKit GStat 0.2.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -46,30 +44,29 @@ Not the values themselves.</p>
 <h2>Matheron<a class="headerlink" href="#matheron" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skgstat.estimators.matheron">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">matheron</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#matheron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.matheron" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">matheron</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#matheron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.matheron" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matheron Semi-Variance</p>
 <p>Calculates the Matheron Semi-Variance from an array of pairwise differences.
 Returns the semi-variance for the whole array. In case a semi-variance is
 needed for multiple groups, this function has to be mapped on each group.
 That is the typical use case in geostatistics.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.float64</td>
-</tr>
-</tbody>
-</table>
+as an element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
-<p>This implementation follows the original publication <a class="footnote-reference" href="#id4" id="id1">[1]</a> and the
-notes on their application <a class="footnote-reference" href="#id5" id="id2">[2]</a>. Following the 1962 publication <a class="footnote-reference" href="#id4" id="id3">[1]</a>,
+<p>This implementation follows the original publication <a class="footnote-reference brackets" href="#id4" id="id1">1</a> and the
+notes on their application <a class="footnote-reference brackets" href="#id5" id="id2">2</a>. Following the 1962 publication <a class="footnote-reference brackets" href="#id4" id="id3">1</a>,
 the semi-variance is calculated as:</p>
 <div class="math notranslate nohighlight">
 \[\gamma (h) = \frac{1}{2N(h)} * \sum_{i=1}^{N(h)}(x)^2\]</div>
@@ -78,20 +75,16 @@ the semi-variance is calculated as:</p>
 \[x = Z(x_i) - Z(x_{i+h})\]</div>
 <p>where x is exactly the input array x.</p>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Matheron, G. (1962): Traité de Géostatistique Appliqué, Tonne 1.
-Memoires de Bureau de Recherches Géologiques et Miniéres, Paris.</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Matheron, G. (1965): Les variables regionalisées et leur estimation.
-Editions Masson et Cie, 212 S., Paris.</td></tr>
-</tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Matheron, G. (1962): Traité de Géostatistique Appliqué, Tonne 1.
+Memoires de Bureau de Recherches Géologiques et Miniéres, Paris.</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Matheron, G. (1965): Les variables regionalisées et leur estimation.
+Editions Masson et Cie, 212 S., Paris.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -99,30 +92,29 @@ Editions Masson et Cie, 212 S., Paris.</td></tr>
 <h2>Cressie<a class="headerlink" href="#cressie" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skgstat.estimators.cressie">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">cressie</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#cressie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.cressie" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">cressie</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#cressie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.cressie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cressie-Hawkins Semi-Variance</p>
 <p>Calculates the Cressie-Hawkins Semi-Variance from an array of pairwise
 differences. Returns the semi-variance for the whole array. In case a
 semi-variance is needed for multiple groups, this function has to be
 mapped on each group. That is the typical use case in geostatistics.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.float64</td>
-</tr>
-</tbody>
-</table>
+as an element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>This implementation is done after the publication by Cressie and Hawkins
-from 1980 <a class="footnote-reference" href="#id7" id="id6">[3]</a>:</p>
+from 1980 <a class="footnote-reference brackets" href="#id7" id="id6">3</a>:</p>
 <div class="math notranslate nohighlight">
 \[2\gamma (h) = \frac{(\frac{1}{N(h)} \sum_{i=1}^{N(h)} |x|^{0.5})^4}
 {0.457 + \frac{0.494}{N(h)} + \frac{0.045}{N^2(h)}}\]</div>
@@ -131,13 +123,12 @@ from 1980 <a class="footnote-reference" href="#id7" id="id6">[3]</a>:</p>
 \[x = Z(x_i) - Z(x_{i+h})\]</div>
 <p>where x is exactly the input array x.</p>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>Cressie, N., and D. Hawkins (1980): Robust estimation of the
-variogram. Math. Geol., 12, 115-125.</td></tr>
-</tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id6">3</a></span></dt>
+<dd><p>Cressie, N., and D. Hawkins (1980): Robust estimation of the
+variogram. Math. Geol., 12, 115-125.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -145,32 +136,31 @@ variogram. Math. Geol., 12, 115-125.</td></tr>
 <h2>Dowd<a class="headerlink" href="#dowd" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skgstat.estimators.dowd">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">dowd</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#dowd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.dowd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">dowd</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#dowd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.dowd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dowd semi-variance</p>
 <p>Calculates the Dowd semi-variance from an array of pairwise
 differences. Returns the semi-variance for the whole array. In case a
 semi-variance is needed for multiple groups, this function has to be
 mapped on each group. That is the typical use case in geostatistics.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.float64</td>
-</tr>
-</tbody>
-</table>
+as an element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>The Dowd estimator is based on the median of all pairwise differences in
 each lag class and is therefore robust to exteme values at the cost of
 variability.
-This implementation follows Dowd’s publication <a class="footnote-reference" href="#id9" id="id8">[4]</a>:</p>
+This implementation follows Dowd’s publication <a class="footnote-reference brackets" href="#id9" id="id8">4</a>:</p>
 <div class="math notranslate nohighlight">
 \[2\gamma (h) = 2.198 * {median(x)}^2\]</div>
 <p>with:</p>
@@ -178,14 +168,13 @@ This implementation follows Dowd’s publication <a class="footnote-reference" h
 \[x = Z(x_i) - Z(x_{i+h})\]</div>
 <p>where x is exactly the input array x.</p>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td>Dowd, P. A., (1984): The variogram and kriging: Robust and resistant
+<dl class="footnote brackets">
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id8">4</a></span></dt>
+<dd><p>Dowd, P. A., (1984): The variogram and kriging: Robust and resistant
 estimators, in Geostatistics for Natural Resources Characterization.
-Edited by G. Verly et al., pp. 91 - 106, D. Reidel, Dordrecht.</td></tr>
-</tbody>
-</table>
+Edited by G. Verly et al., pp. 91 - 106, D. Reidel, Dordrecht.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -193,7 +182,7 @@ Edited by G. Verly et al., pp. 91 - 106, D. Reidel, Dordrecht.</td></tr>
 <h2>Genton<a class="headerlink" href="#genton" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skgstat.estimators.genton">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">genton</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#genton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.genton" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">genton</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#genton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.genton" title="Permalink to this definition">¶</a></dt>
 <dd><p>Genton robust semi-variance estimator</p>
 <p>Return the Genton semi-variance of the given sample x. Genton is a highly
 robust varigram estimator, that is designed to be location free and
@@ -201,24 +190,23 @@ robust on extreme values in x.
 Genton is based on calculating kth order statistics and will for large
 data sets be close or equal to the 25% quartile of all ordered point pairs
 in X.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.float64</td>
-</tr>
-</tbody>
-</table>
+as an element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>The Genton estimator is described in great detail in the original
-publication <a class="footnote-reference" href="#id11" id="id10">[5]</a> and is defined as:</p>
+publication <a class="footnote-reference brackets" href="#id11" id="id10">5</a> and is defined as:</p>
 <div class="math notranslate nohighlight">
 \[Q_{N_h} = 2.2191\{|V_i(h) - V_j(h)|; i &lt; j\}_{(k)}\]</div>
 <p>and</p>
@@ -234,13 +222,12 @@ will therefore be set to 0.5 and the two binomial coefficients k,
 q are not calculated.</p>
 </div></blockquote>
 <p class="rubric">References</p>
-<table class="docutils footnote" frame="void" id="id11" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[5]</a></td><td>Genton, M. G., (1998): Highly robust variogram estimation,
-Math. Geol., 30, 213 - 221.</td></tr>
-</tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="id11"><span class="brackets"><a class="fn-backref" href="#id10">5</a></span></dt>
+<dd><p>Genton, M. G., (1998): Highly robust variogram estimation,
+Math. Geol., 30, 213 - 221.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -248,38 +235,34 @@ Math. Geol., 30, 213 - 221.</td></tr>
 <h2>Shannon Entropy<a class="headerlink" href="#shannon-entropy" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skgstat.estimators.entropy">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">entropy</code><span class="sig-paren">(</span><em>x</em>, <em>bins=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.entropy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">entropy</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">bins=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shannon Entropy estimator</p>
 <p>Calculates the Shannon Entropy H as a variogram estimator. It is highly
 recommended to calculate the bins and explicitly set them as a list.
 In case this function is called for more than one lag class in a
 variogram, setting bins to None would result in different bin edges in
 each lag class. This would be very difficult to interpret.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</li>
-<li><strong>bins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – list of the bin edges used to calculate the empirical distribution of x.
+as an element.</p></li>
+<li><p><strong>bins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – list of the bin edges used to calculate the empirical distribution of x.
 If bins is a list, these values are used directly. In case bins is a
 integer, as many even width bins will be calculated between the
 minimum and maximum value of x. In case bins is a string, it will be
-passed as bins argument to numpy.histograms function.</li>
+passed as bins argument to numpy.histograms function.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>entropy</strong> – Shannon entropy of the given pairwise differences.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.float64</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>entropy</strong> – Shannon entropy of the given pairwise differences.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 </dd></dl>
 
@@ -287,75 +270,70 @@ passed as bins argument to numpy.histograms function.</li>
 <div class="section" id="minmax">
 <h2>MinMax<a class="headerlink" href="#minmax" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This is an experimental semi-variance estimator. It is heavily influenced
+<p class="admonition-title">Warning</p>
+<p>This is an experimental semi-variance estimator. It is heavily influenced
 by extreme values and outliers. That behaviour is usually not desired in
 geostatistics.</p>
 </div>
 <dl class="function">
 <dt id="skgstat.estimators.minmax">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">minmax</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#minmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.minmax" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">minmax</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#minmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.minmax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Minimum - Maximum Estimator</p>
 <p>Returns a custom value. This estimator is the difference of maximum and
 minimum pairwise differences, normalized by the mean. MinMax will be very
 sensitive to extreme values.</p>
 <p>Do only use this estimator, in case you know what you are doing. It is
 experimental and might change its behaviour in a future version.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.float64</td>
-</tr>
-</tbody>
-</table>
+as an element.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 <div class="section" id="percentile">
 <h2>Percentile<a class="headerlink" href="#percentile" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This is an experimental semi-variance estimator. It uses just a
+<p class="admonition-title">Warning</p>
+<p>This is an experimental semi-variance estimator. It uses just a
 percentile of the given pairwise differences and does not bear any
 information about their variance.</p>
 </div>
 <dl class="function">
 <dt id="skgstat.estimators.percentile">
-<code class="descclassname">skgstat.estimators.</code><code class="descname">percentile</code><span class="sig-paren">(</span><em>x</em>, <em>p=50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#percentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.percentile" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">percentile</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">p=50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#percentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.percentile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Percentile estimator</p>
 <p>Returns a given percentile as semi-variance. Do only use this estimator,
 in case you know what you are doing.</p>
 <p>Do only use this estimator, in case you know what you are doing. It is
 experimental and might change its behaviour in a future version.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.16)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Array of pairwise differences. These values should be the distances
 between pairwise observations in value space. If xi and x[i+h] fall
 into the h separating distance class, x should contain abs(xi - x[i+h])
-as an element.</li>
-<li><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Desired percentile. Should be given as whole numbers 0 &lt; p &lt; 100.</li>
+as an element.</p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Desired percentile. Should be given as whole numbers 0 &lt; p &lt; 100.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.float64</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.float64</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -431,13 +409,11 @@ as an element.</li>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -458,7 +434,7 @@ as an element.</li>
       &copy;2018, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
