@@ -12,7 +12,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Technical Notes" href="../technical/technical.html" />
@@ -65,7 +67,7 @@ correlation apparent.</p>
 <span class="gp">In [8]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
 
 <span class="gp">In [9]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f61cceb3978&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f2f0f133e80&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
@@ -153,28 +155,281 @@ will not be discussed here. If you need them, you are more than welcome
 to implement them. Else you’ll have to wait until I did that.</p>
 </div>
 <p>Binning the separating distances into distance lags is therefore a crucial and
-most important task in a variogram analysis. The final binning shall
+most important task in variogram analysis. The final binning must
 discretizise the distance lag at a meaningful resolution at the scale of
 interest while still holding enough members in the bin to make valid
 estimations. Often this is a trade-off relationship and one has to find a
 suitable compromise.</p>
 <p>Before diving into binning, we have to understand how the
 <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> handles distance data. The
-distance calculation can be controlled by the <code class="docutils literal notranslate"><span class="pre">dist_func</span></code> argument, which
+distance calculation can be controlled by the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">dist_func</span></code> argument, which
 takes either a string or a function. The default value is <cite>‘euclidean’</cite>.
 This value is directly passed down to the
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.</p>
-<p><code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code> has two different methods for binning.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This is not finished. Will continue whenever I can find some time.</p>
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.
+Consequently, the distance data is stores as a distance matrix for all
+input locations passed to <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> on
+instantiation. To be more precise, only the upper triangle is stored
+in an <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code></a> with the distance values sorted
+row-wise. Consider this very straightforward set of locations:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="n">locations</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+<span class="gp">In [18]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">locations</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="gp">In [19]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance</span>
+<span class="gh">Out[19]: </span><span class="go"></span>
+<span class="go">array([1.        , 1.41421356, 1.        , 1.        , 1.41421356,</span>
+<span class="go">       1.        ])</span>
+
+<span class="go"># turn into a 2D matrix again</span>
+<span class="gp">In [20]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
+
+<span class="gp">In [21]: </span><span class="k">print</span><span class="p">(</span><span class="n">squareform</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">distance</span><span class="p">))</span>
+<span class="go">[[0.         1.         1.41421356 1.        ]</span>
+<span class="go"> [1.         0.         1.         1.41421356]</span>
+<span class="go"> [1.41421356 1.         0.         1.        ]</span>
+<span class="go"> [1.         1.41421356 1.         0.        ]]</span>
+</pre></div>
 </div>
+</div>
+<div class="section" id="binning">
+<h3>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h3>
+<p>As already mentioned, in real world observation data, there will hardly
+be two observation location pairs at <em>exactly</em> the same distance.
+Thus, we need to group information about point pairs at <em>similar</em> distance
+together, to learn how similar their observed values are.
+With a <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a>, we will basically try
+to find and describe some systematic statistical behavior from these
+similarities. The process of grouping distance data together is
+called binning.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code> has two different methods for binning distance data.
+They can be set using the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.bin_func" title="skgstat.Variogram.bin_func"><code class="xref py py-func docutils literal notranslate"><span class="pre">bin_func</span></code></a>
+attribute. You have to pass the name of the method.
+This has to be one of <code class="docutils literal notranslate"><span class="pre">['even',</span> <span class="pre">'uniform]</span></code> to use one of the predefined
+binning functions. Both methods will use two parameters to calculate the
+bins from the distance matrix: <code class="docutils literal notranslate"><span class="pre">n</span></code>, the amount of bins,
+and <code class="docutils literal notranslate"><span class="pre">maxlag</span></code>, the maximum distance lag to be considered. You can choose
+both parameters during Variogram instantiation as
+<code class="xref py py-func docutils literal notranslate"><span class="pre">n_lags</span></code> and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">maxlag</span></code>. The <code class="docutils literal notranslate"><span class="pre">'even'</span></code> method will
+then form <code class="docutils literal notranslate"><span class="pre">n</span></code> bins from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">maxlag</span></code> of same width.
+The <code class="docutils literal notranslate"><span class="pre">'uniform'</span></code> method will form <code class="docutils literal notranslate"><span class="pre">n</span></code> bins from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">maxlag</span></code>
+with the same value count in each bin.
+The following example should illustrate this:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="kn">from</span> <span class="nn">skgstat.binning</span> <span class="kn">import</span> <span class="n">even_width_lags</span><span class="p">,</span> <span class="n">uniform_count_lags</span>
+
+<span class="gp">In [23]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
+
+<span class="gp">In [24]: </span><span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="gp">In [25]: </span><span class="n">distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, look at the different bin edges for the calculated dummy
+distance matrix:</p>
+<pre class="literal-block">In [26]: even_width_lags(distances, 10, 250)
+Out[26]: 
+array([ 4.40456304,  8.80912608, 13.21368912, 17.61825216, 22.0228152 ,
+       26.42737824, 30.83194128, 35.23650432, 39.64106736, 44.0456304 ])
+
+In [27]: uniform_count_lags(distances, 10, 250)
+Out[27]: 
+array([ 7.197713  , 10.43150148, 12.3403992 , 15.14677783, 17.69255592,
+       20.38108778, 23.01263935, 26.27844348, 30.64086141, 44.0456304 ])</pre>
 </div>
 <div class="section" id="observation-differences">
 <h3>Observation differences<a class="headerlink" href="#observation-differences" title="Permalink to this headline">¶</a></h3>
+<p>By the term <em>observation differences</em>, the distance between the
+observed values are meant. As already layed out, the main idea of
+a variogram is to systematially relate similarity of observations
+to their spatial proximity. The spatial part was covered in the
+sections above, finalized with the calculation of a suitable
+binning of all distances. We want to relate exactly these bins
+to a measure of similarity of all observation point pairs that
+fall into this bin.</p>
+<p>That’s basically it. We need to do three more steps to come up
+with <em>one</em> value per bin, statistically describing the similarity
+at that distance.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Find all point pairs that fall into a bin</p></li>
+<li><p>Calculate the <em>distance</em> (difference) of the observed values</p></li>
+<li><p>Describe all differences by one number</p></li>
+</ol>
+</div></blockquote>
+<p>Finding all pairs within a bin is straightforward. We already have
+the bin edges and all distances between all possible observation
+point combinations (stored in the distance matrix). Using the
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html#scipy.spatial.distance.squareform" title="(in SciPy v1.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">squareform</span></code></a> function
+of scipy, we <em>could</em> turn the distance matrix into a 2D version.
+Then the row and column indices align with the values indices.
+However, the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> implements
+a method for doing mapping a bit more efficiently.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As of this writing, the actual iterator that yields the group
+number for each point is written in a plain Python loop.
+This is not very fast and in fact the main bottleneck of this class.
+I am evaluating numba, cython or a numpy based solution at the moment
+to gain better performance.</p>
+</div>
+<p>A <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code></a> of bin groups for each point pair that
+is indexed exactly like the <code class="xref py py-func docutils literal notranslate"><span class="pre">distance</span> <span class="pre">&lt;skgstat.Variogram.distance()</span></code>
+array can be obtained by <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_groups" title="skgstat.Variogram.lag_groups"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_groups</span></code></a>.</p>
+<p>This will be illustrated by some sample data (you can find the CSV file
+in the github repository of SciKit-GStat).
+You can easily read the data using pandas.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [28]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="gp">In [29]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample.csv&#39;</span><span class="p">)</span>
+
+<span class="gp">In [30]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+<span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [31]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[31]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/variogram_sample_data.png"><img alt="../_images/variogram_sample_data.png" src="../_images/variogram_sample_data.png" style="width: 8in;" /></a>
+<p>Then, you can compare the first 10 point pairs from the distance matrix
+to the first 10 elements returned by the
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_groups" title="skgstat.Variogram.lag_groups"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_groups</span> <span class="pre">function</span></code></a>.</p>
+<pre class="literal-block"># first 10 distances
+In [32]: V.distance[:10]
+Out[32]: 
+array([20.80865205, 51.4781507 , 27.20294102, 44.72135955, 91.60785992,
+       71.78439942, 87.69264507, 85.44588931, 18.78829423, 23.19482701])
+
+# first 10 groups
+In [33]: V.lag_groups()[:10]
+Out[33]: array([ 3,  9,  5,  8, 17, 13, 16, 16,  3,  4])</pre>
+<p>Now, we need the actual <code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.bins</span></code>
+to verify the grouping.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [34]: </span><span class="n">V</span><span class="o">.</span><span class="n">bins</span>
+<span class="gh">Out[34]: </span><span class="go"></span>
+<span class="go">array([  5.27181183,  10.54362367,  15.8154355 ,  21.08724733,</span>
+<span class="go">        26.35905916,  31.630871  ,  36.90268283,  42.17449466,</span>
+<span class="go">        47.44630649,  52.71811833,  57.98993016,  63.26174199,</span>
+<span class="go">        68.53355383,  73.80536566,  79.07717749,  84.34898932,</span>
+<span class="go">        89.62080116,  94.89261299, 100.16442482, 105.43623666,</span>
+<span class="go">       110.70804849, 115.97986032, 121.25167215, 126.52348399,</span>
+<span class="go">       131.79529582])</span>
+</pre></div>
+</div>
+<p>The first and 9th element are grouped into group <code class="docutils literal notranslate"><span class="pre">3</span></code>. Their values are
+<code class="docutils literal notranslate"><span class="pre">20.8</span></code> and <code class="docutils literal notranslate"><span class="pre">18.8</span></code>. The grouping starts with <code class="docutils literal notranslate"><span class="pre">0</span></code>, therefore the
+corresponding upper bound of the bin is at index <code class="docutils literal notranslate"><span class="pre">3</span></code> and the lower at
+<code class="docutils literal notranslate"><span class="pre">2</span></code>. The bin edges are therefore <code class="docutils literal notranslate"><span class="pre">15.8</span> <span class="pre">&lt;</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">21.07</span></code>.
+Consequently, the binning and grouping worked fine.</p>
+<p>If you want to access all value pairs at a given group, it would of
+course be possible to use the machanism above to find the correct points.
+However, <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">class</span></code></a> offers an iterator
+that already does that for you:
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_classes" title="skgstat.Variogram.lag_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_classes</span></code></a>. This iterator
+will yield all pair-wise observation value differences for the bin
+of the actual iteration. The first iteration (index = 0, if you wish)
+will yield all differences of group id <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_classes" title="skgstat.Variogram.lag_classes"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_classes</span></code></a> will yield
+the difference in value of observation point pairs, not the pairs
+themselves.</p>
+</div>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [35]: </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">lag_classes</span><span class="p">()):</span>
+<span class="gp">   ....: </span>    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[Group </span><span class="si">%d</span><span class="s1">]: </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">group</span><span class="p">)))</span>
+<span class="gp">   ....: </span>
+<span class="go">[Group 0]: 0.41</span>
+<span class="go">[Group 1]: 0.78</span>
+<span class="go">[Group 2]: 1.00</span>
+<span class="go">[Group 3]: 1.12</span>
+<span class="go">[Group 4]: 1.11</span>
+<span class="go">[Group 5]: 1.14</span>
+<span class="go">[Group 6]: 1.17</span>
+<span class="go">[Group 7]: 1.24</span>
+<span class="go">[Group 8]: 1.33</span>
+<span class="go">[Group 9]: 1.31</span>
+<span class="go">[Group 10]: 1.30</span>
+<span class="go">[Group 11]: 1.28</span>
+<span class="go">[Group 12]: 1.17</span>
+<span class="go">[Group 13]: 1.09</span>
+<span class="go">[Group 14]: 1.09</span>
+<span class="go">[Group 15]: 1.16</span>
+<span class="go">[Group 16]: 1.17</span>
+<span class="go">[Group 17]: 1.28</span>
+<span class="go">[Group 18]: 1.17</span>
+<span class="go">[Group 19]: 1.14</span>
+<span class="go">[Group 20]: 1.32</span>
+<span class="go">[Group 21]: 1.36</span>
+<span class="go">[Group 22]: 0.91</span>
+<span class="go">[Group 23]: 2.19</span>
+<span class="go">[Group 24]: 1.09</span>
+</pre></div>
+</div>
+<p>The only thing that is missing for a variogram is that we will not
+use the arithmetic mean to describe the realtionship.</p>
 </div>
 <div class="section" id="experimental-variograms">
 <h3>Experimental variograms<a class="headerlink" href="#experimental-variograms" title="Permalink to this headline">¶</a></h3>
+<p>The last stage before a variogram function can be modeled is to define
+an empirical variogram, also known as <em>experimental variogram</em>, which
+will be used to parameterize a variogram model.
+However, the expermental variogram already contains a lot of information
+about spatial relationships in the data. Therefore, it’s worth looking
+at more closely. Last but not least a poor expermental variogram will
+also affect the variogram model, which is ultimatively used to interpolate
+the input data.</p>
+<p>The previous sections summarized how distance is calculated and handeled
+by the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">class</span></code></a>.
+The <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_groups" title="skgstat.Variogram.lag_groups"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_groups</span> <span class="pre">function</span></code></a> makes it
+possible to find corresponding observation value pairs for all distance
+lags. Finally the last step will be to use a more suitable estimator
+for the similarity of observation values at a specific lag.
+In geostatistics this estimator is called semi-variance and the
+the most popular estimator is called <em>Matheron estimator</em>.
+In case the estimator used is not further specified, Matheron was used.
+It is defined as</p>
+<div class="math notranslate nohighlight">
+\[\gamma (h) = \frac{1}{2N(h)} * \sum_{i=1}^{N(h)}(x)^2\]</div>
+<p>with:</p>
+<div class="math notranslate nohighlight">
+\[x = Z(x_i) - Z(x_{i+h})\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z(x_i)\)</span> is the observation value at the i-th location
+<span class="math notranslate nohighlight">\(x_i\)</span>. <span class="math notranslate nohighlight">\(h\)</span> is the distance lag and <span class="math notranslate nohighlight">\(N(h)\)</span> is the
+number of point pairs at that lag.</p>
+<p>You will find more estimators in <code class="xref py py-mod docutils literal notranslate"><span class="pre">skgstat.estimators</span></code>.
+There is the <a class="reference internal" href="../reference/estimator.html#skgstat.estimators.cressie" title="skgstat.estimators.cressie"><code class="xref py py-func docutils literal notranslate"><span class="pre">Cressie-Hawkins</span></code></a>,
+which is more robust to extreme values. Other so called robust
+estimators are <a class="reference internal" href="../reference/estimator.html#skgstat.estimators.dowd" title="skgstat.estimators.dowd"><code class="xref py py-func docutils literal notranslate"><span class="pre">Dowd</span></code></a> or
+<a class="reference internal" href="../reference/estimator.html#skgstat.estimators.genton" title="skgstat.estimators.genton"><code class="xref py py-func docutils literal notranslate"><span class="pre">Genton</span></code></a>.
+The remaining are experimental estimators and should only be used
+with caution.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [36]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">_a</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+
+<span class="gp">In [37]: </span><span class="n">axes</span> <span class="o">=</span> <span class="n">_a</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="gp">In [38]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[38]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+
+<span class="gp">In [39]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;cressie&#39;</span>
+
+<span class="gp">In [40]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[40]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+
+<span class="gp">In [41]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;dowd&#39;</span>
+
+<span class="gp">In [42]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[42]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+
+<span class="gp">In [43]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;genton&#39;</span>
+
+<span class="gp">In [44]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[44]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+
+<span class="gp">In [45]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/compare_estimators.png"><img alt="../_images/compare_estimators.png" src="../_images/compare_estimators.png" style="width: 8in;" /></a>
 </div>
 </div>
 <div class="section" id="when-direction-matters">
@@ -272,7 +527,7 @@ This value is directly passed down to the
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2018, Mirko Mälicke.
+      &copy;2019, Mirko Mälicke.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
