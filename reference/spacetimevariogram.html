@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>SpaceTimeVariogram class &#8212; SciKit GStat 0.2.5 documentation</title>
+    <title>SpaceTimeVariogram class &#8212; SciKit GStat 0.2.6 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -39,24 +39,11 @@
 <h1>SpaceTimeVariogram class<a class="headerlink" href="#spacetimevariogram-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.SpaceTimeVariogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">model='product-sum'</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="skgstat.SpaceTimeVariogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">model='product-sum'</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="skgstat.SpaceTimeVariogram.build_marginal_variograms">
-<code class="sig-name descname">build_marginal_variograms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.build_marginal_variograms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.build_marginal_variograms" title="Permalink to this definition">¶</a></dt>
-<dd><p>build marginal Variogram classes</p>
-<p>The two marginal variograms for space and time axis will be
-initialized and added to this instance. Both are an instance of
-skgstat.Variogram in order to model them properly. Use these classes
-to well working valid models to the marginal Variograms before
-modeling the space-time model.
-The two objects will be available as SpaceTimeVariogram.XMarginal and
-SpaceTimeVariogram.TMarginal.</p>
 </dd></dl>
 
 <dl class="method">
@@ -216,6 +203,11 @@ the first axis and time over the second axis.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.fitted_model">
+<em class="property">property </em><code class="sig-name descname">fitted_model</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.fitted_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="skgstat.SpaceTimeVariogram.get_marginal">
 <code class="sig-name descname">get_marginal</code><span class="sig-paren">(</span><em class="sig-param">axis</em>, <em class="sig-param">lag=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.get_marginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.get_marginal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marginal Variogram</p>
@@ -284,7 +276,7 @@ of points on the given axis.</p>
 
 <dl class="method">
 <dt id="skgstat.SpaceTimeVariogram.marginals">
-<code class="sig-name descname">marginals</code><span class="sig-paren">(</span><em class="sig-param">plot=True</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">sharey=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.marginals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.marginals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">marginals</code><span class="sig-paren">(</span><em class="sig-param">plot=True</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">sharey=True</em>, <em class="sig-param">include_model=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.marginals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.marginals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot marginal variograms</p>
 <p>Plots the two marginal variograms into a new or existing figure. The
 space marginal variogram is defined to be the variogram of temporal
@@ -304,6 +296,8 @@ which will then be used for plotting.</p></li>
 <li><p><strong>sharey</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True (default), the two marginal variograms will share their
 y-axis to increase comparability. Should be set to False in the
 variances are of different magnitude.</p></li>
+<li><p><strong>include_model</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, the marginal variogram models fitted to the respective
+axis are included into the plot.</p></li>
 <li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Only kwargs accepted is  <code class="docutils literal notranslate"><span class="pre">figsize</span></code>, if ax is None.
 Anything else will be ignored.</p></li>
 </ul>
@@ -455,6 +449,26 @@ support the methods: [‘even’, ‘uniform’]:</p>
 <p class="admonition-title">See also</p>
 <p><code class="xref py py-meth docutils literal notranslate"><span class="pre">skgstat.binning.even_width_lags()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">skgstat.binning.uniform_count_lags()</span></code></p>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skgstat.SpaceTimeVariogram.set_model">
+<code class="sig-name descname">set_model</code><span class="sig-paren">(</span><em class="sig-param">model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set space-time model</p>
+<p>Set a new space-time model. It has to be either a callable of correct
+signature or a string identifying one of the predefined models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_name</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>callable</em>) – <p>Either a callable of correct signature or a valid model name.
+Valid names are:</p>
+<ul class="simple">
+<li><p>sum</p></li>
+<li><p>product</p></li>
+<li><p>product-sum</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
