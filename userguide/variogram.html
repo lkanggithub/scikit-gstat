@@ -67,7 +67,7 @@ correlation apparent.</p>
 <span class="gp">In [8]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
 
 <span class="gp">In [9]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f6950c1fe80&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7fed7a8c3e80&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
@@ -166,7 +166,7 @@ distance calculation can be controlled by the
 <code class="xref py py-func docutils literal notranslate"><span class="pre">dist_func</span></code> argument, which
 takes either a string or a function. The default value is <cite>‘euclidean’</cite>.
 This value is directly passed down to the
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.
 Consequently, the distance data is stores as a distance matrix for all
 input locations passed to <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> on
 instantiation. To be more precise, only the upper triangle is stored
@@ -260,7 +260,7 @@ at that distance.</p>
 <p>Finding all pairs within a bin is straightforward. We already have
 the bin edges and all distances between all possible observation
 point combinations (stored in the distance matrix). Using the
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html#scipy.spatial.distance.squareform" title="(in SciPy v1.3.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">squareform</span></code></a> function
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html#scipy.spatial.distance.squareform" title="(in SciPy v1.3.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">squareform</span></code></a> function
 of scipy, we <em>could</em> turn the distance matrix into a 2D version.
 Then the row and column indices align with the values indices.
 However, the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> implements

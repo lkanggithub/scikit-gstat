@@ -119,13 +119,13 @@ In [12]: ok.mode = 'estimate'
 In [13]: y_e = ok._estimate_matrix(x)
 
 In [14]: plt.plot(x, y_c, '-b', label='exact variogram')
-Out[14]: [&lt;matplotlib.lines.Line2D at 0x7f6953d7ee48&gt;]
+Out[14]: [&lt;matplotlib.lines.Line2D at 0x7fed7ac935c0&gt;]
 
 In [15]: plt.plot(x, y_e, '-g', label='estimated variogram')
-Out[15]: [&lt;matplotlib.lines.Line2D at 0x7f6953d641d0&gt;]
+Out[15]: [&lt;matplotlib.lines.Line2D at 0x7fed7ac93908&gt;]
 
 In [16]: plt.legend(loc='lower right')
-Out[16]: &lt;matplotlib.legend.Legend at 0x7f69546fa7b8&gt;</pre>
+Out[16]: &lt;matplotlib.legend.Legend at 0x7fed7d7a59b0&gt;</pre>
 <a class="reference internal image-reference" href="../_images/krig_compare.png"><img alt="../_images/krig_compare.png" src="../_images/krig_compare.png" style="width: 7in;" /></a>
 <p>There is almost no difference between the two lines and the result that can
 be expected will be very similar, as the kriging equation system will yield
@@ -139,10 +139,10 @@ In [17]: ok.precision = 10
 In [18]: y_e2 = ok._estimate_matrix(x)
 
 In [19]: plt.plot(x, y_c, '-b')
-Out[19]: [&lt;matplotlib.lines.Line2D at 0x7f6953dfff28&gt;]
+Out[19]: [&lt;matplotlib.lines.Line2D at 0x7fed7aca7ef0&gt;]
 
 In [20]: plt.plot(x, y_e2, '-g')
-Out[20]: [&lt;matplotlib.lines.Line2D at 0x7f6953ddb390&gt;]</pre>
+Out[20]: [&lt;matplotlib.lines.Line2D at 0x7fed7aca7240&gt;]</pre>
 <a class="reference internal image-reference" href="../_images/krig_coarse.png"><img alt="../_images/krig_coarse.png" src="../_images/krig_coarse.png" style="width: 7in;" /></a>
 </div>
 </div>
