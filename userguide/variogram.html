@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Variography &#8212; SciKit GStat 0.2.6 documentation</title>
+    <title>Variography &#8212; SciKit GStat 0.2.7 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -69,7 +69,7 @@ correlation apparent.</p>
 <span class="gp">In [9]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
 
 <span class="gp">In [10]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
-<span class="gh">Out[10]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7fba946e7518&gt;</span>
+<span class="gh">Out[10]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f43075eb908&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
@@ -78,21 +78,21 @@ correlation apparent.</p>
 <p>It’s now easy and straightforward to calculate a variogram using
 <code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code>. We need to sample the field and pass the coordinates and
 value to the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">Variogram</span>
+<pre class="literal-block">In [11]: from skgstat import Variogram
 
-<span class="go"># random coordinates</span>
-<span class="gp">In [12]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+# random coordinates
+In [12]: np.random.seed(42)
 
-<span class="gp">In [13]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+In [13]: coords = np.random.randint(0, 500, (300, 2))
 
-<span class="gp">In [14]: </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">z</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+In [14]: values = np.fromiter((z[c[0], c[1]] for c in coords), dtype=float)
 
-<span class="gp">In [15]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+In [15]: V = Variogram(coords, values)
+Warning: normalize will change the default value to False. You can add an SKG_SUPPRESS environment variable to supress this warning.
 
-<span class="gp">In [16]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="gh">Out[16]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
-</pre></div>
-</div>
+In [16]: V.plot()
+Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.
+Out[16]: &lt;Figure size 800x500 with 2 Axes&gt;</pre>
 <a class="reference internal image-reference" href="../_images/var1.png"><img alt="../_images/var1.png" src="../_images/var1.png" style="width: 8in;" /></a>
 <p>From my personal point of view, there are three main issues with this approach:</p>
 <ul class="simple">
@@ -210,7 +210,7 @@ binning functions. Both methods will use two parameters to calculate the
 bins from the distance matrix: <code class="docutils literal notranslate"><span class="pre">n</span></code>, the amount of bins,
 and <code class="docutils literal notranslate"><span class="pre">maxlag</span></code>, the maximum distance lag to be considered. You can choose
 both parameters during Variogram instantiation as
-<code class="xref py py-func docutils literal notranslate"><span class="pre">n_lags</span></code> and
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.n_lags" title="skgstat.Variogram.n_lags"><code class="xref py py-func docutils literal notranslate"><span class="pre">n_lags</span></code></a> and
 <code class="xref py py-func docutils literal notranslate"><span class="pre">maxlag</span></code>. The <code class="docutils literal notranslate"><span class="pre">'even'</span></code> method will
 then form <code class="docutils literal notranslate"><span class="pre">n</span></code> bins from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">maxlag</span></code> of same width.
 The <code class="docutils literal notranslate"><span class="pre">'uniform'</span></code> method will form <code class="docutils literal notranslate"><span class="pre">n</span></code> bins from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">maxlag</span></code>
@@ -288,6 +288,7 @@ You can easily read the data using pandas.</p>
 <span class="gp">   ....: </span>
 
 <span class="gp">In [32]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[32]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
 </pre></div>
 </div>
@@ -405,21 +406,25 @@ with caution.</p>
 <span class="gp">In [38]: </span><span class="n">axes</span> <span class="o">=</span> <span class="n">_a</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
 <span class="gp">In [39]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[39]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
 <span class="gp">In [40]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;cressie&#39;</span>
 
 <span class="gp">In [41]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[41]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
 <span class="gp">In [42]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;dowd&#39;</span>
 
 <span class="gp">In [43]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[43]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
 <span class="gp">In [44]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;genton&#39;</span>
 
 <span class="gp">In [45]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[45]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
 <span class="gp">In [46]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -499,7 +504,7 @@ using a least squares approach.</p>
 <span class="gp">In [56]: </span><span class="n">yi</span> <span class="o">=</span> <span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">spherical</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">*</span><span class="n">cof</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">]</span>
 
 <span class="gp">In [57]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="s1">&#39;og&#39;</span><span class="p">)</span>
-<span class="gh">Out[57]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7fba912b0908&gt;]</span>
+<span class="gh">Out[57]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f4303d3fba8&gt;]</span>
 
 <span class="gp">In [58]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">);</span>
 </pre></div>
@@ -570,6 +575,7 @@ the two models:</p>
 <span class="gp">In [66]: </span><span class="n">V</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">=</span> <span class="s1">&#39;trf&#39;</span>
 
 <span class="gp">In [67]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[67]: </span><span class="go">&lt;Figure size 800x400 with 2 Axes&gt;</span>
 
 <span class="gp">In [68]: </span><span class="n">V</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;exponential&#39;</span>

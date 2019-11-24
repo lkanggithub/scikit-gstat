@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Getting Started &#8212; SciKit GStat 0.2.6 documentation</title>
+    <title>Getting Started &#8212; SciKit GStat 0.2.7 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -61,25 +61,22 @@ random data.</p>
 </div>
 <p>The Variogram needs at least an array of coordinates and an array of values
 on instantiation.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">coordinates</span><span class="o">=</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">)</span>
+<pre class="literal-block">In [9]: V = Variogram(coordinates=coordinates, values=values)
+Warning: normalize will change the default value to False. You can add an SKG_SUPPRESS environment variable to supress this warning.
 
-<span class="gp">In [10]: </span><span class="k">print</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-<span class="go">spherical Variogram</span>
-<span class="gt">-------------------</span>
-<span class="ne">Estimator</span>:         matheron
-        
-<span class="n">Effective</span> <span class="n">Range</span><span class="p">:</span>   <span class="mf">10415.11</span>
-        
-<span class="ne">Sill</span>:              1974.68
-        
-<span class="ne">Nugget</span>:            0.00
-</pre></div>
-</div>
+In [10]: print(V)
+spherical Variogram
+-------------------
+Estimator:         matheron
+        Effective Range:   10415.11
+        Sill:              1974.68
+        Nugget:            0.00</pre>
 </div>
 <div class="section" id="plot">
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h2>
 <p>The Variogram class has its own plotting method.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[11]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
 </pre></div>
 </div>
@@ -90,6 +87,7 @@ step classes to <cite>‘uniform’</cite> distribution in the lag classes.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [12]: </span><span class="n">V</span><span class="o">.</span><span class="n">set_bin_func</span><span class="p">(</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
 
 <span class="gp">In [13]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
 <span class="gh">Out[13]: </span><span class="go">&lt;Figure size 800x400 with 1 Axes&gt;</span>
 </pre></div>
 </div>

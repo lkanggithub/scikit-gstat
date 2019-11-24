@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Kriging estimate mode &#8212; SciKit GStat 0.2.6 documentation</title>
+    <title>Kriging estimate mode &#8212; SciKit GStat 0.2.7 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -119,13 +119,13 @@ In [12]: ok.mode = 'estimate'
 In [13]: y_e = ok._estimate_matrix(x)
 
 In [14]: plt.plot(x, y_c, '-b', label='exact variogram')
-Out[14]: [&lt;matplotlib.lines.Line2D at 0x7fba9476feb8&gt;]
+Out[14]: [&lt;matplotlib.lines.Line2D at 0x7f4306b90b70&gt;]
 
 In [15]: plt.plot(x, y_e, '-g', label='estimated variogram')
-Out[15]: [&lt;matplotlib.lines.Line2D at 0x7fba9477e240&gt;]
+Out[15]: [&lt;matplotlib.lines.Line2D at 0x7f4306b90eb8&gt;]
 
 In [16]: plt.legend(loc='lower right')
-Out[16]: &lt;matplotlib.legend.Legend at 0x7fba950ec080&gt;</pre>
+Out[16]: &lt;matplotlib.legend.Legend at 0x7f430745c940&gt;</pre>
 <a class="reference internal image-reference" href="../_images/krig_compare.png"><img alt="../_images/krig_compare.png" src="../_images/krig_compare.png" style="width: 7in;" /></a>
 <p>There is almost no difference between the two lines and the result that can
 be expected will be very similar, as the kriging equation system will yield
@@ -139,10 +139,10 @@ In [17]: ok.precision = 10
 In [18]: y_e2 = ok._estimate_matrix(x)
 
 In [19]: plt.plot(x, y_c, '-b')
-Out[19]: [&lt;matplotlib.lines.Line2D at 0x7fba9477edd8&gt;]
+Out[19]: [&lt;matplotlib.lines.Line2D at 0x7f43041a8a90&gt;]
 
 In [20]: plt.plot(x, y_e2, '-g')
-Out[20]: [&lt;matplotlib.lines.Line2D at 0x7fba9469a5c0&gt;]</pre>
+Out[20]: [&lt;matplotlib.lines.Line2D at 0x7f43041a8e48&gt;]</pre>
 <a class="reference internal image-reference" href="../_images/krig_coarse.png"><img alt="../_images/krig_coarse.png" src="../_images/krig_coarse.png" style="width: 7in;" /></a>
 </div>
 </div>

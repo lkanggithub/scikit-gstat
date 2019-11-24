@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Changelog &#8212; SciKit GStat 0.2.6 documentation</title>
+    <title>Changelog &#8212; SciKit GStat 0.2.7 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -39,7 +39,31 @@
 <div class="section" id="version-0-2-7">
 <h2>Version 0.2.7<a class="headerlink" href="#version-0-2-7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li></li>
+<li><p>[Kriging] Little performance gains due to code cleanup.</p></li>
+<li><p>[Variogram] The <cite>normalize=True</cite> default in <cite>__init__</cite> will change to
+<cite>normalize=False</cite> in a future version. A DeprecationWarning was included.</p></li>
+<li><p>[tests] The Variogram class fitting unit tests are now explicitly setting
+the normalize parameter to handle the future deprecation.</p></li>
+<li><p>[tests] More unittests were added to increase coverage</p></li>
+<li><p>[interfaces] The new submodule <cite>skgstat.interfaces</cite> is introduced. This
+submodule collects interfacing classes to use skgstat classes with other
+Python modules.</p></li>
+<li><p>[interfaces] The first interfacing class is the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">VariogramEstimator</span></code>. This
+is a scikit-learn compatible <cite>Estimator</cite> class that can wrap a <cite>Variogram</cite>.
+The intended usage is to find variogram hyper-parameters using <cite>GridSearchCV</cite>.
+This is also the only usecase covered in the unit tests.</p></li>
+<li><p>[interfaces] Implemented
+<code class="xref py py-func docutils literal notranslate"><span class="pre">pykrige_as_kwargs</span></code>.
+Pass a <a class="reference internal" href="reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> object and a dict of parameters
+is returned that can be passed to pykrige Kriging classes using the double
+star operator.</p></li>
+<li><p>Added Dockerfile. You can now build a docker container with scikit-gstat
+installed in a miniconda environment. On run, a jupyter server is exposed on
+Port 8888. In a future release, this server will serve tutorial notebooks.</p></li>
+<li><p>[stmodels] small bugfix in product model</p></li>
+<li><p>[stmodels] removed variogram wrapper and added stvariogram wrapper to
+correctly detect space and time lags</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-2-6">
