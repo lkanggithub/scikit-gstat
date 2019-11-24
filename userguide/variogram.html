@@ -17,7 +17,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Technical Notes" href="../technical/technical.html" />
+    <link rel="next" title="Interpolation" href="kriging.html" />
     <link rel="prev" title="Introduction" href="introduction.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -50,24 +50,26 @@ correlation apparent.</p>
 <span class="gp">In [2]: </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="gp">In [3]: </span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+
+<span class="gp">In [4]: </span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 </pre></div>
 </div>
 <p>This field could look like</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># apply the function to a meshgrid and add noise</span>
-<span class="gp">In [4]: </span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">]</span>
+<span class="gp">In [5]: </span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span><span class="mi">500j</span><span class="p">]</span>
 
-<span class="gp">In [5]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">In [6]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="go"># generate a regular field</span>
-<span class="gp">In [6]: </span><span class="n">_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">10</span>
+<span class="gp">In [7]: </span><span class="n">_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">10</span>
 
 <span class="go"># add noise</span>
-<span class="gp">In [7]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">In [8]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="gp">In [8]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
+<span class="gp">In [9]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
 
-<span class="gp">In [9]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7fed7a8c3e80&gt;</span>
+<span class="gp">In [10]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
+<span class="gh">Out[10]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7fba946e7518&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
@@ -76,19 +78,19 @@ correlation apparent.</p>
 <p>It’s now easy and straightforward to calculate a variogram using
 <code class="docutils literal notranslate"><span class="pre">scikit-gstat</span></code>. We need to sample the field and pass the coordinates and
 value to the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a>.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">Variogram</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">Variogram</span>
 
 <span class="go"># random coordinates</span>
-<span class="gp">In [11]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">In [12]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="gp">In [12]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">In [13]: </span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-<span class="gp">In [13]: </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">z</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">In [14]: </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">((</span><span class="n">z</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
-<span class="gp">In [14]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">In [15]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
 
-<span class="gp">In [15]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="gh">Out[15]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
+<span class="gp">In [16]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[16]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/var1.png"><img alt="../_images/var1.png" src="../_images/var1.png" style="width: 8in;" /></a>
@@ -136,8 +138,8 @@ This becomes obvious, when one plots the difference in value over the
 distance for all point pair combinations that can be formed for a given sample.
 The <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> has a function for that:
 <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.distance_difference_plot" title="skgstat.Variogram.distance_difference_plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">distance_difference_plot</span></code></a>:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance_difference_plot</span><span class="p">()</span>
-<span class="gh">Out[16]: </span><span class="go">&lt;Figure size 800x600 with 1 Axes&gt;</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance_difference_plot</span><span class="p">()</span>
+<span class="gh">Out[17]: </span><span class="go">&lt;Figure size 800x600 with 1 Axes&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/dist_diff_plot.png"><img alt="../_images/dist_diff_plot.png" src="../_images/dist_diff_plot.png" style="width: 8in;" /></a>
@@ -166,29 +168,27 @@ distance calculation can be controlled by the
 <code class="xref py py-func docutils literal notranslate"><span class="pre">dist_func</span></code> argument, which
 takes either a string or a function. The default value is <cite>‘euclidean’</cite>.
 This value is directly passed down to the
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html#scipy.spatial.distance.pdist" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pdist</span></code></a> as the <cite>metric</cite> argument.
 Consequently, the distance data is stores as a distance matrix for all
 input locations passed to <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> on
 instantiation. To be more precise, only the upper triangle is stored
 in an <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code></a> with the distance values sorted
 row-wise. Consider this very straightforward set of locations:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [17]: </span><span class="n">locations</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [18]: </span><span class="n">locations</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
 
-<span class="gp">In [18]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">locations</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">In [19]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">locations</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="gp">In [19]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance</span>
-<span class="gh">Out[19]: </span><span class="go"></span>
-<span class="go">array([1.        , 1.41421356, 1.        , 1.        , 1.41421356,</span>
-<span class="go">       1.        ])</span>
+<span class="gp">In [20]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance</span>
+<span class="gh">Out[20]: </span><span class="go">array([1.   , 1.414, 1.   , 1.   , 1.414, 1.   ])</span>
 
 <span class="go"># turn into a 2D matrix again</span>
-<span class="gp">In [20]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
+<span class="gp">In [21]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
 
-<span class="gp">In [21]: </span><span class="k">print</span><span class="p">(</span><span class="n">squareform</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">distance</span><span class="p">))</span>
-<span class="go">[[0.         1.         1.41421356 1.        ]</span>
-<span class="go"> [1.         0.         1.         1.41421356]</span>
-<span class="go"> [1.41421356 1.         0.         1.        ]</span>
-<span class="go"> [1.         1.41421356 1.         0.        ]]</span>
+<span class="gp">In [22]: </span><span class="k">print</span><span class="p">(</span><span class="n">squareform</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">distance</span><span class="p">))</span>
+<span class="go">[[0.    1.    1.414 1.   ]</span>
+<span class="go"> [1.    0.    1.    1.414]</span>
+<span class="go"> [1.414 1.    0.    1.   ]</span>
+<span class="go"> [1.    1.414 1.    0.   ]]</span>
 </pre></div>
 </div>
 </div>
@@ -216,26 +216,26 @@ then form <code class="docutils literal notranslate"><span class="pre">n</span><
 The <code class="docutils literal notranslate"><span class="pre">'uniform'</span></code> method will form <code class="docutils literal notranslate"><span class="pre">n</span></code> bins from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">maxlag</span></code>
 with the same value count in each bin.
 The following example should illustrate this:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="kn">from</span> <span class="nn">skgstat.binning</span> <span class="kn">import</span> <span class="n">even_width_lags</span><span class="p">,</span> <span class="n">uniform_count_lags</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [23]: </span><span class="kn">from</span> <span class="nn">skgstat.binning</span> <span class="kn">import</span> <span class="n">even_width_lags</span><span class="p">,</span> <span class="n">uniform_count_lags</span>
 
-<span class="gp">In [23]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
+<span class="gp">In [24]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
 
-<span class="gp">In [24]: </span><span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">In [25]: </span><span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-<span class="gp">In [25]: </span><span class="n">distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+<span class="gp">In [26]: </span><span class="n">distances</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now, look at the different bin edges for the calculated dummy
 distance matrix:</p>
-<pre class="literal-block">In [26]: even_width_lags(distances, 10, 250)
-Out[26]: 
-array([ 4.40456304,  8.80912608, 13.21368912, 17.61825216, 22.0228152 ,
-       26.42737824, 30.83194128, 35.23650432, 39.64106736, 44.0456304 ])
-
-In [27]: uniform_count_lags(distances, 10, 250)
+<pre class="literal-block">In [27]: even_width_lags(distances, 10, 250)
 Out[27]: 
-array([ 7.197713  , 10.43150148, 12.3403992 , 15.14677783, 17.69255592,
-       20.38108778, 23.01263935, 26.27844348, 30.64086141, 44.0456304 ])</pre>
+array([ 4.405,  8.809, 13.214, 17.618, 22.023, 26.427, 30.832, 35.237,
+       39.641, 44.046])
+
+In [28]: uniform_count_lags(distances, 10, 250)
+Out[28]: 
+array([ 7.198, 10.432, 12.34 , 15.147, 17.693, 20.381, 23.013, 26.278,
+       30.641, 44.046])</pre>
 </div>
 <div class="section" id="observation-differences">
 <h3>Observation differences<a class="headerlink" href="#observation-differences" title="Permalink to this headline">¶</a></h3>
@@ -260,7 +260,7 @@ at that distance.</p>
 <p>Finding all pairs within a bin is straightforward. We already have
 the bin edges and all distances between all possible observation
 point combinations (stored in the distance matrix). Using the
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html#scipy.spatial.distance.squareform" title="(in SciPy v1.3.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">squareform</span></code></a> function
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.squareform.html#scipy.spatial.distance.squareform" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">squareform</span></code></a> function
 of scipy, we <em>could</em> turn the distance matrix into a 2D version.
 Then the row and column indices align with the values indices.
 However, the <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> implements
@@ -279,16 +279,16 @@ array can be obtained by <a class="reference internal" href="../reference/variog
 <p>This will be illustrated by some sample data (you can find the CSV file
 in the github repository of SciKit-GStat).
 You can easily read the data using pandas.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [28]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [29]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 
-<span class="gp">In [29]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample.csv&#39;</span><span class="p">)</span>
+<span class="gp">In [30]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample_sr.csv&#39;</span><span class="p">)</span>
 
-<span class="gp">In [30]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
-<span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">In [31]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+<span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
 <span class="gp">   ....: </span>
 
-<span class="gp">In [31]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="gh">Out[31]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
+<span class="gp">In [32]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[32]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/variogram_sample_data.png"><img alt="../_images/variogram_sample_data.png" src="../_images/variogram_sample_data.png" style="width: 8in;" /></a>
@@ -296,25 +296,21 @@ You can easily read the data using pandas.</p>
 to the first 10 elements returned by the
 <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram.lag_groups" title="skgstat.Variogram.lag_groups"><code class="xref py py-func docutils literal notranslate"><span class="pre">lag_groups</span> <span class="pre">function</span></code></a>.</p>
 <pre class="literal-block"># first 10 distances
-In [32]: V.distance[:10]
-Out[32]: 
-array([20.80865205, 51.4781507 , 27.20294102, 44.72135955, 91.60785992,
-       71.78439942, 87.69264507, 85.44588931, 18.78829423, 23.19482701])
+In [33]: V.distance[:10]
+Out[33]: 
+array([20.809, 51.478, 27.203, 44.721, 91.608, 71.784, 87.693, 85.446,
+       18.788, 23.195])
 
 # first 10 groups
-In [33]: V.lag_groups()[:10]
-Out[33]: array([ 3,  9,  5,  8, 17, 13, 16, 16,  3,  4])</pre>
+In [34]: V.lag_groups()[:10]
+Out[34]: array([ 8, 21, 11, 18, -1, -1, -1, -1,  7,  9])</pre>
 <p>Now, we need the actual <code class="xref py py-func docutils literal notranslate"><span class="pre">Variogram.bins</span></code>
 to verify the grouping.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [34]: </span><span class="n">V</span><span class="o">.</span><span class="n">bins</span>
-<span class="gh">Out[34]: </span><span class="go"></span>
-<span class="go">array([  5.27181183,  10.54362367,  15.8154355 ,  21.08724733,</span>
-<span class="go">        26.35905916,  31.630871  ,  36.90268283,  42.17449466,</span>
-<span class="go">        47.44630649,  52.71811833,  57.98993016,  63.26174199,</span>
-<span class="go">        68.53355383,  73.80536566,  79.07717749,  84.34898932,</span>
-<span class="go">        89.62080116,  94.89261299, 100.16442482, 105.43623666,</span>
-<span class="go">       110.70804849, 115.97986032, 121.25167215, 126.52348399,</span>
-<span class="go">       131.79529582])</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [35]: </span><span class="n">V</span><span class="o">.</span><span class="n">bins</span>
+<span class="gh">Out[35]: </span><span class="go"></span>
+<span class="go">array([ 2.4,  4.8,  7.2,  9.6, 12. , 14.4, 16.8, 19.2, 21.6, 24. , 26.4,</span>
+<span class="go">       28.8, 31.2, 33.6, 36. , 38.4, 40.8, 43.2, 45.6, 48. , 50.4, 52.8,</span>
+<span class="go">       55.2, 57.6, 60. ])</span>
 </pre></div>
 </div>
 <p>The first and 9th element are grouped into group <code class="docutils literal notranslate"><span class="pre">3</span></code>. Their values are
@@ -336,34 +332,34 @@ will yield all differences of group id <code class="docutils literal notranslate
 the difference in value of observation point pairs, not the pairs
 themselves.</p>
 </div>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [35]: </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">lag_classes</span><span class="p">()):</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [36]: </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">lag_classes</span><span class="p">()):</span>
 <span class="gp">   ....: </span>    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[Group </span><span class="si">%d</span><span class="s1">]: </span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">group</span><span class="p">)))</span>
 <span class="gp">   ....: </span>
-<span class="go">[Group 0]: 0.41</span>
-<span class="go">[Group 1]: 0.78</span>
-<span class="go">[Group 2]: 1.00</span>
-<span class="go">[Group 3]: 1.12</span>
-<span class="go">[Group 4]: 1.11</span>
-<span class="go">[Group 5]: 1.14</span>
-<span class="go">[Group 6]: 1.17</span>
-<span class="go">[Group 7]: 1.24</span>
-<span class="go">[Group 8]: 1.33</span>
-<span class="go">[Group 9]: 1.31</span>
-<span class="go">[Group 10]: 1.30</span>
-<span class="go">[Group 11]: 1.28</span>
-<span class="go">[Group 12]: 1.17</span>
-<span class="go">[Group 13]: 1.09</span>
-<span class="go">[Group 14]: 1.09</span>
-<span class="go">[Group 15]: 1.16</span>
-<span class="go">[Group 16]: 1.17</span>
-<span class="go">[Group 17]: 1.28</span>
-<span class="go">[Group 18]: 1.17</span>
-<span class="go">[Group 19]: 1.14</span>
-<span class="go">[Group 20]: 1.32</span>
-<span class="go">[Group 21]: 1.36</span>
-<span class="go">[Group 22]: 0.91</span>
-<span class="go">[Group 23]: 2.19</span>
-<span class="go">[Group 24]: 1.09</span>
+<span class="go">[Group 0]: 0.27</span>
+<span class="go">[Group 1]: 0.43</span>
+<span class="go">[Group 2]: 0.65</span>
+<span class="go">[Group 3]: 0.80</span>
+<span class="go">[Group 4]: 0.84</span>
+<span class="go">[Group 5]: 1.00</span>
+<span class="go">[Group 6]: 1.11</span>
+<span class="go">[Group 7]: 1.14</span>
+<span class="go">[Group 8]: 1.10</span>
+<span class="go">[Group 9]: 1.11</span>
+<span class="go">[Group 10]: 1.13</span>
+<span class="go">[Group 11]: 1.15</span>
+<span class="go">[Group 12]: 1.12</span>
+<span class="go">[Group 13]: 1.14</span>
+<span class="go">[Group 14]: 1.18</span>
+<span class="go">[Group 15]: 1.25</span>
+<span class="go">[Group 16]: 1.23</span>
+<span class="go">[Group 17]: 1.24</span>
+<span class="go">[Group 18]: 1.31</span>
+<span class="go">[Group 19]: 1.38</span>
+<span class="go">[Group 20]: 1.33</span>
+<span class="go">[Group 21]: 1.29</span>
+<span class="go">[Group 22]: 1.27</span>
+<span class="go">[Group 23]: 1.31</span>
+<span class="go">[Group 24]: 1.32</span>
 </pre></div>
 </div>
 <p>The only thing that is missing for a variogram is that we will not
@@ -404,32 +400,221 @@ estimators are <a class="reference internal" href="../reference/estimator.html#s
 <a class="reference internal" href="../reference/estimator.html#skgstat.estimators.genton" title="skgstat.estimators.genton"><code class="xref py py-func docutils literal notranslate"><span class="pre">Genton</span></code></a>.
 The remaining are experimental estimators and should only be used
 with caution.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [36]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">_a</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [37]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">_a</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
 
-<span class="gp">In [37]: </span><span class="n">axes</span> <span class="o">=</span> <span class="n">_a</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="gp">In [38]: </span><span class="n">axes</span> <span class="o">=</span> <span class="n">_a</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-<span class="gp">In [38]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="gh">Out[38]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+<span class="gp">In [39]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[39]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
-<span class="gp">In [39]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;cressie&#39;</span>
+<span class="gp">In [40]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;cressie&#39;</span>
 
-<span class="gp">In [40]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="gh">Out[40]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+<span class="gp">In [41]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[41]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
-<span class="gp">In [41]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;dowd&#39;</span>
+<span class="gp">In [42]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;dowd&#39;</span>
 
-<span class="gp">In [42]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="gh">Out[42]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+<span class="gp">In [43]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[43]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
-<span class="gp">In [43]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;genton&#39;</span>
+<span class="gp">In [44]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;genton&#39;</span>
 
-<span class="gp">In [44]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="gh">Out[44]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
+<span class="gp">In [45]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[45]: </span><span class="go">&lt;Figure size 800x800 with 4 Axes&gt;</span>
 
-<span class="gp">In [45]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="gp">In [46]: </span><span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/compare_estimators.png"><img alt="../_images/compare_estimators.png" src="../_images/compare_estimators.png" style="width: 8in;" /></a>
+</div>
+<div class="section" id="variogram-models">
+<h3>Variogram models<a class="headerlink" href="#variogram-models" title="Permalink to this headline">¶</a></h3>
+<p>The last step to describe the spatial pattern in a data set
+using variograms is to model the empirically observed and calculated
+experimental variogram with a proper mathematical function.
+Technically, this setp is straightforward. We need to define a
+function that takes a distance value (not a lag) and returns
+a semi-variance value. One big advantage of these models is, that we
+can assure different things, like positive definitenes. Most models
+are also monotonically increasing and approach an upper bound.
+Usually these models need three parameters to fit to the experimental
+variogram. All three parameters have a meaning and are usefull
+to learn something about the data. This upper bound a model approaches
+is called <em>sill</em>. The distance at which 95% of the sill are approached
+is called the <em>range</em>. That means, the range is the distance at which
+observation values do <strong>not</strong> become more dissimilar with increasing
+distance. They are statistically independent. That also means, it doesn’t
+make any sense to further describe spatial relationships of observations
+further apart with means of geostatistics. The last parameter is the <em>nugget</em>.
+It is used to add semi-variance to all values. Graphically that means to
+<em>move the variogram up on the y-axis</em>. The nugget is the semi-variance modeled
+on the 0-distance lag. Compared to the sill it is the share of variance that
+can not be described spatially.</p>
+<div class="section" id="the-spherical-model">
+<h4>The spherical model<a class="headerlink" href="#the-spherical-model" title="Permalink to this headline">¶</a></h4>
+<p>The sperical model is the most commonly used variogram model.
+It is characterized by a very steep, exponential increase in semi-variance.
+That means it approaches the sill quite quickly. It can be used when
+observations show strong dependency on short distances.
+It is defined like:</p>
+<div class="math notranslate nohighlight">
+\[\gamma = b + C_0 * \left({1.5*\frac{h}{r} - 0.5*\frac{h}{r}^3}\right)\]</div>
+<p>if h &lt; r, and</p>
+<div class="math notranslate nohighlight">
+\[\gamma = b + C_0\]</div>
+<p>else. <code class="docutils literal notranslate"><span class="pre">b</span></code> is the nugget, :math:<code class="docutils literal notranslate"><span class="pre">C_0</span></code> is the sill, <code class="docutils literal notranslate"><span class="pre">h</span></code> is the input
+distance lag and <code class="docutils literal notranslate"><span class="pre">r</span></code> is the effective range. That is the range parameter
+described above, that describes the correlation length.
+Many other variogram model implementations might define the range parameter,
+which is a variogram parameter. This is a bit confusing, as the range parameter
+is specific to the used model. Therefore I decided to directly use the
+<em>effective range</em> as a parameter, as that makes more sense in my opinion.</p>
+<p>As we already calculated an experimental variogram and find the spherical
+model in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">skgstat.models</span></code> sub-module, we can utilize e.g.
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit" title="(in SciPy v1.3.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">curve_fit</span></code></a> from scipy to fit the model
+using a least squares approach.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [47]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="go"># set estimator back</span>
+<span class="gp">In [48]: </span><span class="n">V</span><span class="o">.</span><span class="n">estimator</span> <span class="o">=</span> <span class="s1">&#39;matheron&#39;</span>
+
+<span class="gp">In [49]: </span><span class="n">V</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;spherical&#39;</span>
+
+<span class="gp">In [50]: </span><span class="n">xdata</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">bins</span>
+
+<span class="gp">In [51]: </span><span class="n">ydata</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">experimental</span>
+
+<span class="gp">In [52]: </span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="gp">In [53]: </span><span class="n">cof</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span><span class="n">curve_fit</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">spherical</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, <em>cof</em> are now the coefficients found to fit the model to the data.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [54]: </span><span class="n">pprint</span><span class="p">(</span><span class="s2">&quot;range: </span><span class="si">%.2f</span><span class="se">\n</span><span class="s2">sill: %.f</span><span class="se">\n</span><span class="s2">nugget: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cof</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cof</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cof</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="go">&#39;range: 1.00\nsill: 102\nnugget: -100.87&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [55]: </span><span class="n">xi</span> <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xdata</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xdata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="gp">In [56]: </span><span class="n">yi</span> <span class="o">=</span> <span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">spherical</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">*</span><span class="n">cof</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">]</span>
+
+<span class="gp">In [57]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="s1">&#39;og&#39;</span><span class="p">)</span>
+<span class="gh">Out[57]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7fba912b0908&gt;]</span>
+
+<span class="gp">In [58]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/manual_fitted_variogram.png"><img alt="../_images/manual_fitted_variogram.png" src="../_images/manual_fitted_variogram.png" style="width: 8in;" /></a>
+<p>The <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span> <span class="pre">Class</span></code></a> does in principle the
+same thing. The only difference is that it tries to find a good
+initial guess for the parameters and limits the search space for
+parameters. That should make the fitting more robust.
+Technically, we used the Levenberg-Marquardt algorithm above.
+<a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a> can be forced to use the same
+by setting the <code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram.fit_method</span></code>
+to ‘lm’. The default, however, is ‘trf’, which is the <em>Trust Region Reflective</em>
+algorithm, the bounded fit with initial guesses described above.
+You can use it like:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [59]: </span><span class="n">V</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">=</span><span class="s1">&#39;trf&#39;</span>
+
+<span class="gp">In [60]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+
+<span class="gp">In [61]: </span><span class="n">pprint</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="go">{&#39;effective_range&#39;: 36.78585313528298,</span>
+<span class="go"> &#39;estimator&#39;: &#39;matheron&#39;,</span>
+<span class="go"> &#39;name&#39;: &#39;spherical&#39;,</span>
+<span class="go"> &#39;nugget&#39;: 0,</span>
+<span class="go"> &#39;sill&#39;: 1.2473949087006804}</span>
+
+<span class="gp">In [62]: </span><span class="n">V</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">=</span><span class="s1">&#39;lm&#39;</span>
+
+<span class="gp">In [63]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+
+<span class="gp">In [64]: </span><span class="n">pprint</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="go">{&#39;effective_range&#39;: 36.78585313528298,</span>
+<span class="go"> &#39;estimator&#39;: &#39;matheron&#39;,</span>
+<span class="go"> &#39;name&#39;: &#39;spherical&#39;,</span>
+<span class="go"> &#39;nugget&#39;: 0,</span>
+<span class="go"> &#39;sill&#39;: 1.2473949087006804}</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/trf_automatic_fit.png"><img alt="../_images/trf_automatic_fit.png" src="../_images/trf_automatic_fit.png" style="width: 8in;" /></a>
+<a class="reference internal image-reference" href="../_images/lm_automatic_fit.png"><img alt="../_images/lm_automatic_fit.png" src="../_images/lm_automatic_fit.png" style="width: 8in;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this example, the fitting method does not make a difference
+at all. Generally, you can say that Levenberg-Marquardt is faster
+and TRF is more robust.</p>
+</div>
+</div>
+<div class="section" id="exponential-model">
+<h4>Exponential model<a class="headerlink" href="#exponential-model" title="Permalink to this headline">¶</a></h4>
+<p>The exponential model is quite similar to the spherical one.
+It models semi-variance values to increase exponentially with
+distance, like the spherical. The main difference is that this
+increase is not as steep as for the spherical. That means, the
+effective range is larger for an exponential model, that was
+parameterized with the same range parameter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remember that SciKit-GStat uses the <em>effective range</em>
+to overcome this confusing behaviour.</p>
+</div>
+<p>Consequently, the exponential can be used for data that shows a way
+too large spatial correlation extent for a spherical model to
+capture.</p>
+<p>Applied to the data used so far, you can see the similarity between
+the two models:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [65]: </span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="gp">In [66]: </span><span class="n">V</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">=</span> <span class="s1">&#39;trf&#39;</span>
+
+<span class="gp">In [67]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gh">Out[67]: </span><span class="go">&lt;Figure size 800x400 with 2 Axes&gt;</span>
+
+<span class="gp">In [68]: </span><span class="n">V</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;exponential&#39;</span>
+
+<span class="gp">In [69]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="o">=</span><span class="bp">False</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/compare_spherical_exponential.png"><img alt="../_images/compare_spherical_exponential.png" src="../_images/compare_spherical_exponential.png" style="width: 8in;" /></a>
+</div>
+<div class="section" id="gaussian-model">
+<h4>Gaussian model<a class="headerlink" href="#gaussian-model" title="Permalink to this headline">¶</a></h4>
+<p>The last fundamental variogram model is the Gaussian.
+Unlike the spherical and exponential models a very different
+spatial relationship between semi-variance and distance.
+Following the Gaussian model, observations are assumed to
+be similar up to intermediate distances, showing just a
+gentle increase in semi-variance. Then, the semi-variance
+increases dramatically wihtin just a few distance units up
+to the sill, which is again approached asymtotically.
+The model can be used to simulate very sudden and sharp
+changes in the variable at a specific distance,
+while being very similar at smaller distances.</p>
+<p>To show a typical Gaussian model, we will load another
+sample dataset.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [70]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample_lr.csv&#39;</span><span class="p">)</span>
+
+<span class="gp">In [71]: </span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+<span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [72]: </span><span class="n">Vg</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/sample_data_gaussian_model.png"><img alt="../_images/sample_data_gaussian_model.png" src="../_images/sample_data_gaussian_model.png" style="width: 8in;" /></a>
+</div>
+<div class="section" id="matern-model">
+<h4>Matérn model<a class="headerlink" href="#matern-model" title="Permalink to this headline">¶</a></h4>
+<p>One of the not so commonly used models is the Matérn model.
+It is nevertheless implemented into scikit-gstat as it is one
+of the most powerful models. Especially in cases where you cannot
+chose the appropiate model a priori so easily.
+The Matérn model takes an additional smoothness paramter, that can
+change the shape of the function in between an exponential
+model shape and a Gaussian one.</p>
+</div>
 </div>
 </div>
 <div class="section" id="when-direction-matters">
@@ -479,6 +664,7 @@ with caution.</p>
 <li class="toctree-l3"><a class="reference internal" href="#space-time-variography">Space-time variography</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="kriging.html">Interpolation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
@@ -490,7 +676,7 @@ with caution.</p>
 <hr />
 <ul>
     
-    <li class="toctree-l1"><a href="SciKitGStat.pdf">Download PDF</a></li>
+    <li class="toctree-l1"><a href="https://mmaelicke.github.io/scikit-gstat/SciKitGStat.pdf">Download PDF</a></li>
     
 </ul>
 <div class="relations">
@@ -499,7 +685,7 @@ with caution.</p>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="userguide.html">User Guide</a><ul>
       <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
-      <li>Next: <a href="../technical/technical.html" title="next chapter">Technical Notes</a></li>
+      <li>Next: <a href="kriging.html" title="next chapter">Interpolation</a></li>
   </ul></li>
   </ul></li>
 </ul>
