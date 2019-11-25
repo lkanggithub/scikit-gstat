@@ -62,7 +62,8 @@ random data.</p>
 <p>The Variogram needs at least an array of coordinates and an array of values
 on instantiation.</p>
 <pre class="literal-block">In [9]: V = Variogram(coordinates=coordinates, values=values)
-Warning: normalize will change the default value to False. You can add an SKG_SUPPRESS environment variable to supress this warning.
+Warning: normalize will change the default value to False. You can add a SKG_SUPPRESS environment variable to suppress this warning.
+Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
 
 In [10]: print(V)
 spherical Variogram

@@ -189,9 +189,14 @@
 <span class="sd">            this kind of works so far, but will be rewritten (and documented)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">normalize</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="c1"># deprecation warnings</span>
+        <span class="k">if</span> <span class="n">normalize</span> <span class="ow">and</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># pragma: no cover</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: normalize will change the default value </span><span class="se">\</span>
-<span class="s1">to False. You can add an SKG_SUPPRESS environment variable to supress this warning.&#39;</span><span class="p">)</span>
+<span class="s1">to False. You can add a SKG_SUPPRESS environment variable to suppress this warning.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &#39;harmonize&#39; is deprecated and will be removed</span><span class="se">\</span>
+<span class="s2">with the next release. You can add a &#39;SKG_SUPPRESS&#39; environment variable to </span><span class="se">\</span>
+<span class="s2">suppress this warning.&quot;</span><span class="p">)</span>
         
         <span class="c1"># Set coordinates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>

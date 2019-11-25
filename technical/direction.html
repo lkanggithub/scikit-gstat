@@ -198,13 +198,13 @@ In [23]: loc = DV.local_reference_system(poi=0)
 In [24]: fig, ax = plt.subplots(1, 1, figsize=(6, 6))
 
 In [25]: ax.scatter(coords[:,0], coords[:,1], 15, c='b')
-Out[25]: &lt;matplotlib.collections.PathCollection at 0x7f430750dd30&gt;
+Out[25]: &lt;matplotlib.collections.PathCollection at 0x7f0c2008f048&gt;
 
 In [26]: ax.scatter(loc[:,0], loc[:,1], 20, c='r')
-Out[26]: &lt;matplotlib.collections.PathCollection at 0x7f430750d7b8&gt;
+Out[26]: &lt;matplotlib.collections.PathCollection at 0x7f0c2008f4a8&gt;
 
 In [27]: ax.scatter([0], [0], 40, c='y')
-Out[27]: &lt;matplotlib.collections.PathCollection at 0x7f430750d2b0&gt;
+Out[27]: &lt;matplotlib.collections.PathCollection at 0x7f0c2008fc50&gt;
 
 In [28]: for u,v in zip(coords[1:], loc[1:]):
    ....:     arrowstyle=&quot;Simple,head_width=6,head_length=12,tail_width=1&quot;

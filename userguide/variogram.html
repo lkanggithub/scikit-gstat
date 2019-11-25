@@ -69,7 +69,7 @@ correlation apparent.</p>
 <span class="gp">In [9]: </span><span class="n">z</span> <span class="o">=</span> <span class="n">_field</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span>  <span class="mi">500</span><span class="p">))</span>
 
 <span class="gp">In [10]: </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlBu_r&#39;</span><span class="p">)</span>
-<span class="gh">Out[10]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f43075eb908&gt;</span>
+<span class="gh">Out[10]: </span><span class="go">&lt;matplotlib.image.AxesImage at 0x7f0c200dd390&gt;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/tf.png"><img alt="../_images/tf.png" src="../_images/tf.png" style="width: 8in;" /></a>
@@ -88,7 +88,8 @@ In [13]: coords = np.random.randint(0, 500, (300, 2))
 In [14]: values = np.fromiter((z[c[0], c[1]] for c in coords), dtype=float)
 
 In [15]: V = Variogram(coords, values)
-Warning: normalize will change the default value to False. You can add an SKG_SUPPRESS environment variable to supress this warning.
+Warning: normalize will change the default value to False. You can add a SKG_SUPPRESS environment variable to suppress this warning.
+Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
 
 In [16]: V.plot()
 Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.
@@ -174,23 +175,22 @@ input locations passed to <a class="reference internal" href="../reference/vario
 instantiation. To be more precise, only the upper triangle is stored
 in an <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code></a> with the distance values sorted
 row-wise. Consider this very straightforward set of locations:</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [18]: </span><span class="n">locations</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<pre class="literal-block">In [18]: locations = [[0,0], [0,1], [1,1], [1,0]]
 
-<span class="gp">In [19]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">locations</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+In [19]: V = Variogram(locations, [0, 1, 2, 1], normalize=False)
+Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
 
-<span class="gp">In [20]: </span><span class="n">V</span><span class="o">.</span><span class="n">distance</span>
-<span class="gh">Out[20]: </span><span class="go">array([1.   , 1.414, 1.   , 1.   , 1.414, 1.   ])</span>
+In [20]: V.distance
+Out[20]: array([1.   , 1.414, 1.   , 1.   , 1.414, 1.   ])
 
-<span class="go"># turn into a 2D matrix again</span>
-<span class="gp">In [21]: </span><span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
+# turn into a 2D matrix again
+In [21]: from scipy.spatial.distance import squareform
 
-<span class="gp">In [22]: </span><span class="k">print</span><span class="p">(</span><span class="n">squareform</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">distance</span><span class="p">))</span>
-<span class="go">[[0.    1.    1.414 1.   ]</span>
-<span class="go"> [1.    0.    1.    1.414]</span>
-<span class="go"> [1.414 1.    0.    1.   ]</span>
-<span class="go"> [1.    1.414 1.    0.   ]]</span>
-</pre></div>
-</div>
+In [22]: print(squareform(V.distance))
+[[0.    1.    1.414 1.   ]
+ [1.    0.    1.    1.414]
+ [1.414 1.    0.    1.   ]
+ [1.    1.414 1.    0.   ]]</pre>
 </div>
 <div class="section" id="binning">
 <h3>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h3>
@@ -279,19 +279,18 @@ array can be obtained by <a class="reference internal" href="../reference/variog
 <p>This will be illustrated by some sample data (you can find the CSV file
 in the github repository of SciKit-GStat).
 You can easily read the data using pandas.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [29]: </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<pre class="literal-block">In [29]: import pandas as pd
 
-<span class="gp">In [30]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample_sr.csv&#39;</span><span class="p">)</span>
+In [30]: data = pd.read_csv('data/sample_sr.csv')
 
-<span class="gp">In [31]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
-<span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
-<span class="gp">   ....: </span>
+In [31]: V = Variogram(list(zip(data.x, data.y)), data.z,
+   ....:     normalize=False, n_lags=25, maxlag=60)
+   ....: 
+Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
 
-<span class="gp">In [32]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="go">Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.</span>
-<span class="gh">Out[32]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
-</pre></div>
-</div>
+In [32]: V.plot()
+Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.
+Out[32]: &lt;Figure size 800x500 with 2 Axes&gt;</pre>
 <a class="reference internal image-reference" href="../_images/variogram_sample_data.png"><img alt="../_images/variogram_sample_data.png" src="../_images/variogram_sample_data.png" style="width: 8in;" /></a>
 <p>Then, you can compare the first 10 point pairs from the distance matrix
 to the first 10 elements returned by the
@@ -504,7 +503,7 @@ using a least squares approach.</p>
 <span class="gp">In [56]: </span><span class="n">yi</span> <span class="o">=</span> <span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">spherical</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">*</span><span class="n">cof</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">xi</span><span class="p">]</span>
 
 <span class="gp">In [57]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="s1">&#39;og&#39;</span><span class="p">)</span>
-<span class="gh">Out[57]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f4303d3fba8&gt;]</span>
+<span class="gh">Out[57]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f0c1bff37b8&gt;]</span>
 
 <span class="gp">In [58]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">);</span>
 </pre></div>
@@ -605,6 +604,7 @@ sample dataset.</p>
 <span class="gp">In [71]: </span><span class="n">Vg</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)),</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
 <span class="gp">   ....: </span>    <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">)</span>
 <span class="gp">   ....: </span>
+<span class="go">Warning: &#39;harmonize&#39; is deprecated and will be removedwith the next release. You can add a &#39;SKG_SUPPRESS&#39; environment variable to suppress this warning.</span>
 
 <span class="gp">In [72]: </span><span class="n">Vg</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
