@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Kriging estimate mode &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>Kriging estimate mode &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -89,44 +89,45 @@ given lag distance is uncertain. This deviation can be calculated as:</p>
 the precision value can influence the result. An arbitrary variogram is
 created and then recalculated by the OrdinaryKriging routine to illustrate
 the precision.</p>
-<pre class="literal-block">In [1]: import matplotlib.pyplot as plt
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-In [2]: from skgstat import Variogram, OrdinaryKriging
+<span class="gp">In [2]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">Variogram</span><span class="p">,</span> <span class="n">OrdinaryKriging</span>
 
-In [3]: import numpy as np
+<span class="gp">In [3]: </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-# create some random input
-In [4]: np.random.seed(42)
+<span class="go"># create some random input</span>
+<span class="gp">In [4]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-In [5]: c = np.random.gamma(10, 4, size=(100,2))
+<span class="gp">In [5]: </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 
-In [6]: np.random.seed(42)
+<span class="gp">In [6]: </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-In [7]: v = np.random.normal(10, 2, size=100)
+<span class="gp">In [7]: </span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-In [8]: V = Variogram(c, v, model='gaussian', normalize=False)
-Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
+<span class="gp">In [8]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-In [9]: ok = OrdinaryKriging(V, mode='exact')
+<span class="gp">In [9]: </span><span class="n">ok</span> <span class="o">=</span> <span class="n">OrdinaryKriging</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">)</span>
 
-# exact calculation
-In [10]: x = np.linspace(0, ok.range * 1.3, 120)
+<span class="go"># exact calculation</span>
+<span class="gp">In [10]: </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ok</span><span class="o">.</span><span class="n">range</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
 
-In [11]: y_c = list(map(ok.gamma_model, x))
+<span class="gp">In [11]: </span><span class="n">y_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">ok</span><span class="o">.</span><span class="n">gamma_model</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 
-# estimation
-In [12]: ok.mode = 'estimate'
+<span class="go"># estimation</span>
+<span class="gp">In [12]: </span><span class="n">ok</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;estimate&#39;</span>
 
-In [13]: y_e = ok._estimate_matrix(x)
+<span class="gp">In [13]: </span><span class="n">y_e</span> <span class="o">=</span> <span class="n">ok</span><span class="o">.</span><span class="n">_estimate_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-In [14]: plt.plot(x, y_c, '-b', label='exact variogram')
-Out[14]: [&lt;matplotlib.lines.Line2D at 0x7f3fc7252b70&gt;]
+<span class="gp">In [14]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;exact variogram&#39;</span><span class="p">)</span>
+<span class="gh">Out[14]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f69bf1ff7b8&gt;]</span>
 
-In [15]: plt.plot(x, y_e, '-g', label='estimated variogram')
-Out[15]: [&lt;matplotlib.lines.Line2D at 0x7f3fc7252eb8&gt;]
+<span class="gp">In [15]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_e</span><span class="p">,</span> <span class="s1">&#39;-g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;estimated variogram&#39;</span><span class="p">)</span>
+<span class="gh">Out[15]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f69bf1ff908&gt;]</span>
 
-In [16]: plt.legend(loc='lower right')
-Out[16]: &lt;matplotlib.legend.Legend at 0x7f3fc73223c8&gt;</pre>
+<span class="gp">In [16]: </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="gh">Out[16]: </span><span class="go">&lt;matplotlib.legend.Legend at 0x7f69c19f6160&gt;</span>
+</pre></div>
+</div>
 <a class="reference internal image-reference" href="../_images/krig_compare.png"><img alt="../_images/krig_compare.png" src="../_images/krig_compare.png" style="width: 7in;" /></a>
 <p>There is almost no difference between the two lines and the result that can
 be expected will be very similar, as the kriging equation system will yield
@@ -134,16 +135,18 @@ very similar weights to make the prediction.</p>
 <p>If the precision is, however, chosen to coarse, there is a difference in the
 reconstructed variogram. This way, the idea behind the estimation becomes
 quite obvious.</p>
-<pre class="literal-block"># make precision really small
-In [17]: ok.precision = 10
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="go"># make precision really small</span>
+<span class="gp">In [17]: </span><span class="n">ok</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="mi">10</span>
 
-In [18]: y_e2 = ok._estimate_matrix(x)
+<span class="gp">In [18]: </span><span class="n">y_e2</span> <span class="o">=</span> <span class="n">ok</span><span class="o">.</span><span class="n">_estimate_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-In [19]: plt.plot(x, y_c, '-b')
-Out[19]: [&lt;matplotlib.lines.Line2D at 0x7f3fc48e2a90&gt;]
+<span class="gp">In [19]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_c</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">)</span>
+<span class="gh">Out[19]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f69bf236550&gt;]</span>
 
-In [20]: plt.plot(x, y_e2, '-g')
-Out[20]: [&lt;matplotlib.lines.Line2D at 0x7f3fc48e2e48&gt;]</pre>
+<span class="gp">In [20]: </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_e2</span><span class="p">,</span> <span class="s1">&#39;-g&#39;</span><span class="p">)</span>
+<span class="gh">Out[20]: </span><span class="go">[&lt;matplotlib.lines.Line2D at 0x7f69bf236390&gt;]</span>
+</pre></div>
+</div>
 <a class="reference internal image-reference" href="../_images/krig_coarse.png"><img alt="../_images/krig_coarse.png" src="../_images/krig_coarse.png" style="width: 7in;" /></a>
 </div>
 </div>
@@ -177,6 +180,7 @@ Out[20]: [&lt;matplotlib.lines.Line2D at 0x7f3fc48e2e48&gt;]</pre>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../userguide/userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="technical.html">Technical Notes</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="fitting.html">Fitting a theoretical model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="direction.html">Directional Variograms</a></li>

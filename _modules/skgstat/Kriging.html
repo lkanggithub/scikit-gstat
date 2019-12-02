@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>skgstat.Kriging &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>skgstat.Kriging &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -42,12 +42,12 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">squareform</span>
-<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="k">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">scipy_solve</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">numpy_solve</span><span class="p">,</span> <span class="n">LinAlgError</span><span class="p">,</span> <span class="n">inv</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">scipy_solve</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">solve</span> <span class="k">as</span> <span class="n">numpy_solve</span><span class="p">,</span> <span class="n">LinAlgError</span><span class="p">,</span> <span class="n">inv</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
 
-<span class="kn">from</span> <span class="nn">.Variogram</span> <span class="k">import</span> <span class="n">Variogram</span>
+<span class="kn">from</span> <span class="nn">.Variogram</span> <span class="kn">import</span> <span class="n">Variogram</span>
 
 
 <span class="k">class</span> <span class="nc">LessPointsError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
@@ -67,7 +67,7 @@
 
 
 <div class="viewcode-block" id="OrdinaryKriging"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging">[docs]</a><span class="k">class</span> <span class="nc">OrdinaryKriging</span><span class="p">:</span>
-<div class="viewcode-block" id="OrdinaryKriging.__init__"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="OrdinaryKriging.__init__"><a class="viewcode-back" href="../../reference/kriging.html#skgstat.OrdinaryKriging.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">variogram</span><span class="p">,</span>
             <span class="n">min_points</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -564,6 +564,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../userguide/userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>

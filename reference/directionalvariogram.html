@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -39,7 +39,7 @@
 <h1>DirectionalVariogram Class<a class="headerlink" href="#directionalvariogram-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.DirectionalVariogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">DirectionalVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">DirectionalVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>DirectionalVariogram Class</p>
 <p>Calculates a variogram of the separating distances in the given
 coordinates and relates them to one of the semi-variance measures of the
@@ -48,7 +48,7 @@ given dependent values.</p>
 that share a specified spatial relationship.</p>
 <dl class="method">
 <dt id="skgstat.DirectionalVariogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Directional Variogram. The calculation is not performant and not
 tested yet.</p>
@@ -198,7 +198,6 @@ separating distances</p></li>
 <li><p><strong>n_lags</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Specify the number of lag classes to be defined by the binning
 function.</p></li>
 <li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Set the Verbosity of the class. Not Implemented yet.</p></li>
-<li><p><strong>harmonize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – this kind of works so far, but will be rewritten (and documented)</p></li>
 </ul>
 </dd>
 </dl>
@@ -502,6 +501,7 @@ the azimuth angle symmetrically.</p>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../userguide/userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="reference.html">Code Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="variogram.html">Variogram Class</a></li>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Interpolation &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>Interpolation &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -17,7 +17,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Technical Notes" href="../technical/technical.html" />
+    <link rel="next" title="Tutorials" href="../tutorials/tutorials.html" />
     <link rel="prev" title="Variography" href="variogram.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -185,31 +185,35 @@ solve the system for the matrix of factors <span class="math notranslate nohighl
 In Python, there are several strategies how you could solve this problem.
 Let’s at first build the matrix. We need a distance matrix without
 <span class="math notranslate nohighlight">\(s_0\)</span> for that.</p>
-<pre class="literal-block">In [15]: dists = pdist(list(zip(x,y)))
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="n">dists</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)))</span>
 
-In [16]: M = squareform(model(dists))
+<span class="gp">In [16]: </span><span class="n">M</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">dists</span><span class="p">))</span>
 
-In [17]: pprint(M)
-array([[0.   , 1.721, 0.756, 1.798, 1.409],
-       [1.721, 0.   , 1.298, 0.786, 0.551],
-       [0.756, 1.298, 0.   , 1.574, 0.995],
-       [1.798, 0.786, 1.574, 0.   , 0.743],
-       [1.409, 0.551, 0.995, 0.743, 0.   ]])
+<span class="gp">In [17]: </span><span class="n">pprint</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="go">array([[0.   , 1.721, 0.756, 1.798, 1.409],</span>
+<span class="go">       [1.721, 0.   , 1.298, 0.786, 0.551],</span>
+<span class="go">       [0.756, 1.298, 0.   , 1.574, 0.995],</span>
+<span class="go">       [1.798, 0.786, 1.574, 0.   , 0.743],</span>
+<span class="go">       [1.409, 0.551, 0.995, 0.743, 0.   ]])</span>
 
-In [18]: pprint(variances)
-array([1.537, 0.341, 1.1  , 0.714, 0.214])</pre>
+<span class="gp">In [18]: </span><span class="n">pprint</span><span class="p">(</span><span class="n">variances</span><span class="p">)</span>
+<span class="go">array([1.537, 0.341, 1.1  , 0.714, 0.214])</span>
+</pre></div>
+</div>
 <p>And solve it:</p>
-<pre class="literal-block">In [19]: from scipy.linalg import solve
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [19]: </span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">solve</span>
 
-# solve for a
-In [20]: a = solve(M, variances)
+<span class="go"># solve for a</span>
+<span class="gp">In [20]: </span><span class="n">a</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">variances</span><span class="p">)</span>
 
-In [21]: pprint(a)
-array([-0.022,  0.362,  0.018,  0.037,  0.593])
+<span class="gp">In [21]: </span><span class="n">pprint</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">array([-0.022,  0.362,  0.018,  0.037,  0.593])</span>
 
-# calculate estimation
-In [22]: Z_s.dot(a)
-Out[22]: 5.226267185422778</pre>
+<span class="go"># calculate estimation</span>
+<span class="gp">In [22]: </span><span class="n">Z_s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gh">Out[22]: </span><span class="go">5.226267185422778</span>
+</pre></div>
+</div>
 <p>That’s it. Well, not really. We might have used the
 variogram and the spatial structure infered from the
 data for getting better results, but in fact our
@@ -274,29 +278,31 @@ to be normally distributed and second order stationarity.</p>
 <p>Include the references to Kitanidis and Bardossy.</p>
 </div>
 <p>Applied in Python, this can be done like:</p>
-<pre class="literal-block">In [24]: B = np.concatenate((variances, [1]))
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [24]: </span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">variances</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
-In [25]: M = np.concatenate((M, [[1, 1, 1, 1, 1]]), axis=0)
+<span class="gp">In [25]: </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-In [26]: M = np.concatenate((M, [[1], [1], [1], [1], [1], [0]]), axis=1)
+<span class="gp">In [26]: </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">M</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-In [27]: weights = solve(M, B)
+<span class="gp">In [27]: </span><span class="n">weights</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
 
-# see the weights
-In [28]: print('Old weights:', a)
-Old weights: [-0.022  0.362  0.018  0.037  0.593]
+<span class="go"># see the weights</span>
+<span class="gp">In [28]: </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Old weights:&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="go">Old weights: [-0.022  0.362  0.018  0.037  0.593]</span>
 
-In [29]: print('New weights:', weights[:-1])
-New weights: [-0.017  0.365  0.02   0.041  0.592]
+<span class="gp">In [29]: </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;New weights:&#39;</span><span class="p">,</span> <span class="n">weights</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="go">New weights: [-0.017  0.365  0.02   0.041  0.592]</span>
 
-In [30]: print('Old estimation:', Z_s.dot(a))
-Old estimation: 5.226267185422778
+<span class="gp">In [30]: </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Old estimation:&#39;</span><span class="p">,</span> <span class="n">Z_s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="go">Old estimation: 5.226267185422778</span>
 
-In [31]: print('New estimation:', Z_s.dot(weights[:-1]))
-New estimation: 5.262880578742379
+<span class="gp">In [31]: </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;New estimation:&#39;</span><span class="p">,</span> <span class="n">Z_s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">weights</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="go">New estimation: 5.262880578742379</span>
 
-In [32]: print('Mean:', np.mean(Z_s))
-Mean: 3.28</pre>
+<span class="gp">In [32]: </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Z_s</span><span class="p">))</span>
+<span class="go">Mean: 3.28</span>
+</pre></div>
+</div>
 <p>And the sum of weights:</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [33]: </span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="gh">Out[33]: </span><span class="go">1.0</span>
@@ -328,20 +334,20 @@ to finally interpolate the field and check the
 Kriging error. You could either build a loop around the
 code shown in the previous section, or just use
 skgstat.</p>
-<pre class="literal-block">In [35]: data = pd.read_csv('data/sample_lr.csv')
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [35]: </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample_lr.csv&#39;</span><span class="p">)</span>
 
-In [36]: V = Variogram(data[['x', 'y']].values, data.z.values,
-   ....:   maxlag=90, n_lags=25, model='gaussian', normalize=False)
-   ....: 
-Warning: 'harmonize' is deprecated and will be removedwith the next release. You can add a 'SKG_SUPPRESS' environment variable to suppress this warning.
+<span class="gp">In [36]: </span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+<span class="gp">   ....: </span>  <span class="n">maxlag</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;gaussian&#39;</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">   ....: </span>
 
-In [37]: V.plot()
-Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.
-Out[37]: &lt;Figure size 800x500 with 2 Axes&gt;
+<span class="gp">In [37]: </span><span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gh">Out[37]: </span><span class="go">&lt;Figure size 800x500 with 2 Axes&gt;</span>
 
-In [38]: from skgstat import OrdinaryKriging
+<span class="gp">In [38]: </span><span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">OrdinaryKriging</span>
 
-In [39]: ok = OrdinaryKriging(V, min_points=5, max_points=20, mode='exact')</pre>
+<span class="gp">In [39]: </span><span class="n">ok</span> <span class="o">=</span> <span class="n">OrdinaryKriging</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">min_points</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_points</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;exact&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <a class="reference internal image-reference" href="../_images/kriging_used_variogram.png"><img alt="../_images/kriging_used_variogram.png" src="../_images/kriging_used_variogram.png" style="width: 8in;" /></a>
 <p>The <a class="reference internal" href="../reference/kriging.html#skgstat.OrdinaryKriging" title="skgstat.OrdinaryKriging"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrdinaryKriging</span></code></a> class
 need at least a fitted <a class="reference internal" href="../reference/variogram.html#skgstat.Variogram" title="skgstat.Variogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variogram</span></code></a>
@@ -364,7 +370,7 @@ quickly. In the technical notes section of this userguide, you
 will find a whole section on the two modes.</p>
 <p>Finally, we need the unobsered locations. The observations in
 the file were drawn from a <cite>100x100</cite> random field.</p>
-<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [40]: </span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">99</span><span class="p">:</span><span class="mi">100j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">99</span><span class="p">:</span><span class="mi">100j</span><span class="p">]</span>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [40]: </span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">99</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">99</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">]</span>
 
 <span class="gp">In [41]: </span><span class="n">field</span> <span class="o">=</span> <span class="n">ok</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
@@ -419,6 +425,7 @@ the file were drawn from a <cite>100x100</cite> random field.</p>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
@@ -437,7 +444,7 @@ the file were drawn from a <cite>100x100</cite> random field.</p>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="userguide.html">User Guide</a><ul>
       <li>Previous: <a href="variogram.html" title="previous chapter">Variography</a></li>
-      <li>Next: <a href="../technical/technical.html" title="next chapter">Technical Notes</a></li>
+      <li>Next: <a href="../tutorials/tutorials.html" title="next chapter">Tutorials</a></li>
   </ul></li>
   </ul></li>
 </ul>

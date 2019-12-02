@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Variogram Class &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>Variogram Class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -39,14 +39,14 @@
 <h1>Variogram Class<a class="headerlink" href="#variogram-class" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="skgstat.Variogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">Variogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">Variogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Calculates a variogram of the separating distances in the given
 coordinates and relates them to one of the semi-variance measures of
 the given dependent values.</p>
 <dl class="method">
 <dt id="skgstat.Variogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">harmonize=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Note: The directional variogram estimation is not re-implemented yet.
 Therefore the parameters is-directional, azimuth and tolerance will
@@ -156,7 +156,6 @@ separating distances</p></li>
 <li><p><strong>n_lags</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Specify the number of lag classes to be defined by the binning
 function.</p></li>
 <li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Set the Verbosity of the class. Not Implemented yet.</p></li>
-<li><p><strong>harmonize</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – this kind of works so far, but will be rewritten (and documented)</p></li>
 </ul>
 </dd>
 </dl>
@@ -207,25 +206,6 @@ set a new function.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#skgstat.Variogram" title="skgstat.Variogram">Variogram</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skgstat.Variogram.compiled_model">
-<em class="property">property </em><code class="sig-name descname">compiled_model</code><a class="headerlink" href="#skgstat.Variogram.compiled_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compiled theoretical variogram model</p>
-<p>Compile the model using the actual fitting parameters to return a
-function implementing them.</p>
-<p>The compiled_model will be removed in version 0.3. Use the
-<cite>Variogram.fitted_model</cite> property instead. It is works in the same
-way, but is significantly faster</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>callable</p>
 </dd>
 </dl>
 </dd></dl>
@@ -337,7 +317,7 @@ Variogram.bins.</p>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Variogram._experimental</span></code>, <a class="reference internal" href="#skgstat.Variogram.isotonic" title="skgstat.Variogram.isotonic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Variogram.isotonic</span></code></a></p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Variogram._experimental</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Variogram.isotonic</span></code></p>
 </div>
 </dd></dl>
 
@@ -446,8 +426,7 @@ large sigma will cause the observation to be ignored.</p>
 <p>Returns a callable that takes a distance value and returns a
 semivariance. This model is fitted to the current Variogram
 parameters. The function will be interpreted at return time with the
-parameters hard-coded into the function code. This makes it way
-faster than`Variogram.compiled_model`.</p>
+parameters hard-coded into the function code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>model</strong> – The current semivariance model fitted to the current Variogram
@@ -455,27 +434,6 @@ model parameters.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>callable</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skgstat.Variogram.isotonic">
-<em class="property">property </em><code class="sig-name descname">isotonic</code><a class="headerlink" href="#skgstat.Variogram.isotonic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the isotonic harmonized experimental variogram.
-This means, the experimental variogram is monotonic after harmonization.</p>
-<p>The harmonization is done using PAVA algorithm:</p>
-<dl class="simple">
-<dt>Barlow, R., D. Bartholomew, et al. (1972): Statistical Interference Under Order Restrictions.</dt><dd><p>John Wiley and Sons, New York.</p>
-</dd>
-<dt>Hiterding, A. (2003): Entwicklung hybrider Interpolationsverfahren für den automatisierten Betrieb am</dt><dd><p>Beispiel meteorologischer Größen. Dissertation, Institut für Geoinformatik, Westphälische
-Wilhelms-Universität Münster, IfGIprints, Münster. ISBN: 3-936616-12-4</p>
-</dd>
-</dl>
-<p>TODO: solve the import</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>np.ndarray, monotonized experimental variogram</p>
 </dd>
 </dl>
 </dd></dl>
@@ -519,7 +477,7 @@ used to extract all pairwise values within the same lag bin.</p>
 
 <dl class="method">
 <dt id="skgstat.Variogram.location_trend">
-<code class="sig-name descname">location_trend</code><span class="sig-paren">(</span><em class="sig-param">axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.location_trend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.location_trend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">location_trend</code><span class="sig-paren">(</span><em class="sig-param">axes=None</em>, <em class="sig-param">show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.location_trend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.location_trend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Location Trend plot</p>
 <p>Plots the values over each dimension of the coordinates in a scatter
 plot. This will visually show correlations between the values and any
@@ -978,6 +936,7 @@ arrays.</p>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../userguide/userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="reference.html">Code Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Variogram Class</a></li>

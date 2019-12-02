@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>skgstat.Variogram &#8212; SciKit GStat 0.2.7 documentation</title>
+    <title>skgstat.Variogram &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -39,15 +39,16 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="k">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">curve_fit</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
-<span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+<span class="kn">from</span> <span class="nn">sklearn.isotonic</span> <span class="kn">import</span> <span class="n">IsotonicRegression</span>
 
-<span class="kn">from</span> <span class="nn">skgstat</span> <span class="k">import</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">binning</span>
+<span class="kn">from</span> <span class="nn">skgstat</span> <span class="kn">import</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">binning</span>
 
 
 <div class="viewcode-block" id="Variogram"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram">[docs]</a><span class="k">class</span> <span class="nc">Variogram</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -58,21 +59,20 @@
 <span class="sd">    the given dependent values.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Variogram.__init__"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Variogram.__init__"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">coordinates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">estimator</span><span class="o">=</span><span class="s1">&#39;matheron&#39;</span><span class="p">,</span>
                  <span class="n">model</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span>
                  <span class="n">dist_func</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
                  <span class="n">bin_func</span><span class="o">=</span><span class="s1">&#39;even&#39;</span><span class="p">,</span>
-                 <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">fit_method</span><span class="o">=</span><span class="s1">&#39;trf&#39;</span><span class="p">,</span>
                  <span class="n">fit_sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">use_nugget</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">maxlag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">n_lags</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">harmonize</span><span class="o">=</span><span class="kc">False</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
                  <span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Variogram Class</span>
 
@@ -185,19 +185,8 @@
 <span class="sd">            function.</span>
 <span class="sd">        verbose : bool</span>
 <span class="sd">            Set the Verbosity of the class. Not Implemented yet.</span>
-<span class="sd">        harmonize : bool</span>
-<span class="sd">            this kind of works so far, but will be rewritten (and documented)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># deprecation warnings</span>
-        <span class="k">if</span> <span class="n">normalize</span> <span class="ow">and</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># pragma: no cover</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: normalize will change the default value </span><span class="se">\</span>
-<span class="s1">to False. You can add a SKG_SUPPRESS environment variable to suppress this warning.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: &#39;harmonize&#39; is deprecated and will be removed</span><span class="se">\</span>
-<span class="s2">with the next release. You can add a &#39;SKG_SUPPRESS&#39; environment variable to </span><span class="se">\</span>
-<span class="s2">suppress this warning.&quot;</span><span class="p">)</span>
-        
         <span class="c1"># Set coordinates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
 
@@ -224,6 +213,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxlag</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxlag</span> <span class="o">=</span> <span class="n">maxlag</span>
 
+        <span class="c1"># harmonize model placeholder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="c1"># estimator can be a function or a string</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_estimator</span><span class="p">(</span><span class="n">estimator_name</span><span class="o">=</span><span class="n">estimator</span><span class="p">)</span>
@@ -240,12 +232,6 @@
 
         <span class="c1"># specify if the lag should be given absolute or relative to the maxlag</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_normalized</span> <span class="o">=</span> <span class="n">normalize</span>
-
-        <span class="c1"># specify if the experimental variogram shall be harmonized</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">harmonize</span> <span class="o">=</span> <span class="n">harmonize</span>
-        <span class="k">if</span> <span class="n">harmonize</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s1">&#39;Argument will be removed with 0.3&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># set if nugget effect shall be used</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_nugget</span> <span class="o">=</span> <span class="kc">None</span>
@@ -467,8 +453,8 @@
     <span class="k">def</span> <span class="nf">n_lags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Number of lag bins</span>
 
-<span class="sd">        Pass the number of lag bins to be used on </span>
-<span class="sd">        this Variogram instance. This will reset </span>
+<span class="sd">        Pass the number of lag bins to be used on</span>
+<span class="sd">        this Variogram instance. This will reset</span>
 <span class="sd">        the grouping index and fitting parameters</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -480,12 +466,12 @@
         <span class="c1"># string are not implemented yet</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;n_lags string values not implemented&#39;</span><span class="p">)</span>
-        
+
         <span class="c1"># n_lags is int</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_lags has to be a positive integer&#39;</span><span class="p">)</span>
-            
+
             <span class="c1"># set parameter</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_n_lags</span> <span class="o">=</span> <span class="n">n</span>
 
@@ -495,7 +481,7 @@
         <span class="c1"># else</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;n_lags has to be a positive integer&#39;</span><span class="p">)</span>
-            
+
         <span class="c1"># reset the fitting</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span>
@@ -554,6 +540,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># at first reset harmonize</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;spherical&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">spherical</span>
             <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;exponential&#39;</span><span class="p">:</span>
@@ -566,11 +554,54 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">stable</span>
             <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;matern&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">matern</span>
+            <span class="k">elif</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;harmonize&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_harmonized_model</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s1">&#39;The theoretical Variogram function </span><span class="si">%s</span><span class="s1"> is not understood, please provide the function&#39;</span> <span class="o">%</span> <span class="n">model_name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model_name</span></div>
+
+    <span class="k">def</span> <span class="nf">_build_harmonized_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental</span>
+
+        <span class="n">_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+        <span class="n">_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+        <span class="n">regr</span> <span class="o">=</span> <span class="n">IsotonicRegression</span><span class="p">(</span><span class="n">increasing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">_x</span><span class="p">,</span> <span class="n">_y</span><span class="p">)</span>
+
+        <span class="c1"># create the model function</span>
+        <span class="k">def</span> <span class="nf">harmonize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Monotonized Variogram</span>
+
+<span class="sd">            Return the isotonic harmonized experimental variogram.</span>
+<span class="sd">            This means, the experimental variogram is monotonic after harmonization.</span>
+
+<span class="sd">            The harmonization is done using following Hinterding (2003) using </span>
+<span class="sd">            the PAVA algorithm (Barlow and Bartholomew, 1972).</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            gamma : numpy.ndarray</span>
+<span class="sd">                monotonized experimental variogram</span>
+<span class="sd">            </span>
+<span class="sd">            References</span>
+<span class="sd">            ----------</span>
+<span class="sd">            Barlow, R., D. Bartholomew, et al. (1972): Statistical Interference Under Order Restrictions.</span>
+<span class="sd">                John Wiley and Sons, New York.</span>
+<span class="sd">            Hiterding, A. (2003): Entwicklung hybrider Interpolationsverfahren für den automatisierten Betrieb am</span>
+<span class="sd">                Beispiel meteorologischer Größen. Dissertation, Institut für Geoinformatik, Westphälische</span>
+<span class="sd">                Wilhelms-Universität Münster, IfGIprints, Münster. ISBN: 3-936616-12-4</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="n">regr</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">regr</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">x</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">harmonize</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">use_nugget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -703,7 +734,6 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        void</span>
-
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -891,9 +921,22 @@
         <span class="n">_x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
         <span class="n">_y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
 
-        <span class="c1"># the model function is re-defined. otherwise scipy cannot determine</span>
-        <span class="c1"># the number of parameters</span>
-        <span class="c1"># TODO: def f(n of par)</span>
+        <span class="c1"># handle harmonized models</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span><span class="p">:</span>
+            <span class="n">_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">_x</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="n">_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">(</span><span class="n">_x</span><span class="p">)</span>
+
+            <span class="c1"># get the params</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mf">0.95</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">_y</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">_y</span> <span class="o">&gt;=</span> <span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_nugget</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+            <span class="c1"># set the params</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span>
+            <span class="k">return</span>
+
 
         <span class="c1"># Switch the method</span>
         <span class="c1"># Trust Region Reflective</span>
@@ -918,11 +961,6 @@
                 <span class="n">sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_sigma</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
-
-        <span class="c1"># monotonization</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_method</span> <span class="o">==</span> <span class="s1">&#39;harmonize&#39;</span><span class="p">:</span>
-            <span class="c1"># TODO, make the harmonization and infer the cof from that</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;fit method has to be one of [&#39;trf&#39;, &#39;lm&#39;]&quot;</span><span class="p">)</span></div>
@@ -951,50 +989,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">compiled_model</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span></div>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">compiled_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compiled theoretical variogram model</span>
-
-<span class="sd">        Compile the model using the actual fitting parameters to return a</span>
-<span class="sd">        function implementing them.</span>
-
-<span class="sd">        The compiled_model will be removed in version 0.3. Use the</span>
-<span class="sd">        `Variogram.fitted_model` property instead. It is works in the same</span>
-<span class="sd">        way, but is significantly faster</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        callable</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;SKG_SUPRESS&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: compiled_model is deprecated and will be removed. </span><span class="se">\</span>
-<span class="s1">Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cof</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="c1"># get the function</span>
-        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
-
-        <span class="c1"># get the pars</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-        <span class="n">ming</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;nugget&#39;</span><span class="p">]</span>
-        <span class="n">maxg</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sill&#39;</span><span class="p">]</span>
-
-        <span class="c1"># define the wrapper</span>
-        <span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-            <span class="n">gamma</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">cof</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">gamma</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">ming</span>
-            <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">gamma</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">maxg</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">gamma</span>
-
-        <span class="c1"># return</span>
-        <span class="k">return</span> <span class="n">model</span>
+        <span class="c1"># return the result</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitted_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">fitted_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1003,8 +999,7 @@
 <span class="sd">        Returns a callable that takes a distance value and returns a</span>
 <span class="sd">        semivariance. This model is fitted to the current Variogram</span>
 <span class="sd">        parameters. The function will be interpreted at return time with the</span>
-<span class="sd">        parameters hard-coded into the function code. This makes it way</span>
-<span class="sd">        faster than`Variogram.compiled_model`.</span>
+<span class="sd">        parameters hard-coded into the function code.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1021,7 +1016,10 @@
         <span class="c1"># get the function</span>
         <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span>
 
-        <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;model = lambda x: func(x, </span><span class="si">%s</span><span class="s2">)&quot;&quot;&quot;</span> <span class="o">%</span> \
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_harmonize</span><span class="p">:</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;model = lambda x: func(x)&quot;&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;model = lambda x: func(x, </span><span class="si">%s</span><span class="s2">)&quot;&quot;&quot;</span> <span class="o">%</span> \
                <span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">cof</span><span class="p">]))</span>
 
         <span class="c1"># run the code</span>
@@ -1137,10 +1135,7 @@
 <span class="sd">        Variogram.isotonic</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">harmonize</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isotonic</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experimental</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experimental</span>
 
     <span class="nd">@property</span>
 <span class="c1">#    @jit</span>
@@ -1173,35 +1168,6 @@
 
         <span class="c1"># apply</span>
         <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">isotonic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the isotonic harmonized experimental variogram.</span>
-<span class="sd">        This means, the experimental variogram is monotonic after harmonization.</span>
-
-<span class="sd">        The harmonization is done using PAVA algorithm:</span>
-
-<span class="sd">        Barlow, R., D. Bartholomew, et al. (1972): Statistical Interference Under Order Restrictions.</span>
-<span class="sd">            John Wiley and Sons, New York.</span>
-<span class="sd">        Hiterding, A. (2003): Entwicklung hybrider Interpolationsverfahren für den automatisierten Betrieb am</span>
-<span class="sd">            Beispiel meteorologischer Größen. Dissertation, Institut für Geoinformatik, Westphälische</span>
-<span class="sd">            Wilhelms-Universität Münster, IfGIprints, Münster. ISBN: 3-936616-12-4</span>
-
-<span class="sd">        TODO: solve the import</span>
-
-<span class="sd">        :return: np.ndarray, monotonized experimental variogram</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO this is imported in the function as sklearn is not a dependency (and should not be for now)</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">sklearn.isotonic</span> <span class="k">import</span> <span class="n">IsotonicRegression</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experimental</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins</span>
-            <span class="k">return</span> <span class="n">IsotonicRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;scikit-learn is not installed, but the isotonic function without sklear dependency is not installed yet.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__get_fit_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1742,7 +1708,7 @@
 
         <span class="k">return</span> <span class="n">fig</span>
 
-<div class="viewcode-block" id="Variogram.location_trend"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram.location_trend">[docs]</a>    <span class="k">def</span> <span class="nf">location_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Variogram.location_trend"><a class="viewcode-back" href="../../reference/variogram.html#skgstat.Variogram.location_trend">[docs]</a>    <span class="k">def</span> <span class="nf">location_trend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Location Trend plot</span>
 
 <span class="sd">        Plots the values over each dimension of the coordinates in a scatter</span>
@@ -1785,7 +1751,9 @@
 
         <span class="c1"># plot the figure and return it</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
 
@@ -1842,12 +1810,12 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pairwise distance ~ difference&#39;</span><span class="p">)</span>
 
         <span class="c1"># show the plot</span>
-        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Textual representation of this Variogram instance.</span>
 
@@ -1860,7 +1828,7 @@
             <span class="k">return</span> <span class="s2">&quot;&lt; abstract Variogram &gt;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;&lt; </span><span class="si">%s</span><span class="s2"> Semivariogram fitted to </span><span class="si">%d</span><span class="s2"> bins &gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_name</span><span class="p">,</span> <span class="n">_b</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;String Representation</span>
 
 <span class="sd">        Descriptive respresentation of this Variogram instance that shall give</span>
@@ -1918,6 +1886,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../userguide/userguide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
