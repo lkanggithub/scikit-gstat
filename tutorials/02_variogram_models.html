@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>2. Variogram Models &#8212; SciKit GStat 0.2.8 documentation</title>
+    <title>02 - Variogram Models &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -17,6 +17,8 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="03 - Semi-variance Estimators" href="03_estimators.html" />
+    <link rel="prev" title="01 - Getting Started" href="01_getting_started.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -233,10 +235,10 @@ div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
-<div class="section" id="2.-Variogram-Models">
-<h1>2. Variogram Models<a class="headerlink" href="#2.-Variogram-Models" title="Permalink to this headline">¶</a></h1>
-<p>This tutorial will guide you through some of the main features of the <code class="docutils literal notranslate"><span class="pre">Variogram</span></code> class.</p>
-<p>In this tutorial you will learn:</p>
+<div class="section" id="02---Variogram-Models">
+<h1>02 - Variogram Models<a class="headerlink" href="#02---Variogram-Models" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial will guide you through the theoretical variogram models available for the <code class="docutils literal notranslate"><span class="pre">Variogram</span></code> class.</p>
+<p><strong>In this tutorial you will learn:</strong></p>
 <ul class="simple">
 <li><p>how to choose an appropiate model function</p></li>
 <li><p>how to judge fitting quality</p></li>
@@ -986,11 +988,22 @@ Warning: for 214 locations, not enough neighbors were found within the range.
 
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../userguide/userguide.html">User Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_getting_started.html">01 - Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">02 - Variogram Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#2.1-Load-data">2.1 Load data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.2-Comparing-theoretical-models">2.2 Comparing theoretical models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.3-Using-less-observations">2.3 Using less observations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_estimators.html">03 - Semi-variance Estimators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_estimators.html#3.X-References">3.X References</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
@@ -1007,6 +1020,10 @@ Warning: for 214 locations, not enough neighbors were found within the range.
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="tutorials.html">Tutorials</a><ul>
+      <li>Previous: <a href="01_getting_started.html" title="previous chapter">01 - Getting Started</a></li>
+      <li>Next: <a href="03_estimators.html" title="next chapter">03 - Semi-variance Estimators</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
@@ -1036,7 +1053,7 @@ Warning: for 214 locations, not enough neighbors were found within the range.
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

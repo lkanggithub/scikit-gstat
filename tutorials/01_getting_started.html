@@ -17,7 +17,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Technical Notes" href="../technical/technical.html" />
+    <link rel="next" title="02 - Variogram Models" href="02_variogram_models.html" />
     <link rel="prev" title="Tutorials" href="tutorials.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -287,6 +287,8 @@ div.rendered_html tbody tr:hover {
 env: SKG_SUPPRESS=true
 </pre></div></div>
 </div>
+<div class="section" id="1.1-Load-data">
+<h3>1.1 Load data<a class="headerlink" href="#1.1-Load-data" title="Permalink to this headline">¶</a></h3>
 <p>You can find a prepared example data set in the <code class="docutils literal notranslate"><span class="pre">./data</span></code> subdirectory. This example is extracted from a generated Gaussian random field. We can expect the field to be stationary and show a nice spatial dependence, because it was created that way. We can load one of the examples and have a look at the data:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
@@ -386,7 +388,7 @@ Loaded 200 rows and 3 columns
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_01_getting_started_10_0.png" src="../_images/tutorials_01_getting_started_10_0.png" />
+<img alt="../_images/tutorials_01_getting_started_11_0.png" src="../_images/tutorials_01_getting_started_11_0.png" />
 </div>
 </div>
 <p>We can already see a lot from here:</p>
@@ -397,8 +399,9 @@ Loaded 200 rows and 3 columns
 <li><p>The distance between the minimum and maximum seems to be not more than 60 or 70 units.</p></li>
 </ul>
 <p>These are already very important insights.</p>
-<div class="section" id="Build-a-Variogram">
-<h3>Build a Variogram<a class="headerlink" href="#Build-a-Variogram" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="1.2-Build-a-Variogram">
+<h3>1.2 Build a Variogram<a class="headerlink" href="#1.2-Build-a-Variogram" title="Permalink to this headline">¶</a></h3>
 <p>As a quick reminder, the variogram relates pair-wise separating distances of <code class="docutils literal notranslate"><span class="pre">coordinates</span></code> and relates them to the <em>semi-variance</em> of the corresponding <code class="docutils literal notranslate"><span class="pre">values</span></code> pairs. The default estimator used is the Matheron estimator:</p>
 <div class="math notranslate nohighlight">
 \[\gamma (h) = \frac{1}{2N(h)} * \sum_{i=1}^{N(h)}(Z(x_i) - Z(x_{i + h}))^2\]</div>
@@ -411,33 +414,15 @@ distance for the last bin. We know from the plot above, that more than 60 units 
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">V</span> <span class="o">=</span> <span class="n">Variogram</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">maxlag</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Warning: &#39;harmonize&#39; is deprecated and will be removedwith the next release. You can add a &#39;SKG_SUPPRESS&#39; environment variable to suppress this warning.
-Warning: compiled_model is deprecated and will be removed. Use Variogram.fitted_model instead. You can add an SKG_SUPPRESS environment variable to supress this warning.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-d:\dropbox\python\scikit-gstat\skgstat\Variogram.py:1668: UserWarning: Matplotlib is currently using module://ipykernel.pylab.backend_inline, which is a non-GUI backend, so cannot show the figure.
-  fig.show()
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_01_getting_started_15_2.png" src="../_images/tutorials_01_getting_started_15_2.png" />
+<img alt="../_images/tutorials_01_getting_started_16_0.png" src="../_images/tutorials_01_getting_started_16_0.png" />
 </div>
 </div>
 <p>The upper subplot show the histogram for the count of point-pairs in each lag class. You can see various things here:</p>
@@ -479,11 +464,11 @@ Sample variance: 1.10   Variogram sill: 1.26
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;effective_range&#39;: 39.500272923336524,
+{&#39;effective_range&#39;: 39.50027313170537,
  &#39;estimator&#39;: &#39;matheron&#39;,
  &#39;name&#39;: &#39;spherical&#39;,
  &#39;nugget&#39;: 0,
- &#39;sill&#39;: 1.2553698537602287}
+ &#39;sill&#39;: 1.2553698556802062}
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -510,8 +495,8 @@ Nugget:            0.00
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="Kriging">
-<h3>Kriging<a class="headerlink" href="#Kriging" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="1.3-Kriging">
+<h3>1.3 Kriging<a class="headerlink" href="#1.3-Kriging" title="Permalink to this headline">¶</a></h3>
 <p>The Kriging class will now use the Variogram from above to estimate the Kriging weights for each grid cell. This is done by solving a linear equation system. For an unobserved location <span class="math notranslate nohighlight">\(s_0\)</span>, we can use the distances to 5 observation points and build the system like:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{pmatrix}
@@ -589,7 +574,7 @@ Nugget:            0.00
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/tutorials_01_getting_started_28_0.png" src="../_images/tutorials_01_getting_started_28_0.png" />
+<img alt="../_images/tutorials_01_getting_started_29_0.png" src="../_images/tutorials_01_getting_started_29_0.png" />
 </div>
 </div>
 <p>From the Kriging error map, you can see how the interpolation is very certain close to the observation points, but rather high in areas with only little coverage (like the upper left corner).</p>
@@ -631,6 +616,9 @@ Nugget:            0.00
 <li class="toctree-l3"><a class="reference internal" href="#What-you-will-learn-in-this-tutorial">What you will learn in this tutorial</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="02_variogram_models.html">02 - Variogram Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_estimators.html">03 - Semi-variance Estimators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_estimators.html#3.X-References">3.X References</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../technical/technical.html">Technical Notes</a></li>
@@ -651,7 +639,7 @@ Nugget:            0.00
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="tutorials.html">Tutorials</a><ul>
       <li>Previous: <a href="tutorials.html" title="previous chapter">Tutorials</a></li>
-      <li>Next: <a href="../technical/technical.html" title="next chapter">Technical Notes</a></li>
+      <li>Next: <a href="02_variogram_models.html" title="next chapter">02 - Variogram Models</a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -682,7 +670,7 @@ Nugget:            0.00
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
