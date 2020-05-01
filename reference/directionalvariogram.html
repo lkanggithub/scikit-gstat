@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>DirectionalVariogram Class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,18 +37,18 @@
             
   <div class="section" id="directionalvariogram-class">
 <h1>DirectionalVariogram Class<a class="headerlink" href="#directionalvariogram-class" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="skgstat.DirectionalVariogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">DirectionalVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">DirectionalVariogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'spherical'</span></em>, <em class="sig-param"><span class="n">dist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">bin_func</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fit_method</span><span class="o">=</span><span class="default_value">'trf'</span></em>, <em class="sig-param"><span class="n">fit_sigma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">directional_model</span><span class="o">=</span><span class="default_value">'triangle'</span></em>, <em class="sig-param"><span class="n">azimuth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tolerance</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">bandwidth</span><span class="o">=</span><span class="default_value">'q33'</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>DirectionalVariogram Class</p>
 <p>Calculates a variogram of the separating distances in the given
 coordinates and relates them to one of the semi-variance measures of the
 given dependent values.</p>
 <p>The direcitonal version of a Variogram will only form paris of points
 that share a specified spatial relationship.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">directional_model='triangle'</em>, <em class="sig-param">azimuth=0</em>, <em class="sig-param">tolerance=45.0</em>, <em class="sig-param">bandwidth='q33'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'spherical'</span></em>, <em class="sig-param"><span class="n">dist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">bin_func</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fit_method</span><span class="o">=</span><span class="default_value">'trf'</span></em>, <em class="sig-param"><span class="n">fit_sigma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">directional_model</span><span class="o">=</span><span class="default_value">'triangle'</span></em>, <em class="sig-param"><span class="n">azimuth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tolerance</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">bandwidth</span><span class="o">=</span><span class="default_value">'q33'</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Directional Variogram. The calculation is not performant and not
 tested yet.</p>
@@ -203,9 +203,9 @@ function.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram._triangle">
-<code class="sig-name descname">_triangle</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._triangle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_triangle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">local_ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._triangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._triangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triangular Search Area</p>
 <p>Construct a triangular bounded search area for building directional
 dependent point pairs. The Search Area will be located onto the
@@ -245,9 +245,9 @@ to build the search area A,B are A := (h, 1/2 c) and B:= (h, -1/2 c)</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram._circle">
-<code class="sig-name descname">_circle</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._circle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_circle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">local_ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._circle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Circular Search Area</p>
 <p>Construct a half-circled bounded search area for building directional
 dependent point pairs. The Search Area will be located onto the
@@ -274,9 +274,9 @@ azimuth angle aligned onto the x-axis.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram._compass">
-<code class="sig-name descname">_compass</code><span class="sig-paren">(</span><em class="sig-param">local_ref</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._compass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._compass" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_compass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">local_ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._compass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._compass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compass direction Search Area</p>
 <p>Construct a search area for building directional dependent point
 pairs. The compass search area will <strong>not</strong> be bounded by the
@@ -317,7 +317,7 @@ x-coordinate representation and y:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram._direction_mask">
 <code class="sig-name descname">_direction_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram._direction_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram._direction_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directional Mask</p>
@@ -339,7 +339,7 @@ not.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.azimuth">
 <em class="property">property </em><code class="sig-name descname">azimuth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.azimuth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Direction azimuth</p>
@@ -354,7 +354,7 @@ azimuth is set clockwise up to 180°and count-clockwise to -180°.</p>
 <p>:raises ValueError : in case angle &lt; -180° or angle &gt; 180:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.bandwidth">
 <em class="property">property </em><code class="sig-name descname">bandwidth</code><a class="headerlink" href="#skgstat.DirectionalVariogram.bandwidth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tolerance bandwidth</p>
@@ -370,9 +370,9 @@ unnit of the coordinate system.</p>
 <p>:raises ValueError : in case width is negative:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.local_reference_system">
-<code class="sig-name descname">local_reference_system</code><span class="sig-paren">(</span><em class="sig-param">poi</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.local_reference_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.local_reference_system" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">local_reference_system</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">poi</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.local_reference_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.local_reference_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate local coordinate system</p>
 <p>The coordinates will be transformed into a local reference system
 that will simplify the directional dependence selection. The point of
@@ -394,9 +394,9 @@ the original coordinates.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.search_area">
-<code class="sig-name descname">search_area</code><span class="sig-paren">(</span><em class="sig-param">poi=0</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.search_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.search_area" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">search_area</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">poi</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.search_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.search_area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot Search Area</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,9 +417,9 @@ and returned</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.set_directional_model">
-<code class="sig-name descname">set_directional_model</code><span class="sig-paren">(</span><em class="sig-param">model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.set_directional_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.set_directional_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_directional_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/DirectionalVariogram.html#DirectionalVariogram.set_directional_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.DirectionalVariogram.set_directional_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new directional model</p>
 <p>The model used for selecting all points fulfilling the
 directional constraint of the Variogram. A predefined model can
@@ -453,7 +453,7 @@ of the search area.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.DirectionalVariogram.tolerance">
 <em class="property">property </em><code class="sig-name descname">tolerance</code><a class="headerlink" href="#skgstat.DirectionalVariogram.tolerance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Azimuth tolerance</p>
@@ -542,7 +542,7 @@ the azimuth angle symmetrically.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -559,7 +559,7 @@ the azimuth angle symmetrically.</p>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

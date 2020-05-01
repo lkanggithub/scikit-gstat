@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Variogram Class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,16 +37,16 @@
             
   <div class="section" id="variogram-class">
 <h1>Variogram Class<a class="headerlink" href="#variogram-class" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="skgstat.Variogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">Variogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">Variogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'spherical'</span></em>, <em class="sig-param"><span class="n">dist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">bin_func</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fit_method</span><span class="o">=</span><span class="default_value">'trf'</span></em>, <em class="sig-param"><span class="n">fit_sigma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Calculates a variogram of the separating distances in the given
 coordinates and relates them to one of the semi-variance measures of
 the given dependent values.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates=None</em>, <em class="sig-param">values=None</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">model='spherical'</em>, <em class="sig-param">dist_func='euclidean'</em>, <em class="sig-param">bin_func='even'</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">fit_method='trf'</em>, <em class="sig-param">fit_sigma=None</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">n_lags=10</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">values</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'spherical'</span></em>, <em class="sig-param"><span class="n">dist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">bin_func</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fit_method</span><span class="o">=</span><span class="default_value">'trf'</span></em>, <em class="sig-param"><span class="n">fit_sigma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Class</p>
 <p>Note: The directional variogram estimation is not re-implemented yet.
 Therefore the parameters is-directional, azimuth and tolerance will
@@ -161,7 +161,7 @@ function.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.NS">
 <em class="property">property </em><code class="sig-name descname">NS</code><a class="headerlink" href="#skgstat.Variogram.NS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Nash Sutcliffe efficiency of the fitted Variogram</p>
@@ -172,7 +172,7 @@ function.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.bin_func">
 <em class="property">property </em><code class="sig-name descname">bin_func</code><a class="headerlink" href="#skgstat.Variogram.bin_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Binning function</p>
@@ -195,7 +195,7 @@ set a new function.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.clone">
 <code class="sig-name descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.clone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deep copy of self</p>
@@ -210,7 +210,7 @@ set a new function.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.coordinates">
 <em class="property">property </em><code class="sig-name descname">coordinates</code><a class="headerlink" href="#skgstat.Variogram.coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Coordinates property</p>
@@ -227,9 +227,9 @@ use a new Variogram instance.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.data">
-<code class="sig-name descname">data</code><span class="sig-paren">(</span><em class="sig-param">n=100</em>, <em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">force</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Theoretical variogram function</p>
 <p>Calculate the experimental variogram and apply the binning. On
 success, the variogram model will be fitted and applied to n lag
@@ -256,7 +256,7 @@ second element are the calculated semi-variance values</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.describe">
 <code class="sig-name descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.describe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram parameters</p>
@@ -271,9 +271,9 @@ second element are the calculated semi-variance values</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.distance_difference_plot">
-<code class="sig-name descname">distance_difference_plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">plot_bins=True</em>, <em class="sig-param">show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.distance_difference_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.distance_difference_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">distance_difference_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_bins</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.distance_difference_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.distance_difference_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raw distance plot</p>
 <p>Plots all absoulte value differences of all point pair combinations
 over their separating distance, without sorting them into a lag.</p>
@@ -297,7 +297,7 @@ doubled figure rendering in Jupyter notebooks.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.experimental">
 <em class="property">property </em><code class="sig-name descname">experimental</code><a class="headerlink" href="#skgstat.Variogram.experimental" title="Permalink to this definition">¶</a></dt>
 <dd><p>Experimental Variogram</p>
@@ -321,9 +321,9 @@ Variogram.bins.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">force=False</em>, <em class="sig-param">method=None</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sigma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit the variogram</p>
 <p>The fit function will fit the theoretical variogram function to the
 experimental. The preprocessed distance matrix, pairwise differences
@@ -367,7 +367,7 @@ self.bins. Refer to Variogram.fit_sigma for more information.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.fit_sigma">
 <em class="property">property </em><code class="sig-name descname">fit_sigma</code><a class="headerlink" href="#skgstat.Variogram.fit_sigma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fitting Uncertainty</p>
@@ -419,7 +419,7 @@ large sigma will cause the observation to be ignored.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.fitted_model">
 <em class="property">property </em><code class="sig-name descname">fitted_model</code><a class="headerlink" href="#skgstat.Variogram.fitted_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fitted Model</p>
@@ -438,7 +438,7 @@ model parameters.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.lag_classes">
 <code class="sig-name descname">lag_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.lag_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.lag_classes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate over the lag classes</p>
@@ -454,7 +454,7 @@ Variogram.bins to identify the lag.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.lag_groups">
 <code class="sig-name descname">lag_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.lag_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.lag_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lag class groups</p>
@@ -475,9 +475,9 @@ used to extract all pairwise values within the same lag bin.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.location_trend">
-<code class="sig-name descname">location_trend</code><span class="sig-paren">(</span><em class="sig-param">axes=None</em>, <em class="sig-param">show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.location_trend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.location_trend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">location_trend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.location_trend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.location_trend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Location Trend plot</p>
 <p>Plots the values over each dimension of the coordinates in a scatter
 plot. This will visually show correlations between the values and any
@@ -501,7 +501,7 @@ coordinates are used, three subplots have to be given.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.mean_residual">
 <em class="property">property </em><code class="sig-name descname">mean_residual</code><a class="headerlink" href="#skgstat.Variogram.mean_residual" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mean Model residuals</p>
@@ -517,7 +517,7 @@ variogram and theretical model values.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.model_deviations">
 <code class="sig-name descname">model_deviations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.model_deviations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.model_deviations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Model Deviations</p>
@@ -537,7 +537,7 @@ model.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.n_lags">
 <em class="property">property </em><code class="sig-name descname">n_lags</code><a class="headerlink" href="#skgstat.Variogram.n_lags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of lag bins</p>
@@ -546,7 +546,7 @@ this Variogram instance. This will reset
 the grouping index and fitting parameters</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.nrmse">
 <em class="property">property </em><code class="sig-name descname">nrmse</code><a class="headerlink" href="#skgstat.Variogram.nrmse" title="Permalink to this definition">¶</a></dt>
 <dd><p>NRMSE</p>
@@ -572,7 +572,7 @@ corresponding lags. Can be used as a fitting quality measure</p>
 <p>where RMSE is Variogram.rmse and y is Variogram.experimental</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.nrmse_r">
 <em class="property">property </em><code class="sig-name descname">nrmse_r</code><a class="headerlink" href="#skgstat.Variogram.nrmse_r" title="Permalink to this definition">¶</a></dt>
 <dd><p>NRMSE</p>
@@ -598,7 +598,7 @@ but the differece of the maximum y to its mean:</p>
 \[NRMSE_r = \frac{RMSE}{max(y) - mean(y)}\]</div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.parameters">
 <em class="property">property </em><code class="sig-name descname">parameters</code><a class="headerlink" href="#skgstat.Variogram.parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract just the variogram parameters range, sill and nugget from the self.describe return</p>
@@ -609,9 +609,9 @@ but the differece of the maximum y to its mean:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">axes=None</em>, <em class="sig-param">grid=True</em>, <em class="sig-param">show=True</em>, <em class="sig-param">hist=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">grid</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">show</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">hist</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram Plot</p>
 <p>Plot the experimental variogram, the fitted theoretical function and
 an histogram for the lag classes. The axes attribute can be used to
@@ -645,9 +645,9 @@ lag classes will be suppressed.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.preprocessing">
-<code class="sig-name descname">preprocessing</code><span class="sig-paren">(</span><em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.preprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.preprocessing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">preprocessing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.preprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.preprocessing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preprocessing function</p>
 <p>Prepares all input data for the fit and transform functions. Namely,
 the distances are calculated and the value differences. Then the
@@ -669,7 +669,7 @@ it in case you need a clean preprocessing.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.r">
 <em class="property">property </em><code class="sig-name descname">r</code><a class="headerlink" href="#skgstat.Variogram.r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pearson correlation of the fitted Variogram</p>
@@ -680,7 +680,7 @@ it in case you need a clean preprocessing.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.residuals">
 <em class="property">property </em><code class="sig-name descname">residuals</code><a class="headerlink" href="#skgstat.Variogram.residuals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Model residuals</p>
@@ -697,7 +697,7 @@ corresponding lag values</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.rmse">
 <em class="property">property </em><code class="sig-name descname">rmse</code><a class="headerlink" href="#skgstat.Variogram.rmse" title="Permalink to this definition">¶</a></dt>
 <dd><p>RMSE</p>
@@ -722,9 +722,9 @@ Can be used as a fitting quality measure.</p>
 \[RMSE = \sqrt{\frac{\sum_{i=0}^{i=N(x)} (x-y)^2}{N(x)}}\]</div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.set_bin_func">
-<code class="sig-name descname">set_bin_func</code><span class="sig-paren">(</span><em class="sig-param">bin_func</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_bin_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_bin_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_bin_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bin_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_bin_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_bin_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set binning function</p>
 <p>Sets a new binning function to be used. The new binning method is set
 by a string identifying the new function to be used. Can be one of:
@@ -754,9 +754,9 @@ follow a uniform distribution.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.set_dist_function">
-<code class="sig-name descname">set_dist_function</code><span class="sig-paren">(</span><em class="sig-param">func</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_dist_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_dist_function" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_dist_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_dist_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_dist_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set distance function</p>
 <p>Set the function used for distance calculation. func can either be a
 callable or a string. The ranked distance function is not implemented
@@ -777,21 +777,22 @@ distance matrix as a flat array (Like the pdist function).</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.set_model">
-<code class="sig-name descname">set_model</code><span class="sig-paren">(</span><em class="sig-param">model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set model as the new theoretical variogram function.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.set_values">
-<code class="sig-name descname">set_values</code><span class="sig-paren">(</span><em class="sig-param">values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.set_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.set_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new values</p>
 <p>Will set the passed array as new value array. This array has to be of
 same length as the first axis of the coordinates array. The Variogram
 class does only accept one dimensional arrays.
 On success all fitting parameters are deleted and the pairwise
-differences are recalculated.</p>
+differences are recalculated.
+Raises :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>ValueError`s on shape mismatches and a Warning</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>values</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – </p>
@@ -803,15 +804,17 @@ differences are recalculated.</p>
 <dd class="field-odd"><p>void</p>
 </dd>
 </dl>
+<p>:raises ValueError : raised if the values array shape does not match the: coordinates array, or more than one dimension given
+:raises Warning : raised if all input values are the same:</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="#skgstat.Variogram.values" title="skgstat.Variogram.values"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Variogram.values()</span></code></a></p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.to_DataFrame">
-<code class="sig-name descname">to_DataFrame</code><span class="sig-paren">(</span><em class="sig-param">n=100</em>, <em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.to_DataFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.to_DataFrame" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_DataFrame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">force</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.to_DataFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.to_DataFrame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram DataFrame</p>
 <p>Returns the fitted theoretical variogram as a pandas.DataFrame
 instance. The n and force parameter control the calaculation,
@@ -830,7 +833,7 @@ recalculated. Defaults to False</p></li>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.0)">pandas.DataFrame</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)">pandas.DataFrame</a></p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -839,9 +842,9 @@ recalculated. Defaults to False</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Variogram.html#Variogram.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.Variogram.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform</p>
 <p>Transform a given set of lag values to the theoretical variogram
 function using the actual fitting and preprocessing parameters in
@@ -860,7 +863,7 @@ theoretical variogram model</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.value_matrix">
 <em class="property">property </em><code class="sig-name descname">value_matrix</code><a class="headerlink" href="#skgstat.Variogram.value_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Value matrix</p>
@@ -882,7 +885,7 @@ value_matrix consists of their pairwise differences.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.Variogram.values">
 <em class="property">property </em><code class="sig-name descname">values</code><a class="headerlink" href="#skgstat.Variogram.values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Values property</p>
@@ -977,7 +980,7 @@ arrays.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -994,7 +997,7 @@ arrays.</p>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

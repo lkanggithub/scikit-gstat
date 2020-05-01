@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Changelog &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,12 +36,13 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="version-0-3">
-<h2>Version 0.3<a class="headerlink" href="#version-0-3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-0-2-8">
+<h2>Version 0.2.8<a class="headerlink" href="#version-0-2-8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p>[Variogram] now raises a <cite>Warning</cite> if all input values are the same</p></li>
 <li><p>[DOCS] Tutorial added and Dockerfile finalized</p></li>
-<li><p>[Variogram] normalize defualt value changed to False</p></li>
-<li><p>[Variogram] harmonize parameter is removed</p></li>
+<li><p>[Variogram] <cite>normalize</cite> default value changed to <cite>normalize=False</cite></p></li>
+<li><p>[Variogram] <cite>harmonize</cite> parameter is removed</p></li>
 <li><p>[Variogram] Monotonization (old harmonize par) is available as a new
 theoretical model function. Can be used by setting <cite>model=’harmonize’</cite></p></li>
 <li><p>[interfaces] gstools interface implemented.
@@ -193,7 +194,7 @@ function to string</p></li>
 <li class="toctree-l1"><a class="reference internal" href="technical/technical.html">Technical Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/reference.html">Code Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#version-0-3">Version 0.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-2-8">Version 0.2.8</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-2-7">Version 0.2.7</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-2-6">Version 0.2.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-2-5">Version 0.2.5</a></li>
@@ -230,7 +231,7 @@ function to string</p></li>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -247,7 +248,7 @@ function to string</p></li>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

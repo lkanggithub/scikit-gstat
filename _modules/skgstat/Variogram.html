@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>skgstat.Variogram &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -320,6 +320,7 @@
 <span class="sd">        class does only accept one dimensional arrays.</span>
 <span class="sd">        On success all fitting parameters are deleted and the pairwise</span>
 <span class="sd">        differences are recalculated.</span>
+<span class="sd">        Raises :py:class:`ValueError`s on shape mismatches and a Warning</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -328,6 +329,12 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        void</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError : raised if the values array shape does not match the</span>
+<span class="sd">            coordinates array, or more than one dimension given</span>
+<span class="sd">        Warning : raised if all input values are the same</span>
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
@@ -339,15 +346,19 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The length of the values array has to match&#39;</span> <span class="o">+</span>
                              <span class="s1">&#39;the length of coordinates&#39;</span><span class="p">)</span>
 
-        <span class="c1"># reset fitting parameter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span> <span class="o">=</span> <span class="kc">None</span>
-
         <span class="c1"># use an array</span>
         <span class="n">_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The values shall be a 1-D array.&#39;</span> <span class="o">+</span>
                              <span class="s1">&#39;Multi-dimensional values not supported yet.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># check if all input values are the same</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_y</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Warning</span><span class="p">(</span><span class="s1">&#39;All input values are the same.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># reset fitting parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cof</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diff</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># set new values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
@@ -1917,7 +1928,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -1934,7 +1945,7 @@
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

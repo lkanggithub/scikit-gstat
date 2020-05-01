@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>SpaceTimeVariogram class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,18 +37,18 @@
             
   <div class="section" id="spacetimevariogram-class">
 <h1>SpaceTimeVariogram class<a class="headerlink" href="#spacetimevariogram-class" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="skgstat.SpaceTimeVariogram">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">model='product-sum'</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">SpaceTimeVariogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">xdist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">tdist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">x_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">t_lags</span><span class="o">=</span><span class="default_value">'max'</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xbins</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">tbins</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'product-sum'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">coordinates</em>, <em class="sig-param">values</em>, <em class="sig-param">xdist_func='euclidean'</em>, <em class="sig-param">tdist_func='euclidean'</em>, <em class="sig-param">x_lags=10</em>, <em class="sig-param">t_lags='max'</em>, <em class="sig-param">maxlag=None</em>, <em class="sig-param">xbins='even'</em>, <em class="sig-param">tbins='even'</em>, <em class="sig-param">estimator='matheron'</em>, <em class="sig-param">use_nugget=False</em>, <em class="sig-param">model='product-sum'</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">xdist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">tdist_func</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">x_lags</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">t_lags</span><span class="o">=</span><span class="default_value">'max'</span></em>, <em class="sig-param"><span class="n">maxlag</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xbins</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">tbins</span><span class="o">=</span><span class="default_value">'even'</span></em>, <em class="sig-param"><span class="n">estimator</span><span class="o">=</span><span class="default_value">'matheron'</span></em>, <em class="sig-param"><span class="n">use_nugget</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">'product-sum'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.contour">
-<code class="sig-name descname">contour</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">zoom_factor=100.0</em>, <em class="sig-param">levels=10</em>, <em class="sig-param">colors='k'</em>, <em class="sig-param">linewidths=0.3</em>, <em class="sig-param">method='fast'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contour" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">contour</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">zoom_factor</span><span class="o">=</span><span class="default_value">100.0</span></em>, <em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">'k'</span></em>, <em class="sig-param"><span class="n">linewidths</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contour" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram 2D contour plot</p>
 <p>Plot a 2D contour plot of the experimental variogram. The
 experimental semi-variance values are spanned over a space - time lag
@@ -96,9 +96,9 @@ writing.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.contourf">
-<code class="sig-name descname">contourf</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">zoom_factor=100.0</em>, <em class="sig-param">levels=10</em>, <em class="sig-param">cmap='RdYlBu_r'</em>, <em class="sig-param">method='fast'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contourf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contourf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">contourf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">zoom_factor</span><span class="o">=</span><span class="default_value">100.0</span></em>, <em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">'RdYlBu_r'</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'fast'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.contourf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.contourf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variogram 2D filled contour plot</p>
 <p>Plot a 2D filled contour plot of the experimental variogram. The
 experimental semi-variance values are spanned over a space - time lag
@@ -147,7 +147,7 @@ writing.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.create_TMarginal">
 <code class="sig-name descname">create_TMarginal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.create_TMarginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.create_TMarginal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an instance of skgstat.Variogram for the time marginal variogram
@@ -155,7 +155,7 @@ by arranging the coordinates and values and infer parameters from
 this SpaceTimeVariogram instance.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.create_XMarginal">
 <code class="sig-name descname">create_XMarginal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.create_XMarginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.create_XMarginal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an instance of skgstat.Variogram for the space marginal variogram
@@ -163,7 +163,7 @@ by arranging the coordinates and values and infer parameters from
 this SpaceTimeVariogram instance.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.distance">
 <em class="property">property </em><code class="sig-name descname">distance</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.distance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Distance matrices</p>
@@ -183,7 +183,7 @@ distance matrix squareform in row orientation.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.experimental">
 <em class="property">property </em><code class="sig-name descname">experimental</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.experimental" title="Permalink to this definition">¶</a></dt>
 <dd><p>Experimental Variogram</p>
@@ -202,14 +202,14 @@ the first axis and time over the second axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.fitted_model">
 <em class="property">property </em><code class="sig-name descname">fitted_model</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.fitted_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.get_marginal">
-<code class="sig-name descname">get_marginal</code><span class="sig-paren">(</span><em class="sig-param">axis</em>, <em class="sig-param">lag=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.get_marginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.get_marginal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_marginal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span></em>, <em class="sig-param"><span class="n">lag</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.get_marginal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.get_marginal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Marginal Variogram</p>
 <p>Returns the marginal experimental variogram of axis for the given lag
 on the other axis. Axis can either be ‘space’ or ‘time’. The parameter
@@ -233,7 +233,7 @@ of the axis.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.lag_classes">
 <code class="sig-name descname">lag_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.lag_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.lag_classes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterator over all lag classes</p>
@@ -250,9 +250,9 @@ for a space lag of index 0 at first and then iterate the space lags.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.lag_groups">
-<code class="sig-name descname">lag_groups</code><span class="sig-paren">(</span><em class="sig-param">axis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.lag_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.lag_groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lag_groups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.lag_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.lag_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lag class group mask array</p>
 <p>Returns a mask array for the given axis (either ‘space’ or ‘time’).
 It will have as amany elements as the respective distance matrices.
@@ -274,9 +274,9 @@ of points on the given axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.marginals">
-<code class="sig-name descname">marginals</code><span class="sig-paren">(</span><em class="sig-param">plot=True</em>, <em class="sig-param">axes=None</em>, <em class="sig-param">sharey=True</em>, <em class="sig-param">include_model=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.marginals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.marginals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">marginals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sharey</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">include_model</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.marginals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.marginals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot marginal variograms</p>
 <p>Plots the two marginal variograms into a new or existing figure. The
 space marginal variogram is defined to be the variogram of temporal
@@ -313,9 +313,9 @@ the two experimental marginal variograms.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">kind='scatter'</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kind</span><span class="o">=</span><span class="default_value">'scatter'</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the experimental variogram</p>
 <p>At the current version the SpaceTimeVariogram class is not capable of
 modeling a spe-time variogram function, therefore all plots will only
@@ -360,9 +360,9 @@ description.</p></li>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.preprocessing">
-<code class="sig-name descname">preprocessing</code><span class="sig-paren">(</span><em class="sig-param">force=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.preprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.preprocessing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">preprocessing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.preprocessing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.preprocessing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Preprocessing</p>
 <p>Start all necessary calculation jobs needed to derive an experimental
 variogram. This hasto be present before the model fitting can be done.
@@ -376,9 +376,9 @@ clean calculation will be done.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.scatter">
-<code class="sig-name descname">scatter</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">elev=30</em>, <em class="sig-param">azim=220</em>, <em class="sig-param">c='g'</em>, <em class="sig-param">depthshade=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.scatter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">scatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">elev</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">azim</span><span class="o">=</span><span class="default_value">220</span></em>, <em class="sig-param"><span class="n">c</span><span class="o">=</span><span class="default_value">'g'</span></em>, <em class="sig-param"><span class="n">depthshade</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.scatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>3D Scatter Variogram</p>
 <p>Plot the experimental variogram into a 3D matplotlib.Figure. The two
 variogram axis (space, time) will span a meshgrid over the x and y axis
@@ -425,9 +425,9 @@ can be done like:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.set_bin_func">
-<code class="sig-name descname">set_bin_func</code><span class="sig-paren">(</span><em class="sig-param">bin_func</em>, <em class="sig-param">axis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_bin_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_bin_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_bin_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bin_func</span></em>, <em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_bin_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_bin_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set binning function</p>
 <p>Set a new binning function to either the space or time axis. Both axes
 support the methods: [‘even’, ‘uniform’]:</p>
@@ -451,9 +451,9 @@ support the methods: [‘even’, ‘uniform’]:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.set_model">
-<code class="sig-name descname">set_model</code><span class="sig-paren">(</span><em class="sig-param">model_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set space-time model</p>
 <p>Set a new space-time model. It has to be either a callable of correct
 signature or a string identifying one of the predefined models</p>
@@ -471,9 +471,9 @@ Valid names are:</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.set_tdist_func">
-<code class="sig-name descname">set_tdist_func</code><span class="sig-paren">(</span><em class="sig-param">func_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_tdist_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_tdist_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_tdist_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_tdist_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_tdist_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new space distance function</p>
 <p>Set a new function for calculating the distance matrix in the space
 dimension. At the moment only strings are supported. Will be passed
@@ -488,9 +488,9 @@ attribute.</p>
 <p>:raises ValueError : in case a non-string argument is passed.:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.set_values">
-<code class="sig-name descname">set_values</code><span class="sig-paren">(</span><em class="sig-param">values</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new values</p>
 <p>The values should be an (m, n) array with m matching the size of
 coordinates first  dimension and n is the time dimension.</p>
@@ -498,9 +498,9 @@ coordinates first  dimension and n is the time dimension.</p>
 :raises AttributeError : in case values cannot be converted to a numpy.array:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.set_xdist_func">
-<code class="sig-name descname">set_xdist_func</code><span class="sig-paren">(</span><em class="sig-param">func_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_xdist_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_xdist_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_xdist_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.set_xdist_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.set_xdist_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set new space distance function</p>
 <p>Set a new function for calculating the distance matrix in the space
 dimension. At the moment only strings are supported. Will be passed
@@ -515,9 +515,9 @@ attribute.</p>
 <p>:raises ValueError : in case a non-string argument is passed.:</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.surface">
-<code class="sig-name descname">surface</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">elev=30</em>, <em class="sig-param">azim=220</em>, <em class="sig-param">color='g'</em>, <em class="sig-param">alpha=0.5</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">surface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">elev</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">azim</span><span class="o">=</span><span class="default_value">220</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'g'</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/SpaceTimeVariogram.html#SpaceTimeVariogram.surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.SpaceTimeVariogram.surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>3D Scatter Variogram</p>
 <p>Plot the experimental variogram into a 3D matplotlib.Figure. The two
 variogram axis (space, time) will span a meshgrid over the x and y axis
@@ -567,7 +567,7 @@ can be done like:</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.tbins">
 <em class="property">property </em><code class="sig-name descname">tbins</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.tbins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Temporal binning</p>
@@ -584,7 +584,7 @@ the array matches the number of temporal lag classes.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.tdistance">
 <em class="property">property </em><code class="sig-name descname">tdistance</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.tdistance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Time distance</p>
@@ -603,7 +603,7 @@ the distance matrix.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.values">
 <em class="property">property </em><code class="sig-name descname">values</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Values</p>
@@ -623,7 +623,7 @@ contains the time series for each observation point.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.xbins">
 <em class="property">property </em><code class="sig-name descname">xbins</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.xbins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spatial binning</p>
@@ -640,7 +640,7 @@ length of the array matches the number of spatial lag classes.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.SpaceTimeVariogram.xdistance">
 <em class="property">property </em><code class="sig-name descname">xdistance</code><a class="headerlink" href="#skgstat.SpaceTimeVariogram.xdistance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Distance matrix (space)</p>
@@ -730,7 +730,7 @@ the distance matrix.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -747,7 +747,7 @@ the distance matrix.</p>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

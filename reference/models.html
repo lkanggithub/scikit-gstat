@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Variogram models &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -44,9 +44,9 @@ a parameter <cite>c0</cite> for the sill. The nugget parameter <cite>b</cite> is
 be set to <span class="math notranslate nohighlight">\(b:=0\)</span> if not given.</p>
 <div class="section" id="spherical-model">
 <h2>Spherical model<a class="headerlink" href="#spherical-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.spherical">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">spherical</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#spherical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.spherical" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">spherical</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#spherical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.spherical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spherical Variogram function</p>
 <p>Implementation of the spherical variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -95,9 +95,9 @@ punctual kriging. Journal of Soil and Science, 31(2), 315–331,
 </div>
 <div class="section" id="exponential-model">
 <h2>Exponential model<a class="headerlink" href="#exponential-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.exponential">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">exponential</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#exponential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.exponential" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">exponential</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#exponential"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.exponential" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exponential Variogram function</p>
 <p>Implementation of the exponential variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -148,9 +148,9 @@ Uncertainty. Wiley Interscience.</p>
 </div>
 <div class="section" id="gaussian-model">
 <h2>Gaussian model<a class="headerlink" href="#gaussian-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.gaussian">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">gaussian</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.gaussian" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">gaussian</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#gaussian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.gaussian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gaussian Variogram function</p>
 <p>Implementation of the Gaussian variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -199,9 +199,9 @@ Uncertainty. Wiley Interscience.</p>
 </div>
 <div class="section" id="cubic-model">
 <h2>Cubic model<a class="headerlink" href="#cubic-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.cubic">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">cubic</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#cubic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.cubic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">cubic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#cubic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.cubic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cubic Variogram function</p>
 <p>Implementation of the Cubic variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -241,9 +241,9 @@ range parameter are the same.</p>
 </div>
 <div class="section" id="stable-model">
 <h2>Stable model<a class="headerlink" href="#stable-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.stable">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">stable</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">s</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.stable" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">stable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.stable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stable Variogram function</p>
 <p>Implementation of the stable variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -288,9 +288,9 @@ for <span class="math notranslate nohighlight">\(2*\gamma\)</span>, this functio
 </div>
 <div class="section" id="matern-model">
 <h2>Matérn model<a class="headerlink" href="#matern-model" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.models.matern">
-<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">matern</code><span class="sig-paren">(</span><em class="sig-param">h</em>, <em class="sig-param">r</em>, <em class="sig-param">c0</em>, <em class="sig-param">s</em>, <em class="sig-param">b=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#matern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.matern" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.models.</code><code class="sig-name descname">matern</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">h</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">c0</span></em>, <em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/models.html#matern"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.models.matern" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matérn Variogram function</p>
 <p>Implementation of the Matérn variogram function. Calculates the
 dependent variable for a given lag (h). The nugget (b) defaults to be 0.</p>
@@ -410,7 +410,7 @@ for <span class="math notranslate nohighlight">\(2*\gamma\)</span>, this functio
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -427,7 +427,7 @@ for <span class="math notranslate nohighlight">\(2*\gamma\)</span>, this functio
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

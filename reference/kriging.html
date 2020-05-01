@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Kriging Class &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,12 +37,12 @@
             
   <div class="section" id="kriging-class">
 <h1>Kriging Class<a class="headerlink" href="#kriging-class" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="skgstat.OrdinaryKriging">
-<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">OrdinaryKriging</code><span class="sig-paren">(</span><em class="sig-param">variogram</em>, <em class="sig-param">min_points=5</em>, <em class="sig-param">max_points=15</em>, <em class="sig-param">mode='exact'</em>, <em class="sig-param">precision=100</em>, <em class="sig-param">solver='inv'</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">perf=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<em class="property">class </em><code class="sig-prename descclassname">skgstat.</code><code class="sig-name descname">OrdinaryKriging</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variogram</span></em>, <em class="sig-param"><span class="n">min_points</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">max_points</span><span class="o">=</span><span class="default_value">15</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'exact'</span></em>, <em class="sig-param"><span class="n">precision</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">solver</span><span class="o">=</span><span class="default_value">'inv'</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perf</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
 <dt id="skgstat.OrdinaryKriging.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">variogram</em>, <em class="sig-param">min_points=5</em>, <em class="sig-param">max_points=15</em>, <em class="sig-param">mode='exact'</em>, <em class="sig-param">precision=100</em>, <em class="sig-param">solver='inv'</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">perf=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variogram</span></em>, <em class="sig-param"><span class="n">min_points</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">max_points</span><span class="o">=</span><span class="default_value">15</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'exact'</span></em>, <em class="sig-param"><span class="n">precision</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">solver</span><span class="o">=</span><span class="default_value">'inv'</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">perf</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary Kriging routine</p>
 <p>Ordinary kriging estimator derived from the given
 <cite>Variogram &lt;skgstat.Variogram&gt;</cite> class. To calculate estimations for
@@ -84,9 +84,9 @@ will be removed in a future version. Do not rely on this argument.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="skgstat.OrdinaryKriging.transform">
-<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">*x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.transform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/Kriging.html#OrdinaryKriging.transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.OrdinaryKriging.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Kriging</p>
 <p>returns an estimation of the observable for the given unobserved
 locations. Each coordinate dimension should be a 1D array.</p>
@@ -178,7 +178,7 @@ three array, x, y, (z) are passed for 2D and 3D Kriging</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -195,7 +195,7 @@ three array, x, y, (z) are passed for 2D and 3D Kriging</p>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

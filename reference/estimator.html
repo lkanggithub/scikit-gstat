@@ -1,19 +1,19 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Estimator Functions &#8212; SciKit GStat 0.2.8 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -44,9 +44,9 @@ expecting an array of pairwise differences to calculate the semi-variance.
 Not the values themselves.</p>
 <div class="section" id="matheron">
 <h2>Matheron<a class="headerlink" href="#matheron" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.matheron">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">matheron</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#matheron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.matheron" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">matheron</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#matheron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.matheron" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matheron Semi-Variance</p>
 <p>Calculates the Matheron Semi-Variance from an array of pairwise differences.
 Returns the semi-variance for the whole array. In case a semi-variance is
@@ -92,9 +92,9 @@ Editions Masson et Cie, 212 S., Paris.</p>
 </div>
 <div class="section" id="cressie">
 <h2>Cressie<a class="headerlink" href="#cressie" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.cressie">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">cressie</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#cressie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.cressie" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">cressie</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#cressie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.cressie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cressie-Hawkins Semi-Variance</p>
 <p>Calculates the Cressie-Hawkins Semi-Variance from an array of pairwise
 differences. Returns the semi-variance for the whole array. In case a
@@ -136,9 +136,9 @@ variogram. Math. Geol., 12, 115-125.</p>
 </div>
 <div class="section" id="dowd">
 <h2>Dowd<a class="headerlink" href="#dowd" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.dowd">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">dowd</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#dowd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.dowd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">dowd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#dowd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.dowd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dowd semi-variance</p>
 <p>Calculates the Dowd semi-variance from an array of pairwise
 differences. Returns the semi-variance for the whole array. In case a
@@ -182,9 +182,9 @@ Edited by G. Verly et al., pp. 91 - 106, D. Reidel, Dordrecht.</p>
 </div>
 <div class="section" id="genton">
 <h2>Genton<a class="headerlink" href="#genton" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.genton">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">genton</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#genton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.genton" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">genton</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#genton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.genton" title="Permalink to this definition">¶</a></dt>
 <dd><p>Genton robust semi-variance estimator</p>
 <p>Return the Genton semi-variance of the given sample x. Genton is a highly
 robust varigram estimator, that is designed to be location free and
@@ -235,9 +235,9 @@ Math. Geol., 30, 213 - 221.</p>
 </div>
 <div class="section" id="shannon-entropy">
 <h2>Shannon Entropy<a class="headerlink" href="#shannon-entropy" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.entropy">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">entropy</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">bins=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.entropy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">entropy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">bins</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.entropy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shannon Entropy estimator</p>
 <p>Calculates the Shannon Entropy H as a variogram estimator. It is highly
 recommended to calculate the bins and explicitly set them as a list.
@@ -277,9 +277,9 @@ passed as bins argument to numpy.histograms function.</p></li>
 by extreme values and outliers. That behaviour is usually not desired in
 geostatistics.</p>
 </div>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.minmax">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">minmax</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#minmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.minmax" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">minmax</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#minmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.minmax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Minimum - Maximum Estimator</p>
 <p>Returns a custom value. This estimator is the difference of maximum and
 minimum pairwise differences, normalized by the mean. MinMax will be very
@@ -311,9 +311,9 @@ as an element.</p>
 percentile of the given pairwise differences and does not bear any
 information about their variance.</p>
 </div>
-<dl class="function">
+<dl class="py function">
 <dt id="skgstat.estimators.percentile">
-<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">percentile</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">p=50</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#percentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.percentile" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skgstat.estimators.</code><code class="sig-name descname">percentile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">50</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skgstat/estimators.html#percentile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skgstat.estimators.percentile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Percentile estimator</p>
 <p>Returns a given percentile as semi-variance. Do only use this estimator,
 in case you know what you are doing.</p>
@@ -420,7 +420,7 @@ as an element.</p></li>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -437,7 +437,7 @@ as an element.</p></li>
       &copy;2019, Mirko Mälicke.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
